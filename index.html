@@ -42,20 +42,21 @@ input[type=text]{width:100%;background:var(--surface2);border:1px solid var(--bo
 .btn{display:inline-flex;align-items:center;gap:8px;padding:9px 18px;border-radius:var(--r);font-family:var(--mono);font-size:12px;font-weight:500;cursor:pointer;border:1px solid var(--border2);background:transparent;color:var(--text);transition:all .15s;}
 .btn:hover{border-color:var(--salmon);color:var(--salmon);}
 .bp{background:var(--salmon);border-color:var(--salmon);color:#fff;}
-.mrow{display:grid;grid-template-columns:repeat(4, 1fr);gap:12px;margin-bottom:28px;}
-.met{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:16px 18px;}
-.met .ml{font-family:var(--mono);font-size:10px;color:var(--text3);text-transform:uppercase;}
-.met .mv{font-family:var(--mono);font-size:22px;font-weight:500;color:var(--text);}
-table{width:100%;border-collapse:collapse;font-size:12px;margin-top:10px;}
-thead th{font-family:var(--mono);font-size:10px;color:var(--text3);text-align:left;padding:8px 0;border-bottom:1px solid var(--border);}
-tbody td{padding:10px 0;color:var(--text2);border-bottom:1px solid var(--border);}
+.io-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);margin-bottom:20px;overflow:hidden;}
+.io-hd{padding:16px 20px;background:var(--surface2);display:flex;justify-content:space-between;align-items:center;}
+.comp-grid{display:grid;grid-template-columns:repeat(4, 1fr);gap:1px;background:var(--border);margin:15px 0;}
+.comp-cell{background:var(--surface);padding:12px;text-align:center;}
+.clabel{font-family:var(--mono);font-size:9px;color:var(--text3);text-transform:uppercase;margin-bottom:4px;}
+.cval{font-family:var(--mono);font-size:16px;font-weight:500;}
+.cold{font-size:10px;color:var(--text3);margin-top:2px;}
 .tag{font-family:var(--mono);font-size:10px;padding:3px 9px;border-radius:20px;}
 .t-ok{background:var(--green-dim);color:var(--green);}
 .t-er{background:var(--salmon-dim);color:var(--salmon);}
+table{width:100%;border-collapse:collapse;font-size:11px;margin-top:10px;}
+thead th{font-family:var(--mono);font-size:9px;color:var(--text3);text-align:left;padding:8px 0;border-bottom:1px solid var(--border);}
+tbody td{padding:8px 0;color:var(--text2);border-bottom:1px solid var(--border);}
 .pb-bg{height:4px;background:var(--surface3);border-radius:2px;overflow:hidden;margin:20px 0;}
 .pb-fill{height:100%;background:var(--salmon);width:0%;transition:width .3s;}
-.io-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);margin-bottom:16px;overflow:hidden;}
-.io-hd{padding:16px 20px;background:var(--surface2);display:flex;justify-content:space-between;align-items:center;}
 </style>
 </head>
 <body>
@@ -90,7 +91,6 @@ tbody td{padding:10px 0;color:var(--text2);border-bottom:1px solid var(--border)
     <div class="pt">Upload <strong>Input File</strong></div>
     <div class="ps">Upload your CSV with performance and impression bounds.</div>
     <div class="card">
-      <div class="ct">Drag & Drop CSV</div>
       <input type="file" id="csv-in" accept=".csv" onchange="loadCSV(this)">
       <div id="upload-status" style="margin-top:10px; font-family:var(--mono); color:var(--salmon);"></div>
     </div>
@@ -109,9 +109,9 @@ tbody td{padding:10px 0;color:var(--text2);border-bottom:1px solid var(--border)
 
   <div class="screen" id="screen-3">
     <div class="pt">Optimization <strong>Review</strong></div>
-    <div class="ps">Review proposed allocations and download the audit file.</div>
+    <div class="ps">Review the performance shift and download the audit file.</div>
     <div id="review-io-cards"></div>
-    <div id="review-actions" style="margin-top:30px; display:flex; gap:15px;"></div>
+    <div id="review-actions" style="margin-top:30px; display:flex; gap:15px; padding-bottom:50px;"></div>
   </div>
 </main>
 
@@ -142,8 +142,8 @@ function startAuth() {
 function useDemoData() {
   S.tok = "DEMO";
   S.LIs = [
-    { id: "LI_1", ioId: "IO_ALPHA", billing: 10, cpm: 4, cvr: 0.02, margin: 0.6, min: 1000, max: 10000, target: 15000, kpi: 0.015 },
-    { id: "LI_2", ioId: "IO_ALPHA", billing: 10, cpm: 3, cvr: 0.01, margin: 0.7, min: 1000, max: 10000, target: 15000, kpi: 0.015 }
+    { id: "LI_High_Perf", ioId: "IO_Spring_Promo", billing: 10, cpm: 4.5, cvr: 0.025, margin: 0.55, min: 500, max: 10000, target: 12000, kpi: 0.015 },
+    { id: "LI_Low_Perf", ioId: "IO_Spring_Promo", billing: 10, cpm: 2.1, cvr: 0.005, margin: 0.79, min: 500, max: 10000, target: 12000, kpi: 0.015 }
   ];
   goToScreen(1);
   document.getElementById('loaded-summary').style.display = 'block';
@@ -182,7 +182,6 @@ function loadCSV(input) {
       };
     });
     document.getElementById('loaded-summary').style.display = 'block';
-    document.getElementById('upload-status').textContent = `Loaded ${S.LIs.length} items.`;
   };
   reader.readAsText(input.files[0]);
 }
@@ -195,25 +194,40 @@ async function runOptimizer() {
   for(let i=0; i<ios.length; i++) {
     const ioId = ios[i];
     const lis = S.LIs.filter(li => li.ioId === ioId);
-    log.innerHTML += `Solving ${ioId}...<br>`;
+    log.innerHTML += `Optimizing ${ioId}...<br>`;
     
-    // Lagrangian Greedy Logic
-    let target = lis[0].target;
-    let allocs = lis.map(li => ({ id: li.id, imps: li.min, cvr: li.cvr }));
-    let remaining = target - lis.reduce((s, li) => s + li.min, 0);
+    const target = lis[0].target;
+    const billing = lis[0].billing;
+    
+    // Baseline (Old) Metrics
+    const oldImps = lis.reduce((s, li) => s + li.min, 0); // Assuming min was current for demo
+    const oldMargin = lis.reduce((s, li) => s + (li.min * li.margin), 0) / oldImps;
+    const oldCvr = lis.reduce((s, li) => s + (li.min * li.cvr), 0) / oldImps;
 
-    // Sort by Margin (Simplified Greedy)
+    // Optimized (New) Logic
+    let allocs = lis.map(li => ({ ...li, current: li.min }));
+    let remaining = target - oldImps;
+
     lis.sort((a,b) => b.margin - a.margin);
     for(let li of lis) {
       if(remaining <= 0) break;
       let add = Math.min(li.max - li.min, remaining);
       let idx = allocs.findIndex(a => a.id === li.id);
-      allocs[idx].imps += add;
+      allocs[idx].current += add;
       remaining -= add;
     }
 
-    const avgCvr = allocs.reduce((s, a) => s + (a.imps * a.cvr), 0) / target;
-    S.IOs[ioId] = { allocs, status: avgCvr >= lis[0].kpi ? 'Optimal' : 'KPI Miss', avgCvr, kpi: lis[0].kpi };
+    const newMargin = allocs.reduce((s, a) => s + (a.current * a.margin), 0) / target;
+    const newCvr = allocs.reduce((s, a) => s + (a.current * a.cvr), 0) / target;
+
+    S.IOs[ioId] = { 
+      allocs, 
+      oldMargin, newMargin, 
+      oldCvr, newCvr,
+      kpi: lis[0].kpi,
+      billing,
+      status: newCvr >= lis[0].kpi ? 'Optimal' : 'KPI Miss'
+    };
     
     document.getElementById('solve-fill').style.width = `${((i+1)/ios.length)*100}%`;
     await new Promise(r => setTimeout(r, 100));
@@ -225,21 +239,30 @@ async function runOptimizer() {
 function renderReview() {
   const container = document.getElementById('review-io-cards');
   container.innerHTML = '';
-  Object.entries(S.IOs).forEach(([id, data]) => {
+  Object.entries(S.IOs).forEach(([id, d]) => {
     container.innerHTML += `
       <div class="io-card">
         <div class="io-hd">
           <span>IO: <strong>${id}</strong></span>
-          <span class="tag ${data.status==='Optimal'?'t-ok':'t-er'}">${data.status}</span>
+          <span class="tag ${d.status==='Optimal'?'t-ok':'t-er'}">${d.status}</span>
         </div>
-        <div style="padding:20px;">
-          <div style="font-size:11px; color:var(--text3); margin-bottom:10px;">
-            Target CVR: ${(data.kpi*100).toFixed(3)}% | Achieved: ${(data.avgCvr*100).toFixed(3)}%
-          </div>
+        <div class="comp-grid">
+          <div class="comp-cell"><div class="clabel">Margin</div><div class="cval" style="color:var(--green)">${(d.newMargin*100).toFixed(1)}%</div><div class="cold">was ${(d.oldMargin*100).toFixed(1)}%</div></div>
+          <div class="comp-cell"><div class="clabel">CVR</div><div class="cval">${(d.newCvr*100).toFixed(3)}%</div><div class="cold">was ${(d.oldCvr*100).toFixed(3)}%</div></div>
+          <div class="comp-cell"><div class="clabel">CPA (Est)</div><div class="cval">$${(d.billing/(1000*d.newCvr)).toFixed(2)}</div><div class="cold">Target: $${(d.billing/(1000*d.kpi)).toFixed(2)}</div></div>
+          <div class="comp-cell"><div class="clabel">KPI Status</div><div class="cval" style="color:${d.newCvr >= d.kpi ? 'var(--green)' : 'var(--salmon)'}">${d.newCvr >= d.kpi ? 'MET' : 'MISS'}</div><div class="cold">Target: ${(d.kpi*100).toFixed(3)}%</div></div>
+        </div>
+        <div style="padding:0 20px 20px;">
           <table>
-            <thead><tr><th>LINE ITEM</th><th>PROPOSED IMPRESSIONS</th></tr></thead>
+            <thead><tr><th>LINE ITEM</th><th>OLD IMPS</th><th>NEW IMPS</th><th>MARGIN</th><th>CVR</th></tr></thead>
             <tbody>
-              ${data.allocs.map(a => `<tr><td style="font-family:var(--mono);">${a.id}</td><td style="color:var(--green);">${a.imps.toLocaleString()}</td></tr>`).join('')}
+              ${d.allocs.map(a => `<tr>
+                <td style="font-family:var(--mono);">${a.id}</td>
+                <td>${a.min.toLocaleString()}</td>
+                <td style="color:var(--green); font-weight:500;">${a.current.toLocaleString()}</td>
+                <td>${(a.margin*100).toFixed(1)}%</td>
+                <td>${(a.cvr*100).toFixed(3)}%</td>
+              </tr>`).join('')}
             </tbody>
           </table>
         </div>
@@ -249,12 +272,16 @@ function renderReview() {
 }
 
 function exportCSV() {
-  let csv = "IO_ID,Line_Item_ID,Impressions\\n";
-  Object.entries(S.IOs).forEach(([io, d]) => d.allocs.forEach(a => csv += `${io},${a.id},${a.imps}\\n`));
+  let csv = "IO_ID,Line_Item_ID,Old_Imps,New_Imps,Margin,CVR\\n";
+  Object.entries(S.IOs).forEach(([io, d]) => {
+    d.allocs.forEach(a => {
+      csv += `${io},${a.id},${a.min},${a.current},${a.margin},${a.cvr}\\n`;
+    });
+  });
   const blob = new Blob([csv], { type: 'text/csv' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = 'dv360_optimization_audit.csv';
+  a.download = 'dv360_audit_report.csv';
   a.click();
 }
 </script>
