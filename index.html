@@ -691,109 +691,78 @@ function solve(lis, reqDay, opts) {
   return {feasible:true, allocs};
 }
 
-// Maximize margin while keeping weighted CVR >= kpiCvr
-function allocateMaxMarginWithCVR(lis, reqDay, kpiCvr) {
+// ── Single-pass Lagrangian allocation ─────────────────────────────────────
+// Score each LI as: primaryWeight * primary_metric + lambda * secondary_metric
+// Binary search on lambda to find the value that satisfies the secondary constraint.
+// This runs in O(n log n * log(searchRange)) — effectively instant for any IO size.
+
+function lagrangianAlloc(lis, reqDay, primaryKey, secondaryKey, secondaryTarget, secondaryDir) {
+  // secondaryDir: 'gte' means weighted secondary >= target, 'lte' means <=
   const n = lis.length;
-  // Start: allocate minimums
-  const allocs = lis.map(li => li.impMin);
-  let remaining = reqDay - allocs.reduce((s,a)=>s+a,0);
 
-  // Sort by margin desc for initial fill
-  const byMargin = [...Array(n).keys()].sort((a,b)=>lis[b].margin-lis[a].margin);
-  // Fill by margin
-  for (const i of byMargin) {
-    if (remaining <= 0) break;
-    const room = lis[i].impMax - allocs[i];
-    const add  = Math.min(room, remaining);
-    allocs[i] += add;
-    remaining  -= add;
-  }
+  // Given a lambda, score = primary + lambda * secondary, allocate greedily, return allocs
+  function allocForLambda(lambda) {
+    const scores = lis.map((li, i) => ({
+      i,
+      score: li[primaryKey] + lambda * li[secondaryKey],
+    }));
+    scores.sort((a, b) => b.score - a.score);
 
-  // Check CVR
-  let wCVR = weightedCVR(lis, allocs);
-  if (wCVR >= kpiCvr) {
-    integerise(allocs, lis, reqDay);
+    const allocs = lis.map(li => li.impMin);
+    let rem = reqDay - allocs.reduce((s, a) => s + a, 0);
+
+    for (const { i } of scores) {
+      if (rem <= 0) break;
+      const room = lis[i].impMax - allocs[i];
+      const add = Math.min(room, rem);
+      allocs[i] += add;
+      rem -= add;
+    }
     return allocs;
   }
 
-  // CVR not met: swap impressions from low-CVR LIs to high-CVR LIs
-  // Sort: sources = lowest CVR first, sinks = highest CVR first
-  const byCvrAsc  = [...Array(n).keys()].sort((a,b)=>lis[a].cvr-lis[b].cvr);
-  const byCvrDesc = [...Array(n).keys()].sort((a,b)=>lis[b].cvr-lis[a].cvr);
-
-  const MAX_ITER = 10000;
-  let iter = 0;
-  while (weightedCVR(lis, allocs) < kpiCvr && iter++ < MAX_ITER) {
-    let swapped = false;
-    outer:
-    for (const src of byCvrAsc) {
-      if (allocs[src] <= lis[src].impMin) continue;
-      for (const snk of byCvrDesc) {
-        if (snk === src) continue;
-        if (allocs[snk] >= lis[snk].impMax) continue;
-        if (lis[snk].cvr <= lis[src].cvr) break; // no benefit
-        // swap 1 impression
-        allocs[src]--;
-        allocs[snk]++;
-        swapped = true;
-        break outer;
-      }
-    }
-    if (!swapped) break;
+  function getSecondary(allocs) {
+    const total = allocs.reduce((s, a) => s + a, 0);
+    if (total === 0) return 0;
+    return allocs.reduce((s, a, i) => s + a * lis[i][secondaryKey], 0) / total;
   }
 
-  if (weightedCVR(lis, allocs) < kpiCvr) return null; // infeasible
+  // Binary search on lambda
+  // lambda > 0 increases weight on secondaryKey
+  let lo = -10, hi = 10;
+  let bestAllocs = null;
+
+  for (let iter = 0; iter < 60; iter++) {
+    const mid = (lo + hi) / 2;
+    const allocs = allocForLambda(mid);
+    const sec = getSecondary(allocs);
+    const met = secondaryDir === 'gte' ? sec >= secondaryTarget : sec <= secondaryTarget;
+    if (met) {
+      bestAllocs = allocs.slice();
+      hi = mid; // try smaller lambda (less weight on secondary)
+    } else {
+      lo = mid; // need more lambda to push secondary up
+    }
+  }
+
+  return bestAllocs; // null if never feasible in lambda range
+}
+
+// Maximize margin while keeping weighted CVR >= kpiCvr
+function allocateMaxMarginWithCVR(lis, reqDay, kpiCvr) {
+  // primaryKey=margin, secondaryKey=cvr, target=kpiCvr, dir=gte
+  const allocs = lagrangianAlloc(lis, reqDay, 'margin', 'cvr', kpiCvr, 'gte');
+  if (!allocs) return null;
+  if (weightedCVR(lis, allocs) < kpiCvr) return null;
   integerise(allocs, lis, reqDay);
   return allocs;
 }
 
 // Maximize CVR while keeping weighted margin >= minMargin
 function allocateMaxCVRWithMargin(lis, reqDay, minMargin) {
-  const n = lis.length;
-  const allocs = lis.map(li => li.impMin);
-  let remaining = reqDay - allocs.reduce((s,a)=>s+a,0);
-
-  // Fill by CVR desc
-  const byCvr = [...Array(n).keys()].sort((a,b)=>lis[b].cvr-lis[a].cvr);
-  for (const i of byCvr) {
-    if (remaining <= 0) break;
-    const room = lis[i].impMax - allocs[i];
-    const add  = Math.min(room, remaining);
-    allocs[i] += add;
-    remaining  -= add;
-  }
-
-  // Check margin
-  let wMar = weightedMargin(lis, allocs);
-  if (wMar >= minMargin) {
-    integerise(allocs, lis, reqDay);
-    return allocs;
-  }
-
-  // Margin not met: swap from low-margin to high-margin LIs
-  const byMarAsc  = [...Array(n).keys()].sort((a,b)=>lis[a].margin-lis[b].margin);
-  const byMarDesc = [...Array(n).keys()].sort((a,b)=>lis[b].margin-lis[a].margin);
-
-  const MAX_ITER = 10000;
-  let iter = 0;
-  while (weightedMargin(lis, allocs) < minMargin && iter++ < MAX_ITER) {
-    let swapped = false;
-    outer:
-    for (const src of byMarAsc) {
-      if (allocs[src] <= lis[src].impMin) continue;
-      for (const snk of byMarDesc) {
-        if (snk === src) continue;
-        if (allocs[snk] >= lis[snk].impMax) continue;
-        if (lis[snk].margin <= lis[src].margin) break;
-        allocs[src]--;
-        allocs[snk]++;
-        swapped = true;
-        break outer;
-      }
-    }
-    if (!swapped) break;
-  }
-
+  // primaryKey=cvr, secondaryKey=margin, target=minMargin, dir=gte
+  const allocs = lagrangianAlloc(lis, reqDay, 'cvr', 'margin', minMargin, 'gte');
+  if (!allocs) return null;
   if (weightedMargin(lis, allocs) < minMargin) return null;
   integerise(allocs, lis, reqDay);
   return allocs;
