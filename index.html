@@ -45,7 +45,6 @@ main{padding:40px 32px;max-width:1400px;margin:0 auto;width:100%;}
 label{font-size:12px;color:var(--text2);display:block;margin-bottom:5px;font-family:var(--mono);}
 input[type=text],input[type=number],select{width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:var(--r);padding:10px 12px;color:var(--text);font-family:var(--mono);font-size:13px;outline:none;transition:border-color .15s;margin-bottom:14px;}
 input[type=text]:focus,input[type=number]:focus,select:focus{border-color:var(--salmon);}
-textarea{width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:var(--r);padding:10px 12px;color:var(--text);font-family:var(--mono);font-size:13px;outline:none;resize:vertical;min-height:72px;margin-bottom:14px;}
 input[type=checkbox]{accent-color:var(--salmon);width:15px;height:15px;cursor:pointer;}
 .btn{display:inline-flex;align-items:center;gap:8px;padding:9px 18px;border-radius:var(--r);font-family:var(--mono);font-size:12px;font-weight:500;cursor:pointer;border:1px solid var(--border2);background:transparent;color:var(--text);transition:all .15s;letter-spacing:.02em;}
 .btn:hover{border-color:var(--salmon);color:var(--salmon);}.btn:active{transform:scale(.98);}.btn:disabled{opacity:.3;cursor:not-allowed;pointer-events:none;}
@@ -75,10 +74,8 @@ tbody td.pri{color:var(--text);font-weight:500;}
 .t-ok{background:var(--green-dim);color:var(--green);border-color:rgba(61,186,130,.25);}
 .t-wa{background:var(--amber-dim);color:var(--amber);border-color:rgba(232,162,58,.25);}
 .t-er{background:var(--salmon-dim);color:var(--salmon);border-color:rgba(232,87,74,.25);}
-.t-ne{background:var(--surface3);color:var(--text3);border-color:var(--border2);}
 .do{font-family:var(--mono);font-size:11px;color:var(--text3);text-decoration:line-through;}
 .dup{color:var(--green);}.ddn{color:var(--amber);}
-/* IO review cards */
 .io-card{border-radius:var(--rl);margin-bottom:14px;overflow:hidden;border:1px solid var(--border);}
 .io-card.st-optimal{border-color:rgba(61,186,130,.35);}
 .io-card.st-perf{border-color:rgba(232,162,58,.35);}
@@ -90,21 +87,15 @@ tbody td.pri{color:var(--text);font-weight:500;}
 .iocv{color:var(--text3);font-size:10px;transition:transform .2s;flex-shrink:0;}
 .io-hd.open .iocv{transform:rotate(90deg);}
 .io-body{display:none;}.io-body.open{display:block;}
-/* KPI strip */
-.kpi-strip{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:1px;background:var(--border);margin-bottom:0;}
+.kpi-strip{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:1px;background:var(--border);}
 .kpi-cell{background:var(--surface);padding:12px 14px;}
 .kpi-cell .kl{font-family:var(--mono);font-size:9px;color:var(--text3);letter-spacing:.07em;text-transform:uppercase;margin-bottom:4px;}
 .kpi-cell .kv{font-family:var(--mono);font-size:16px;font-weight:500;color:var(--text);}
 .kpi-cell .kt{font-size:11px;color:var(--text3);margin-top:2px;}
 .kv.ok{color:var(--green);}.kv.wa{color:var(--amber);}.kv.er{color:var(--salmon);}
-/* banner */
 .banner{padding:11px 16px;font-size:12px;display:flex;gap:10px;align-items:flex-start;line-height:1.5;}
 .banner.warn{background:var(--amber-dim);color:var(--amber);}
 .banner.err{background:var(--salmon-dim);color:var(--salmon);}
-/* accept row */
-.accept-row{display:flex;align-items:center;gap:12px;padding:12px 18px;border-top:1px solid var(--border);background:var(--surface2);}
-.accept-row label{margin:0;font-size:13px;color:var(--text2);font-family:var(--sans);cursor:pointer;}
-/* progress */
 .pb-bg{height:3px;background:var(--surface3);border-radius:2px;overflow:hidden;margin-bottom:8px;}
 .pb-fill{height:3px;background:var(--salmon);border-radius:2px;transition:width .3s;width:0%;}
 .pb-lbl{font-family:var(--mono);font-size:11px;color:var(--text2);}
@@ -148,10 +139,7 @@ tbody td.pri{color:var(--text);font-weight:500;}
   </div>
   <div class="ab" id="auth-badge">not connected</div>
 </header>
-
 <main>
-
-<!-- ══ 1. CONNECT ══════════════════════════════════════════════ -->
 <div class="screen active" id="screen-0">
   <div class="pt">Connect to <strong>DV360</strong></div>
   <div class="ps">Authenticate with Google OAuth. Advertiser IDs are read automatically from your LP input file.</div>
@@ -165,7 +153,7 @@ tbody td.pri{color:var(--text);font-weight:500;}
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
           Connect with Google
         </button>
-        <button class="btn" onclick="useDemoData()">Use demo data →</button>
+        <button class="btn" onclick="useDemoData()">Use demo data</button>
       </div>
     </div>
     <div class="card" style="background:var(--surface2);">
@@ -181,37 +169,30 @@ tbody td.pri{color:var(--text);font-weight:500;}
       </ol>
       <div style="margin-top:14px;padding:12px;background:var(--salmon-dim);border-radius:var(--r);border:1px solid rgba(232,87,74,.2);">
         <div style="font-family:var(--mono);font-size:10px;color:var(--salmon);margin-bottom:3px;">NOTE</div>
-        <div style="font-size:12px;color:var(--text2);">Token stays in browser memory only. Advertiser IDs are read from your uploaded CSV.</div>
+        <div style="font-size:12px;color:var(--text2);">Token stays in browser memory only. Advertiser IDs are read from your uploaded file.</div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ══ 2. UPLOAD ══════════════════════════════════════════════ -->
 <div class="screen" id="screen-1">
   <div class="pt">Upload <strong>LP input file</strong></div>
-  <div class="ps">One CSV drives everything — performance, costs, impression bounds, and IO delivery requirements.</div>
+  <div class="ps">CSV or TSV with line item performance, costs, impression bounds and IO delivery requirements.</div>
   <div class="g2" style="margin-bottom:24px;">
     <div class="card">
-      <div class="ct">Required CSV schema</div>
-      <div class="codeblk">Advertiser, Advertiser_ID, Insertion_Order, Insertion_Order_ID,<br>
-dcm_package_id, Line_Item, Line_Item_ID,<br>
-Product_Billing_Rate, conversion_rate_7d, margin_7d, cpm_7d,<br>
-impression_daily_upper_bound, impression_daily_lower_bound,<br>
-days_remaining, io_impressions_remaining,<br>
-io_impressions_needed_per_day,<br>
-io_kpi_type, io_kpi_rate, io_kpi_conversion_rate</div>
+      <div class="ct">Expected columns</div>
+      <div class="codeblk">Advertiser, Advertiser_ID,<br>Insertion_Order, Insertion_Order_ID,<br>dcm_package_id, Line_Item, Line_Item_ID,<br>Product_Billing_Rate, conversion_rate_7d,<br>margin_7d, cpm_7d,<br>impression_upper_bound, impression_lower_bound,<br>days_remaining, io_impressions_remaining,<br>io_impressions_needed_per_day,<br>io_kpi_type, io_kpi_rate, io_kpi_conversion_rate</div>
       <div style="font-size:12px;color:var(--text2);line-height:2.1;margin-top:8px;">
         <span style="color:var(--text);font-family:var(--mono);">Product_Billing_Rate</span> — revenue CPM billed to client (consistent per IO)<br>
         <span style="color:var(--text);font-family:var(--mono);">cpm_7d</span> — DV360 inventory cost CPM<br>
-        <span style="color:var(--text);font-family:var(--mono);">margin_7d</span> — (billing_rate − cpm_7d) / billing_rate<br>
-        <span style="color:var(--text);font-family:var(--mono);">conversion_rate_7d</span> — conversions / impressions (7-day window)<br>
-        <span style="color:var(--text);font-family:var(--mono);">impression_daily_upper/lower_bound</span> — daily LI impression bounds<br>
-        <span style="color:var(--text);font-family:var(--mono);">io_impressions_needed_per_day</span> — IO daily delivery target (impressions)<br>
+        <span style="color:var(--text);font-family:var(--mono);">margin_7d</span> — (billing - cpm) / billing, 7-day window<br>
+        <span style="color:var(--text);font-family:var(--mono);">conversion_rate_7d</span> — conversions / impressions, 7-day<br>
+        <span style="color:var(--text);font-family:var(--mono);">impression_upper/lower_bound</span> — daily LI impression bounds<br>
+        <span style="color:var(--text);font-family:var(--mono);">io_impressions_needed_per_day</span> — IO daily delivery target<br>
         <span style="color:var(--text);font-family:var(--mono);">io_kpi_rate</span> — target CPA in client dollars<br>
-        <span style="color:var(--text);font-family:var(--mono);">io_kpi_conversion_rate</span> — billing_rate / (1000 × kpi_rate)
+        <span style="color:var(--text);font-family:var(--mono);">io_kpi_conversion_rate</span> — billing / (1000 x kpi_rate)
       </div>
-      <div class="br"><button class="btn bsm" onclick="dlTemplate()">↓ Download template</button></div>
+      <div class="br"><button class="btn bsm" onclick="dlTemplate()">Download template</button></div>
     </div>
     <div class="card">
       <div class="ct">Upload file</div>
@@ -220,15 +201,14 @@ io_kpi_type, io_kpi_rate, io_kpi_conversion_rate</div>
            ondragover="event.preventDefault();this.classList.add('drag')"
            ondragleave="this.classList.remove('drag')"
            ondrop="event.preventDefault();this.classList.remove('drag');handleDrop(event)">
-        <div class="dz-icon">⬆</div>
-        <div class="dz-label">Click to upload or drag &amp; drop</div>
-        <div class="dz-sub">.csv files only</div>
+        <div class="dz-icon">+</div>
+        <div class="dz-label">Click to upload or drag and drop</div>
+        <div class="dz-sub">.csv or .tsv files</div>
       </div>
-      <input type="file" id="csv-in" accept=".csv" style="display:none" onchange="loadCSV(this)">
+      <input type="file" id="csv-in" accept=".csv,.tsv,.txt" style="display:none" onchange="loadCSV(this)">
       <div id="upload-status" style="margin-top:12px;font-family:var(--mono);font-size:11px;color:var(--text3);line-height:1.9;"></div>
     </div>
   </div>
-
   <div id="loaded-summary" style="display:none;">
     <div class="sh">Parsed line items</div>
     <div class="mrow" id="load-metrics"></div>
@@ -246,58 +226,52 @@ io_kpi_type, io_kpi_rate, io_kpi_conversion_rate</div>
       </div>
     </div>
     <div class="br" style="margin-top:16px;">
-      <button class="btn bp" onclick="goToSolve()">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-        Run LP solver
-      </button>
+      <button class="btn bp" id="solve-btn" onclick="goToSolve()">Run LP solver</button>
     </div>
   </div>
 </div>
 
-<!-- ══ 3. SOLVE (progress) ════════════════════════════════════ -->
 <div class="screen" id="screen-2">
   <div class="pt">Running <strong>LP solver</strong></div>
-  <div class="ps">Solving each IO sequentially — maximising margin subject to delivery and CVR constraints.</div>
-  <div class="card" style="max-width:600px;">
+  <div class="ps">Solving each IO using the GLPK simplex method.</div>
+  <div class="card" style="max-width:640px;">
     <div class="ct">Solver progress</div>
     <div class="pb-bg"><div class="pb-fill" id="solve-fill"></div></div>
-    <div class="pb-lbl" id="solve-lbl">Initialising...</div>
-    <div id="solve-log" style="margin-top:16px;font-family:var(--mono);font-size:11px;color:var(--text3);line-height:2;max-height:280px;overflow-y:auto;"></div>
+    <div class="pb-lbl" id="solve-lbl">Loading GLPK...</div>
+    <div id="solve-log" style="margin-top:16px;font-family:var(--mono);font-size:11px;color:var(--text3);line-height:2;max-height:300px;overflow-y:auto;"></div>
   </div>
 </div>
 
-<!-- ══ 4. REVIEW ══════════════════════════════════════════════ -->
 <div class="screen" id="screen-3">
   <div class="pt">Review <strong>proposed changes</strong></div>
-  <div class="ps">Each IO shows solver status, KPI performance vs target, and per-LI impression allocations. Use the checkbox at the bottom of each IO card to include or exclude it from the DV360 push.</div>
+  <div class="ps">Each IO shows solver status, KPI performance vs target, and per-LI impression allocations. Use the checkbox at the bottom of each IO to include or exclude it from the DV360 push.</div>
   <div class="mrow" id="review-metrics"></div>
   <div class="sh">Results by insertion order</div>
   <div id="review-io-cards"></div>
   <div class="br" style="margin-top:24px;">
     <button class="btn" onclick="exportAuditCSV()">Export audit CSV</button>
-    <button class="btn bp" onclick="goToSavings()">View savings summary →</button>
+    <button class="btn bp" onclick="goToSavings()">View savings summary</button>
   </div>
 </div>
 
-<!-- ══ 5. SAVINGS ═════════════════════════════════════════════ -->
 <div class="screen" id="screen-4">
   <div class="pt"><strong>Savings</strong> summary</div>
-  <div class="ps">Accepted IOs only. Rejected and fully infeasible IOs are excluded.</div>
+  <div class="ps">Accepted IOs only.</div>
   <div class="sav-hero">
     <div class="shl">Total cost saved</div>
-    <div class="shv" id="sh-saved">—</div>
+    <div class="shv" id="sh-saved">--</div>
     <div class="shs" id="sh-sub"></div>
   </div>
   <div class="mrow" id="sav-metrics"></div>
-  <div class="sh">Per-IO breakdown (accepted IOs)</div>
+  <div class="sh">Per-IO breakdown</div>
   <div class="card" style="padding:0;">
     <div class="tw">
       <table>
         <thead><tr>
           <th>Insertion order</th><th>Status</th>
           <th>Old cost</th><th>New cost</th><th>Cost saved</th>
-          <th>Old margin</th><th>New margin</th><th>Margin Δ</th>
-          <th>Target CVR</th><th>Achieved CVR</th><th>CVR vs target</th>
+          <th>Old margin</th><th>New margin</th><th>Margin lift</th>
+          <th>Target CVR</th><th>Achieved CVR</th><th>CVR met</th>
           <th>Target CPA</th><th>Achieved CPA</th>
           <th>Delivery</th>
         </tr></thead>
@@ -307,14 +281,13 @@ io_kpi_type, io_kpi_rate, io_kpi_conversion_rate</div>
   </div>
   <div class="br" style="margin-top:24px;">
     <button class="btn" onclick="exportAuditCSV()">Export full audit CSV</button>
-    <button class="btn bc" onclick="goToPush()">Push accepted IOs to DV360 →</button>
+    <button class="btn bc" onclick="goToPush()">Push accepted IOs to DV360</button>
   </div>
 </div>
 
-<!-- ══ 6. PUSH ════════════════════════════════════════════════ -->
 <div class="screen" id="screen-5">
   <div class="pt">Push <strong>changes</strong> to DV360</div>
-  <div class="ps">Only accepted IOs are pushed. Rejected and infeasible IOs are skipped entirely.</div>
+  <div class="ps">Only accepted IOs are pushed.</div>
   <div class="card">
     <div class="ct">Push summary</div>
     <div id="push-summary" style="font-size:13px;color:var(--text2);margin-bottom:20px;line-height:1.8;"></div>
@@ -323,8 +296,8 @@ io_kpi_type, io_kpi_rate, io_kpi_conversion_rate</div>
       <div class="pb-lbl" id="prog-lbl" style="margin-top:6px;"></div>
     </div>
     <div class="br" style="margin-top:16px;">
-      <button class="btn bc" id="push-btn" onclick="executePush()">Confirm &amp; push</button>
-      <button class="btn" onclick="goToScreen(4)">← Back</button>
+      <button class="btn bc" id="push-btn" onclick="executePush()">Confirm and push</button>
+      <button class="btn" onclick="goToScreen(4)">Back</button>
     </div>
   </div>
   <div style="display:none;" id="push-log-wrap">
@@ -339,230 +312,171 @@ io_kpi_type, io_kpi_rate, io_kpi_conversion_rate</div>
     </div>
   </div>
 </div>
-
 </main>
+
+<script src="https://cdn.jsdelivr.net/npm/glpk.js@4.0.1/dist/glpk.min.js"></script>
 <script>
-// ════════════════════════════════════════════════════════
-// STATE
-// ════════════════════════════════════════════════════════
-const S = {
-  tok: null,
-  LIs: [],        // parsed line items
-  IOs: {},        // ioId -> IO-level metadata + solver result
-  accepted: {},   // ioId -> bool
-};
+const S={tok:null,LIs:[],IOs:{},accepted:{},glpk:null};
+const ST={OPTIMAL:'optimal',PERF:'cpa_target_not_achievable',FULL:'manual_review_required'};
 
-const STATUS = { OPTIMAL:'optimal', PERF:'perf_infeasible', FULL:'full_infeasible' };
+function goToScreen(n){
+  document.querySelectorAll('.screen').forEach((s,i)=>s.classList.toggle('active',i===n));
+  document.querySelectorAll('.si').forEach((el,i)=>{el.classList.remove('active','done');if(i<n)el.classList.add('done');if(i===n)el.classList.add('active');});
+}
+document.querySelectorAll('.si').forEach(el=>el.addEventListener('click',()=>{if(el.classList.contains('done'))goToScreen(+el.dataset.step);}));
 
-// ════════════════════════════════════════════════════════
-// NAV
-// ════════════════════════════════════════════════════════
-function goToScreen(n) {
-  document.querySelectorAll('.screen').forEach((s,i) => s.classList.toggle('active', i===n));
-  document.querySelectorAll('.si').forEach((el,i) => {
-    el.classList.remove('active','done');
-    if (i<n) el.classList.add('done');
-    if (i===n) el.classList.add('active');
-  });
+function startAuth(){
+  const cid=document.getElementById('client-id').value.trim();
+  if(!cid){alert('Enter your OAuth2 Client ID');return;}
+  sessionStorage.setItem('td_cid',cid);
+  const p=new URLSearchParams({client_id:cid,redirect_uri:window.location.origin+window.location.pathname,response_type:'token',scope:'https://www.googleapis.com/auth/display-video',include_granted_scopes:'true',state:'tdopt'});
+  window.location.href='https://accounts.google.com/o/oauth2/v2/auth?'+p;
 }
-document.querySelectorAll('.si').forEach(el =>
-  el.addEventListener('click', () => { if (el.classList.contains('done')) goToScreen(+el.dataset.step); })
-);
-
-// ════════════════════════════════════════════════════════
-// AUTH
-// ════════════════════════════════════════════════════════
-function startAuth() {
-  const cid = document.getElementById('client-id').value.trim();
-  if (!cid) { alert('Enter your OAuth2 Client ID'); return; }
-  sessionStorage.setItem('td_cid', cid);
-  const p = new URLSearchParams({
-    client_id: cid,
-    redirect_uri: window.location.origin + window.location.pathname,
-    response_type: 'token',
-    scope: 'https://www.googleapis.com/auth/display-video',
-    include_granted_scopes: 'true', state: 'tdopt'
-  });
-  window.location.href = 'https://accounts.google.com/o/oauth2/v2/auth?' + p;
+function handleCallback(){
+  const hash=window.location.hash.substring(1);if(!hash)return;
+  const tok=new URLSearchParams(hash).get('access_token');if(!tok)return;
+  S.tok=tok;window.history.replaceState({},'',window.location.pathname);
+  setBadge('connected');goToScreen(1);
 }
-function handleCallback() {
-  const hash = window.location.hash.substring(1); if (!hash) return;
-  const tok = new URLSearchParams(hash).get('access_token'); if (!tok) return;
-  S.tok = tok;
-  window.history.replaceState({}, '', window.location.pathname);
-  setBadge('connected'); goToScreen(1);
-}
-function setBadge(t) { const el=document.getElementById('auth-badge'); el.textContent=t; el.className='ab on'; }
+function setBadge(t){const el=document.getElementById('auth-badge');el.textContent=t;el.className='ab on';}
 handleCallback();
-function useDemoData() { S.tok='DEMO'; setBadge('demo mode'); buildDemo(); goToScreen(1); }
+function useDemoData(){S.tok='DEMO';setBadge('demo mode');buildDemo();goToScreen(1);}
 
-// ════════════════════════════════════════════════════════
-// DEMO DATA  (mirrors real CSV schema)
-// ════════════════════════════════════════════════════════
-function buildDemo() {
-  S.LIs = [
-    // IO: 1026495193 — Retargeting Display  billingRate=8.5  kpiCpa=0.5
-    {advId:'677109782',advName:'Bloomington',ioId:'1026495193',ioName:'2026_Q1_Spring Promo — Display Retargeting',liId:'23617254456',liName:'Display_Open_Platform — Past visitors',billing:8.5,cpm:1.176,cvr:0.0057,margin:0.862,impMin:1033,impMax:56250,ioReqDay:6451,kpiCpa:0.5,kpiCvr:8.5/(1000*0.5)},
-    {advId:'677109782',advName:'Bloomington',ioId:'1026495193',ioName:'2026_Q1_Spring Promo — Display Retargeting',liId:'23569356429',liName:'Display_Open_Lookalike RT LAL',billing:8.5,cpm:3.161,cvr:0.0183,margin:0.628,impMin:501,impMax:34640,ioReqDay:6451,kpiCpa:0.5,kpiCvr:8.5/(1000*0.5)},
-    {advId:'677109782',advName:'Bloomington',ioId:'1026495193',ioName:'2026_Q1_Spring Promo — Display Retargeting',liId:'23574650861',liName:'Display_Open_Retargeting — Site visitor',billing:8.5,cpm:4.180,cvr:0.0797,margin:0.508,impMin:582,impMax:5171,ioReqDay:6451,kpiCpa:0.5,kpiCvr:8.5/(1000*0.5)},
-    // IO: 1026497824 — Prospecting Display  billingRate=8  kpiCpa=5
-    {advId:'677109782',advName:'Bloomington',ioId:'1026497824',ioName:'2026_Q1_Spring Promo — Display Prospecting',liId:'23569360284',liName:'Platform | Roadtrip Intenders | Contextual | Display',billing:8.0,cpm:3.459,cvr:0.00089,margin:0.568,impMin:459,impMax:13090,ioReqDay:19956,kpiCpa:5.0,kpiCvr:8.0/(1000*5.0)},
-    {advId:'677109782',advName:'Bloomington',ioId:'1026497824',ioName:'2026_Q1_Spring Promo — Display Prospecting',liId:'23569361415',liName:'Platform | Display Couples | Demo | Age 55+',billing:8.0,cpm:1.982,cvr:0.00103,margin:0.752,impMin:1233,impMax:12525,ioReqDay:19956,kpiCpa:5.0,kpiCvr:8.0/(1000*5.0)},
-    {advId:'677109782',advName:'Bloomington',ioId:'1026497824',ioName:'2026_Q1_Spring Promo — Display Prospecting',liId:'23569361943',liName:'Platform | Together & Traveling | Affinity',billing:8.0,cpm:1.722,cvr:0.00076,margin:0.785,impMin:327,impMax:12685,ioReqDay:19956,kpiCpa:5.0,kpiCvr:8.0/(1000*5.0)},
-    {advId:'677109782',advName:'Bloomington',ioId:'1026497824',ioName:'2026_Q1_Spring Promo — Display Prospecting',liId:'23569364100',liName:'Third_Party | Together & Traveling | 3PD Mix',billing:8.0,cpm:3.127,cvr:0.00413,margin:0.609,impMin:83,impMax:6355,ioReqDay:19956,kpiCpa:5.0,kpiCvr:8.0/(1000*5.0)},
-    {advId:'677109782',advName:'Bloomington',ioId:'1026497824',ioName:'2026_Q1_Spring Promo — Display Prospecting',liId:'23574653918',liName:'Platform | Display Couples | Contextual',billing:8.0,cpm:2.348,cvr:0.00208,margin:0.707,impMin:228,impMax:11880,ioReqDay:19956,kpiCpa:5.0,kpiCvr:8.0/(1000*5.0)},
-    {advId:'677109782',advName:'Bloomington',ioId:'1026497824',ioName:'2026_Q1_Spring Promo — Display Prospecting',liId:'23574655340',liName:'Platform | Together & Traveling | Custom Audiences',billing:8.0,cpm:2.381,cvr:0.00142,margin:0.702,impMin:938,impMax:13860,ioReqDay:19956,kpiCpa:5.0,kpiCvr:8.0/(1000*5.0)},
-    {advId:'677109782',advName:'Bloomington',ioId:'1026497824',ioName:'2026_Q1_Spring Promo — Display Prospecting',liId:'23579258617',liName:'Platform | Together & Traveling | Demo | Age 35-55',billing:8.0,cpm:2.000,cvr:0.00440,margin:0.750,impMin:67,impMax:6525,ioReqDay:19956,kpiCpa:5.0,kpiCvr:8.0/(1000*5.0)},
-    {advId:'677109782',advName:'Bloomington',ioId:'1026497824',ioName:'2026_Q1_Spring Promo — Display Prospecting',liId:'23574654959',liName:'Platform | Travel Intent Bloomington | In Market',billing:8.0,cpm:2.229,cvr:0.00585,margin:0.721,impMin:29,impMax:5340,ioReqDay:19956,kpiCpa:5.0,kpiCvr:8.0/(1000*5.0)},
-    {advId:'677109782',advName:'Bloomington',ioId:'1026497824',ioName:'2026_Q1_Spring Promo — Display Prospecting',liId:'23574655883',liName:'Platform | Travel Intent Competitor | In Market',billing:8.0,cpm:2.158,cvr:0.00574,margin:0.730,impMin:141,impMax:3375,ioReqDay:19956,kpiCpa:5.0,kpiCvr:8.0/(1000*5.0)},
-    {advId:'677109782',advName:'Bloomington',ioId:'1026497824',ioName:'2026_Q1_Spring Promo — Display Prospecting',liId:'23579257843',liName:'Platform | Display Couples | Custom Audiences',billing:8.0,cpm:0.916,cvr:0.00227,margin:0.886,impMin:284,impMax:12490,ioReqDay:19956,kpiCpa:5.0,kpiCvr:8.0/(1000*5.0)},
-    {advId:'677109782',advName:'Bloomington',ioId:'1026497824',ioName:'2026_Q1_Spring Promo — Display Prospecting',liId:'23617229415',liName:'Platform | Trips | Family Theme Park | Display',billing:8.0,cpm:2.069,cvr:0.00119,margin:0.741,impMin:722,impMax:13855,ioReqDay:19956,kpiCpa:5.0,kpiCvr:8.0/(1000*5.0)},
-    // IO: 1026085049 — Prospecting Video  billingRate=15  kpiCpa=10
-    {advId:'677109782',advName:'Bloomington',ioId:'1026085049',ioName:'2026_Q1_Spring Promo — Video Prospecting',liId:'23569358829',liName:'Third_Party | Roadtrip Intenders | 3PD Mix | Video',billing:15.0,cpm:9.561,cvr:0.00426,margin:0.363,impMin:33,impMax:1160,ioReqDay:8659,kpiCpa:10.0,kpiCvr:15.0/(1000*10.0)},
-    {advId:'677109782',advName:'Bloomington',ioId:'1026085049',ioName:'2026_Q1_Spring Promo — Video Prospecting',liId:'23569359099',liName:'Platform | Together & Traveling | Custom Audiences | Video',billing:15.0,cpm:4.338,cvr:0.00453,margin:0.711,impMin:95,impMax:3645,ioReqDay:8659,kpiCpa:10.0,kpiCvr:15.0/(1000*10.0)},
-    {advId:'677109782',advName:'Bloomington',ioId:'1026085049',ioName:'2026_Q1_Spring Promo — Video Prospecting',liId:'23569359111',liName:'Platform | Travel Intent Competitor | In Market | Video',billing:15.0,cpm:4.607,cvr:0.00121,margin:0.693,impMin:105,impMax:3845,ioReqDay:8659,kpiCpa:10.0,kpiCvr:15.0/(1000*10.0)},
-    {advId:'677109782',advName:'Bloomington',ioId:'1026085049',ioName:'2026_Q1_Spring Promo — Video Prospecting',liId:'23569359582',liName:'Platform | Midwestern Empty Nesters | Demo | Age 55+ | Video',billing:15.0,cpm:3.618,cvr:0.00272,margin:0.759,impMin:140,impMax:3455,ioReqDay:8659,kpiCpa:10.0,kpiCvr:15.0/(1000*10.0)},
-    {advId:'677109782',advName:'Bloomington',ioId:'1026085049',ioName:'2026_Q1_Spring Promo — Video Prospecting',liId:'23574651809',liName:'Platform | Together & Traveling | Affinity | Video',billing:15.0,cpm:3.532,cvr:0.00177,margin:0.765,impMin:102,impMax:3880,ioReqDay:8659,kpiCpa:10.0,kpiCvr:15.0/(1000*10.0)},
-    {advId:'677109782',advName:'Bloomington',ioId:'1026085049',ioName:'2026_Q1_Spring Promo — Video Prospecting',liId:'23574653750',liName:'Platform | Travel Intent General | Affinity | Video',billing:15.0,cpm:4.226,cvr:0.00666,margin:0.718,impMin:27,impMax:2220,ioReqDay:8659,kpiCpa:10.0,kpiCvr:15.0/(1000*10.0)},
-    {advId:'677109782',advName:'Bloomington',ioId:'1026085049',ioName:'2026_Q1_Spring Promo — Video Prospecting',liId:'23579256952',liName:'Platform | Travel Intent Minnesota | In Market | Video',billing:15.0,cpm:6.697,cvr:0.00461,margin:0.554,impMin:159,impMax:4085,ioReqDay:8659,kpiCpa:10.0,kpiCvr:15.0/(1000*10.0)},
-    {advId:'677109782',advName:'Bloomington',ioId:'1026085049',ioName:'2026_Q1_Spring Promo — Video Prospecting',liId:'23574652994',liName:'Platform | Together & Traveling | Demo | Age 35-55 | Video',billing:15.0,cpm:4.096,cvr:0.0,margin:0.727,impMin:35,impMax:4090,ioReqDay:8659,kpiCpa:10.0,kpiCvr:15.0/(1000*10.0)},
-    {advId:'677109782',advName:'Bloomington',ioId:'1026085049',ioName:'2026_Q1_Spring Promo — Video Prospecting',liId:'23574653963',liName:'Third_Party | Together & Traveling | 3PD Mix | Video',billing:15.0,cpm:9.022,cvr:0.0,margin:0.399,impMin:116,impMax:3680,ioReqDay:8659,kpiCpa:10.0,kpiCvr:15.0/(1000*10.0)},
+function buildDemo(){
+  S.LIs=[
+    {advId:'677109782',advName:'Bloomington',ioId:'1026495193',ioName:'2026_Q1 Display Retargeting',liId:'23617254456',liName:'Display Open Platform Past visitors',billing:8.5,cpm:1.176,cvr:0.0057,margin:0.862,impMin:1033,impMax:56250,ioReqDay:6451,kpiCpa:0.5,kpiCvr:8.5/500},
+    {advId:'677109782',advName:'Bloomington',ioId:'1026495193',ioName:'2026_Q1 Display Retargeting',liId:'23569356429',liName:'Display Open Lookalike RT LAL',billing:8.5,cpm:3.161,cvr:0.0183,margin:0.628,impMin:501,impMax:34640,ioReqDay:6451,kpiCpa:0.5,kpiCvr:8.5/500},
+    {advId:'677109782',advName:'Bloomington',ioId:'1026495193',ioName:'2026_Q1 Display Retargeting',liId:'23574650861',liName:'Display Open Retargeting Site visitor',billing:8.5,cpm:4.180,cvr:0.0797,margin:0.508,impMin:582,impMax:5171,ioReqDay:6451,kpiCpa:0.5,kpiCvr:8.5/500},
+    {advId:'677109782',advName:'Bloomington',ioId:'1026497824',ioName:'2026_Q1 Display Prospecting',liId:'23569360284',liName:'Platform Roadtrip Intenders Contextual',billing:8.0,cpm:3.459,cvr:0.00089,margin:0.568,impMin:459,impMax:13090,ioReqDay:19956,kpiCpa:5.0,kpiCvr:8.0/5000},
+    {advId:'677109782',advName:'Bloomington',ioId:'1026497824',ioName:'2026_Q1 Display Prospecting',liId:'23569361415',liName:'Platform Display Couples Demo Age 55+',billing:8.0,cpm:1.982,cvr:0.00103,margin:0.752,impMin:1233,impMax:12525,ioReqDay:19956,kpiCpa:5.0,kpiCvr:8.0/5000},
+    {advId:'677109782',advName:'Bloomington',ioId:'1026497824',ioName:'2026_Q1 Display Prospecting',liId:'23569361943',liName:'Platform Together Traveling Affinity',billing:8.0,cpm:1.722,cvr:0.00076,margin:0.785,impMin:327,impMax:12685,ioReqDay:19956,kpiCpa:5.0,kpiCvr:8.0/5000},
+    {advId:'677109782',advName:'Bloomington',ioId:'1026497824',ioName:'2026_Q1 Display Prospecting',liId:'23569364100',liName:'Third Party Together Traveling 3PD Mix',billing:8.0,cpm:3.127,cvr:0.00413,margin:0.609,impMin:83,impMax:6355,ioReqDay:19956,kpiCpa:5.0,kpiCvr:8.0/5000},
+    {advId:'677109782',advName:'Bloomington',ioId:'1026497824',ioName:'2026_Q1 Display Prospecting',liId:'23574653918',liName:'Platform Display Couples Contextual',billing:8.0,cpm:2.348,cvr:0.00208,margin:0.707,impMin:228,impMax:11880,ioReqDay:19956,kpiCpa:5.0,kpiCvr:8.0/5000},
+    {advId:'677109782',advName:'Bloomington',ioId:'1026497824',ioName:'2026_Q1 Display Prospecting',liId:'23574655340',liName:'Platform Together Traveling Custom Audiences',billing:8.0,cpm:2.381,cvr:0.00142,margin:0.702,impMin:938,impMax:13860,ioReqDay:19956,kpiCpa:5.0,kpiCvr:8.0/5000},
+    {advId:'677109782',advName:'Bloomington',ioId:'1026497824',ioName:'2026_Q1 Display Prospecting',liId:'23579258617',liName:'Platform Together Traveling Demo Age 35-55',billing:8.0,cpm:2.000,cvr:0.00440,margin:0.750,impMin:67,impMax:6525,ioReqDay:19956,kpiCpa:5.0,kpiCvr:8.0/5000},
+    {advId:'677109782',advName:'Bloomington',ioId:'1026497824',ioName:'2026_Q1 Display Prospecting',liId:'23574654959',liName:'Platform Travel Intent Bloomington In Market',billing:8.0,cpm:2.229,cvr:0.00585,margin:0.721,impMin:29,impMax:5340,ioReqDay:19956,kpiCpa:5.0,kpiCvr:8.0/5000},
+    {advId:'677109782',advName:'Bloomington',ioId:'1026497824',ioName:'2026_Q1 Display Prospecting',liId:'23574655883',liName:'Platform Travel Intent Competitor In Market',billing:8.0,cpm:2.158,cvr:0.00574,margin:0.730,impMin:141,impMax:3375,ioReqDay:19956,kpiCpa:5.0,kpiCvr:8.0/5000},
+    {advId:'677109782',advName:'Bloomington',ioId:'1026497824',ioName:'2026_Q1 Display Prospecting',liId:'23579257843',liName:'Platform Display Couples Custom Audiences',billing:8.0,cpm:0.916,cvr:0.00227,margin:0.886,impMin:284,impMax:12490,ioReqDay:19956,kpiCpa:5.0,kpiCvr:8.0/5000},
+    {advId:'677109782',advName:'Bloomington',ioId:'1026497824',ioName:'2026_Q1 Display Prospecting',liId:'23617229415',liName:'Platform Trips Family Theme Park',billing:8.0,cpm:2.069,cvr:0.00119,margin:0.741,impMin:722,impMax:13855,ioReqDay:19956,kpiCpa:5.0,kpiCvr:8.0/5000},
   ];
-  // set currentImps = impMin as baseline
-  S.LIs.forEach(li => { li.currentImps = li.impMin; li.currentBudget = li.impMin * li.cpm / 1000; });
+  S.LIs.forEach(li=>{li.currentImps=li.impMin;li.currentBudget=li.impMin*li.cpm/1000;});
   renderLoaded();
 }
 
-// ════════════════════════════════════════════════════════
-// CSV PARSING
-// ════════════════════════════════════════════════════════
-function handleDrop(e) { const f=e.dataTransfer.files[0]; if(f) parseCSV(f); }
-function loadCSV(inp) { if(inp.files[0]) parseCSV(inp.files[0]); }
+function handleDrop(e){const f=e.dataTransfer.files[0];if(f)parseFile(f);}
+function loadCSV(inp){if(inp.files[0])parseFile(inp.files[0]);}
 
-function parseCSV(file) {
-  const reader = new FileReader();
-  reader.onload = e => {
-    const lines = e.target.result.split('\n').filter(Boolean);
-    // Auto-detect delimiter: tab or comma
-    const delim = lines[0].includes('\t') ? '\t' : ',';
-    const raw = lines[0].split(delim).map(h => h.trim());
-    const hdrs = raw.map(h => h.toLowerCase().replace(/\s+/g,'_'));
+function parseFile(file){
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const text=e.target.result;
+    const firstLine=text.split('\n')[0];
+    const delim=firstLine.includes('\t')?'\t':',';
+    const lines=text.split('\n').filter(l=>l.trim());
+    const rawHdrs=lines[0].split(delim).map(h=>h.trim().replace(/^"|"$/g,''));
+    const hdrs=rawHdrs.map(h=>h.toLowerCase().replace(/[\s\-]+/g,'_'));
 
-    // Map header names to indices
-    const fi = name => hdrs.findIndex(h => h === name);
-    const fc = name => hdrs.findIndex(h => h.includes(name));
-
-    // Flexible column matching — try exact then partial match
-    const fm = (...names) => { for (const n of names) { const i = hdrs.findIndex(h => h === n); if (i > -1) return i; } for (const n of names) { const i = hdrs.findIndex(h => h.includes(n)); if (i > -1) return i; } return -1; };
-
-    const IDX = {
-      advName:  fm('advertiser') > -1 ? fm('advertiser') : 0,
-      advId:    fm('advertiser_id'),
-      ioName:   fm('insertion_order') > -1 && !hdrs[fm('insertion_order')].includes('id') ? fm('insertion_order') : -1,
-      ioId:     fm('insertion_order_id'),
-      liName:   fm('line_item') > -1 && !hdrs[fm('line_item')].includes('id') ? fm('line_item') : -1,
-      liId:     fm('line_item_id'),
-      billing:  fm('product_billing_rate'),
-      cvr:      fm('conversion_rate_7d','conversion_rate'),
-      margin:   fm('margin_7d','margin'),
-      cpm:      fm('cpm_7d','cpm'),
-      impMax:   fm('impression_daily_upper_bound','impression_upper_bound','daily_upper','upper_bound'),
-      impMin:   fm('impression_daily_lower_bound','impression_lower_bound','daily_lower','lower_bound'),
-      ioReqDay: fm('io_impressions_needed_per_day','needed_per_day','impressions_needed'),
-      kpiRate:  fm('io_kpi_rate','kpi_rate'),
-      kpiCvr:   fm('io_kpi_conversion_rate','kpi_conversion_rate'),
+    const fm=(...names)=>{
+      for(const n of names){const i=hdrs.findIndex(h=>h===n);if(i>-1)return i;}
+      for(const n of names){const i=hdrs.findIndex(h=>h.includes(n));if(i>-1)return i;}
+      return -1;
     };
 
-    const needed = ['liId','ioId','billing','cvr','margin','cpm','impMax','impMin','ioReqDay','kpiRate','kpiCvr'];
-    const colNames = {liId:'Line_Item_ID',ioId:'Insertion_Order_ID',billing:'Product_Billing_Rate',cvr:'conversion_rate_7d',margin:'margin_7d',cpm:'cpm_7d',impMax:'impression_daily_upper_bound',impMin:'impression_daily_lower_bound',ioReqDay:'io_impressions_needed_per_day',kpiRate:'io_kpi_rate',kpiCvr:'io_kpi_conversion_rate'};
-    const miss = needed.filter(k => IDX[k] === -1);
-    if (miss.length) {
-      document.getElementById('upload-status').innerHTML =
-        `<span style="color:var(--salmon);">Missing columns: ${miss.map(k=>colNames[k]||k).join(', ')}</span>`;
+    const IDX={
+      advName: fm('advertiser')>-1&&!hdrs[fm('advertiser')].includes('id')?fm('advertiser'):0,
+      advId:   fm('advertiser_id'),
+      ioName:  hdrs.findIndex(h=>h==='insertion_order'),
+      ioId:    fm('insertion_order_id'),
+      liName:  hdrs.findIndex(h=>h==='line_item'),
+      liId:    fm('line_item_id'),
+      billing: fm('product_billing_rate'),
+      cvr:     fm('conversion_rate_7d','conversion_rate'),
+      margin:  fm('margin_7d','margin'),
+      cpm:     fm('cpm_7d','cpm'),
+      impMax:  fm('impression_daily_upper_bound','impression_upper_bound','upper_bound'),
+      impMin:  fm('impression_daily_lower_bound','impression_lower_bound','lower_bound'),
+      ioReqDay:fm('io_impressions_needed_per_day','needed_per_day','impressions_needed'),
+      kpiRate: fm('io_kpi_rate','kpi_rate'),
+      kpiCvr:  fm('io_kpi_conversion_rate','kpi_conversion_rate'),
+    };
+
+    const colNames={liId:'Line_Item_ID',ioId:'Insertion_Order_ID',billing:'Product_Billing_Rate',cvr:'conversion_rate_7d',margin:'margin_7d',cpm:'cpm_7d',impMax:'impression_upper_bound',impMin:'impression_lower_bound',ioReqDay:'io_impressions_needed_per_day',kpiRate:'io_kpi_rate',kpiCvr:'io_kpi_conversion_rate'};
+    const needed=['liId','ioId','billing','cvr','margin','cpm','impMax','impMin','ioReqDay','kpiRate','kpiCvr'];
+    const miss=needed.filter(k=>IDX[k]===-1);
+    if(miss.length){
+      document.getElementById('upload-status').innerHTML=`<span style="color:var(--salmon);">Missing columns: ${miss.map(k=>colNames[k]||k).join(', ')}</span>`;
       return;
     }
 
-    S.LIs = [];
-    let skipped = 0;
-    const gv = (row, key) => IDX[key] > -1 ? (row[IDX[key]] || '').trim().replace(/^"|"$/g,'') : '';
+    S.LIs=[];let skipped=0;
+    const gv=(row,key)=>IDX[key]>-1?(row[IDX[key]]||'').trim().replace(/^"|"$/g,''):'';
 
-    lines.slice(1).forEach(line => {
-      if (!line.trim()) return;
-      const row = line.split(delim);
-      const liId = gv(row,'liId'); if (!liId) { skipped++; return; }
-
-      const billing = parseFloat(gv(row,'billing'));
-      const cpm     = parseFloat(gv(row,'cpm'));
-      const cvr     = parseFloat(gv(row,'cvr'));
-      const margin  = parseFloat(gv(row,'margin'));
-      const rawMax  = parseFloat(gv(row,'impMax'));
-      const rawMin  = parseFloat(gv(row,'impMin'));
-      const ioReqDay= parseFloat(gv(row,'ioReqDay'));
-      const kpiRate = parseFloat(gv(row,'kpiRate'));
-      const kpiCvr  = parseFloat(gv(row,'kpiCvr'));
-
-      if ([billing,cpm,cvr,margin,rawMax,rawMin,ioReqDay,kpiRate,kpiCvr].some(isNaN)) { skipped++; return; }
-
-      // Integer bounds: ceil lower, floor upper
-      const impMin = Math.ceil(rawMin);
-      const impMax = Math.floor(rawMax);
-      if (impMin > impMax) { skipped++; return; } // degenerate bounds
-
+    lines.slice(1).forEach(line=>{
+      if(!line.trim())return;
+      const row=line.split(delim);
+      const liId=gv(row,'liId');if(!liId){skipped++;return;}
+      const billing=parseFloat(gv(row,'billing'));
+      const cpm=parseFloat(gv(row,'cpm'));
+      const cvr=parseFloat(gv(row,'cvr'));
+      const margin=parseFloat(gv(row,'margin'));
+      const rawMax=parseFloat(gv(row,'impMax'));
+      const rawMin=parseFloat(gv(row,'impMin'));
+      const ioReqDay=parseFloat(gv(row,'ioReqDay'));
+      const kpiRate=parseFloat(gv(row,'kpiRate'));
+      const kpiCvr=parseFloat(gv(row,'kpiCvr'));
+      if([billing,cpm,cvr,margin,rawMax,rawMin,ioReqDay,kpiRate,kpiCvr].some(isNaN)){skipped++;return;}
+      const impMin=Math.ceil(rawMin);
+      const impMax=Math.floor(rawMax);
+      if(impMin>impMax){skipped++;return;}
       S.LIs.push({
-        advId:   gv(row,'advId'), advName: gv(row,'advName'),
-        ioId:    gv(row,'ioId'),  ioName:  gv(row,'ioName'),
-        liId, liName: gv(row,'liName'),
-        billing, cpm, cvr, margin,
-        impMin, impMax,
-        ioReqDay: Math.round(ioReqDay),
-        kpiRate, kpiCvr,
-        currentImps: impMin,
-        currentBudget: impMin * cpm / 1000,
+        advId:gv(row,'advId'),advName:gv(row,'advName'),
+        ioId:gv(row,'ioId'),ioName:gv(row,'ioName'),
+        liId,liName:gv(row,'liName'),
+        billing,cpm,cvr,margin,impMin,impMax,
+        ioReqDay:Math.round(ioReqDay),kpiRate,kpiCvr,
+        currentImps:impMin,currentBudget:impMin*cpm/1000,
       });
     });
 
-    if (!S.LIs.length) {
-      document.getElementById('upload-status').innerHTML =
-        '<span style="color:var(--salmon);">No valid rows found. Check column names match the schema exactly.</span>';
+    if(!S.LIs.length){
+      document.getElementById('upload-status').innerHTML='<span style="color:var(--salmon);">No valid rows parsed. Check column names.</span>';
       return;
     }
-    const ioCount = new Set(S.LIs.map(li=>li.ioId)).size;
-    document.getElementById('upload-status').innerHTML =
-      `<span style="color:var(--green);">✓ ${S.LIs.length} line items parsed across ${ioCount} IOs</span>` +
-      (skipped ? ` <span style="color:var(--amber);">— ${skipped} rows skipped</span>` : '');
+    const ioCount=new Set(S.LIs.map(li=>li.ioId)).size;
+    document.getElementById('upload-status').innerHTML=
+      `<span style="color:var(--green);">Loaded ${S.LIs.length} line items across ${ioCount} IOs</span>`+
+      (skipped?` <span style="color:var(--amber);">(${skipped} rows skipped)</span>`:'')+
+      ` <span style="color:var(--text3);">[${delim==='\t'?'tab':'comma'} delimited]</span>`;
     renderLoaded();
   };
   reader.readAsText(file);
 }
 
-function dlTemplate() {
-  const h = 'Advertiser,Advertiser_ID,Insertion_Order,Insertion_Order_ID,dcm_package_id,Line_Item,Line_Item_ID,Product_Billing_Rate,conversion_rate_7d,margin_7d,cpm_7d,impression_daily_upper_bound,impression_daily_lower_bound,days_remaining,io_impressions_remaining,io_impressions_needed_per_day,io_kpi_type,io_kpi_rate,io_kpi_conversion_rate';
-  const r = 'Acme,677109782,2026_Q1_IO_Name,1026495193,441392284,LI Name,23569356429,8.5,0.018,0.628,3.161,34640,500,22,141930,6451,CPA,0.5,0.017';
-  const blob = new Blob([h+'\n'+r], {type:'text/csv'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a'); a.href=url; a.download='dv360-lp-template.csv'; a.click();
+function dlTemplate(){
+  const h='Advertiser\tAdvertiser_ID\tInsertion_Order\tInsertion_Order_ID\tdcm_package_id\tLine_Item\tLine_Item_ID\tProduct_Billing_Rate\tconversion_rate_7d\tmargin_7d\tcpm_7d\timpression_upper_bound\timpression_lower_bound\tdays_remaining\tio_impressions_remaining\tio_impressions_needed_per_day\tio_kpi_type\tio_kpi_rate\tio_kpi_conversion_rate';
+  const r='Acme\t677109782\t2026_Q1_IO\t1026495193\t441392284\tLI Name\t23569356429\t8.5\t0.018\t0.628\t3.161\t34640\t500\t22\t141930\t6451\tCPA\t0.5\t0.017';
+  const blob=new Blob([h+'\n'+r],{type:'text/tab-separated-values'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download='dv360-lp-template.tsv';a.click();
   URL.revokeObjectURL(url);
 }
 
-// ════════════════════════════════════════════════════════
-// RENDER LOADED TABLE
-// ════════════════════════════════════════════════════════
-function renderLoaded() {
-  if (!S.LIs.length) return;
-  document.getElementById('loaded-summary').style.display = 'block';
-  const advCount = new Set(S.LIs.map(li=>li.advId)).size;
-  const ioCount  = new Set(S.LIs.map(li=>li.ioId)).size;
-  document.getElementById('load-metrics').innerHTML = `
+function renderLoaded(){
+  if(!S.LIs.length)return;
+  document.getElementById('loaded-summary').style.display='block';
+  const advCount=new Set(S.LIs.map(li=>li.advId)).size;
+  const ioCount=new Set(S.LIs.map(li=>li.ioId)).size;
+  const avgMargin=S.LIs.reduce((s,li)=>s+li.margin,0)/S.LIs.length;
+  document.getElementById('load-metrics').innerHTML=`
     <div class="met"><div class="ml">Advertisers</div><div class="mv">${advCount}</div></div>
     <div class="met"><div class="ml">Insertion orders</div><div class="mv">${ioCount}</div></div>
     <div class="met"><div class="ml">Line items</div><div class="mv">${S.LIs.length}</div></div>
-    <div class="met good"><div class="ml">Avg margin 7d</div><div class="mv">${fP(avg(S.LIs,'margin'))}</div></div>
-    <div class="met"><div class="ml">Avg CVR 7d</div><div class="mv">${(avg(S.LIs,'cvr')*100).toFixed(3)}%</div></div>`;
-
-  const tbody = document.getElementById('loaded-tbody'); tbody.innerHTML = '';
-  S.LIs.forEach(li => {
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
+    <div class="met good"><div class="ml">Avg margin 7d</div><div class="mv">${fP(avgMargin)}</div></div>
+    <div class="met"><div class="ml">Avg CVR 7d</div><div class="mv">${(S.LIs.reduce((s,li)=>s+li.cvr,0)/S.LIs.length*100).toFixed(3)}%</div></div>`;
+  const tbody=document.getElementById('loaded-tbody');tbody.innerHTML='';
+  S.LIs.forEach(li=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`
       <td class="pri">${li.liName}<br><span style="font-family:var(--mono);font-size:10px;color:var(--text3);">${li.liId}</span></td>
       <td style="font-size:11px;color:var(--text2);">${li.ioName||li.ioId}</td>
       <td style="font-size:11px;color:var(--text2);">${li.advName}</td>
@@ -579,663 +493,399 @@ function renderLoaded() {
   });
 }
 
-// ════════════════════════════════════════════════════════
-// SOLVER
-// ════════════════════════════════════════════════════════
-function goToSolve() {
+async function goToSolve(){
   goToScreen(2);
-  setTimeout(runAllSolvers, 80);
-}
+  await sleep(80);
+  const fill=document.getElementById('solve-fill');
+  const lbl=document.getElementById('solve-lbl');
+  const log=document.getElementById('solve-log');
 
-async function runAllSolvers() {
-  const fill = document.getElementById('solve-fill');
-  const lbl  = document.getElementById('solve-lbl');
-  const log  = document.getElementById('solve-log');
-  S.IOs = {};
-  S.accepted = {};
-
-  const ioGroups = groupByIO(S.LIs);
-  const ioIds = Object.keys(ioGroups);
-  let done = 0;
-
-  for (const ioId of ioIds) {
-    const lis = ioGroups[ioId];
-    lbl.textContent = `Solving IO ${done+1}/${ioIds.length}: ${lis[0].ioName||ioId}`;
-    await sleep(0); // yield to browser before each IO
-
-    let result;
-    try {
-      result = solveIO(lis);
-    } catch(e) {
-      const fallbackAllocs = lis.map(li => li.impMin);
-      result = buildResult(lis, fallbackAllocs, STATUS.FULL, lis[0].billing, lis[0].kpiCvr);
-      log.innerHTML += `<div style="color:var(--salmon);">✗ ${lis[0].ioName||ioId} — error: ${e.message}</div>`;
+  lbl.textContent='Loading GLPK solver...';
+  try{
+    if(!S.glpk){
+      S.glpk=await GLPK();
+      log.innerHTML+=`<div style="color:var(--green);">GLPK solver loaded successfully</div>`;
     }
-
-    S.IOs[ioId] = result;
-    // Only auto-accept optimal — perf/full infeasible require manual user review
-    S.accepted[ioId] = result.status === STATUS.OPTIMAL;
-
-    const icon = result.status===STATUS.OPTIMAL ? '✓' : result.status===STATUS.PERF ? '⚠' : '✗';
-    const col  = result.status===STATUS.OPTIMAL ? 'color:var(--green)' : result.status===STATUS.PERF ? 'color:var(--amber)' : 'color:var(--salmon)';
-    log.innerHTML += `<div style="${col}">${icon} ${lis[0].ioName||ioId} — ${result.status}</div>`;
-    log.scrollTop = log.scrollHeight;
-
-    done++;
-    fill.style.width = Math.round(done/ioIds.length*100)+'%';
-    await sleep(50); // yield to browser between IOs so UI stays responsive
+  }catch(e){
+    log.innerHTML+=`<div style="color:var(--salmon);">GLPK failed to load: ${e.message}. Check network connection.</div>`;
+    return;
   }
 
-  lbl.textContent = `Done — ${ioIds.length} IOs solved`;
-  await sleep(400);
+  S.IOs={};S.accepted={};
+  const ioGroups=groupByIO(S.LIs);
+  const ioIds=Object.keys(ioGroups);
+  let done=0;
+
+  for(const ioId of ioIds){
+    const lis=ioGroups[ioId];
+    lbl.textContent=`Solving IO ${done+1}/${ioIds.length}: ${lis[0].ioName||ioId}`;
+    await sleep(20);
+    const result=solveIO(lis,S.glpk,log);
+    S.IOs[ioId]=result;
+    S.accepted[ioId]=result.status===ST.OPTIMAL;
+    const icon=result.status===ST.OPTIMAL?'OK':result.status===ST.PERF?'WARN':'SKIP';
+    const col=result.status===ST.OPTIMAL?'color:var(--green)':result.status===ST.PERF?'color:var(--amber)':'color:var(--salmon)';
+    const label=result.status===ST.OPTIMAL?'Optimal':result.status===ST.PERF?'CPA target not achievable':'Manual review required';
+    log.innerHTML+=`<div style="${col}">[${icon}] ${lis[0].ioName||ioId}: ${label}</div>`;
+    log.scrollTop=log.scrollHeight;
+    done++;
+    fill.style.width=Math.round(done/ioIds.length*100)+'%';
+    await sleep(20);
+  }
+
+  lbl.textContent=`Complete - ${ioIds.length} IOs solved`;
+  await sleep(300);
   renderReview();
   goToScreen(3);
 }
 
-// ── Core IO Solver ──────────────────────────────────────
-function solveIO(lis) {
-  const reqDay  = lis[0].ioReqDay;
-  const kpiCvr  = lis[0].kpiCvr;
-  const billing = lis[0].billing;
-  const logEl   = document.getElementById('solve-log');
+function solveIO(lis,glpk,logEl){
+  const D=lis[0].ioReqDay;
+  const kpiCvr=lis[0].kpiCvr;
+  const billing=lis[0].billing;
+  const totalMin=lis.reduce((s,li)=>s+li.impMin,0);
+  const totalMax=lis.reduce((s,li)=>s+li.impMax,0);
 
-  const totalMin = lis.reduce((s,li)=>s+li.impMin,0);
-  const totalMax = lis.reduce((s,li)=>s+li.impMax,0);
-
-  // Delivery feasibility check
-  if (reqDay < totalMin || reqDay > totalMax) {
-    logEl.innerHTML += `<div style="color:var(--text3);">  → delivery infeasible (req=${fI(reqDay)}, min=${fI(totalMin)}, max=${fI(totalMax)})</div>`;
-    const allocs = lis.map(li => li.impMin);
-    fixRemainder(allocs, lis, Math.min(Math.max(reqDay, totalMin), totalMax));
-    return buildResult(lis, allocs, STATUS.FULL, billing, kpiCvr);
+  if(D<totalMin||D>totalMax){
+    logEl.innerHTML+=`<div style="color:var(--text3);">  delivery infeasible: req=${fI(D)}, range=${fI(totalMin)}-${fI(totalMax)}</div>`;
+    const allocs=lis.map(li=>li.impMin);
+    fixRemainder(allocs,lis,Math.min(Math.max(D,totalMin),totalMax));
+    return buildResult(lis,allocs,ST.FULL);
   }
 
-  // Step 1: maximize margin, CVR >= kpiCvr
-  logEl.innerHTML += `<div style="color:var(--text3);">  → step 1: max margin w/ CVR≥${(kpiCvr*100).toFixed(4)}%</div>`;
-  logEl.scrollTop = logEl.scrollHeight;
-  const maxCVR = maxWeightedCVR(lis, reqDay);
-  if (maxCVR >= kpiCvr) {
-    const r1 = solve(lis, reqDay, { enforceCvr: true, enforceMargin: false, minMargin: 0 });
-    if (r1.feasible) {
-      logEl.innerHTML += `<div style="color:var(--text3);">  → optimal ✓</div>`;
-      return buildResult(lis, r1.allocs, STATUS.OPTIMAL, billing, kpiCvr);
-    }
-  } else {
-    logEl.innerHTML += `<div style="color:var(--text3);">  → max CVR achievable ${(maxCVR*100).toFixed(4)}% < target, skipping step 1</div>`;
-  }
+  const maxCVR=computeMaxCVR(lis,D);
+  const cvrFeasible=maxCVR>=kpiCvr;
+  logEl.innerHTML+=`<div style="color:var(--text3);">  max CVR: ${(maxCVR*100).toFixed(4)}% vs target ${(kpiCvr*100).toFixed(4)}% [${cvrFeasible?'feasible':'infeasible'}]</div>`;
 
-  // Step 2: relax CVR, enforce margin >= 50%, maximize CVR
-  logEl.innerHTML += `<div style="color:var(--text3);">  → step 2: max CVR w/ margin≥50%</div>`;
-  logEl.scrollTop = logEl.scrollHeight;
-  const maxMar = maxWeightedMargin(lis, reqDay);
-  if (maxMar >= 0.5) {
-    const r2 = solve(lis, reqDay, { enforceCvr: false, enforceMargin: true, minMargin: 0.5 });
-    if (r2.feasible) {
-      logEl.innerHTML += `<div style="color:var(--text3);">  → perf fallback ✓</div>`;
-      return buildResult(lis, r2.allocs, STATUS.PERF, billing, kpiCvr);
-    }
-  } else {
-    logEl.innerHTML += `<div style="color:var(--text3);">  → max margin ${(maxMar*100).toFixed(1)}% < 50%, skipping step 2</div>`;
-  }
-
-  // Step 3: fully infeasible
-  logEl.innerHTML += `<div style="color:var(--text3);">  → fully infeasible, allocating minimums</div>`;
-  let allocs;
-  if (totalMin <= reqDay) {
-    allocs = lis.map(li => li.impMin);
-    fixRemainder(allocs, lis, reqDay);
-  } else {
-    const scale = reqDay / totalMin;
-    allocs = lis.map(li => Math.max(1, Math.floor(li.impMin * scale)));
-    fixRemainder(allocs, lis, reqDay);
-  }
-  return buildResult(lis, allocs, STATUS.FULL, billing, kpiCvr);
-}
-
-// ── Generic solver wrapper ──
-function solve(lis, reqDay, opts) {
-  const kpiCvr = lis[0].kpiCvr;
-  let allocs;
-  if (opts.enforceCvr) {
-    allocs = allocateMaxMarginWithCVR(lis, reqDay, kpiCvr);
-  } else {
-    allocs = allocateMaxCVRWithMargin(lis, reqDay, opts.minMargin);
-  }
-  if (!allocs) return {feasible:false};
-  return {feasible:true, allocs};
-}
-
-// ── Single-pass Lagrangian allocation ─────────────────────────────────────
-// Binary search on lambda — O(n log n * 60 iterations) — runs in milliseconds.
-
-function lagrangianAlloc(lis, reqDay, primaryKey, secondaryKey, secondaryTarget) {
-  function allocForLambda(lambda) {
-    const scores = lis.map((li, i) => ({ i, score: li[primaryKey] + lambda * li[secondaryKey] }));
-    scores.sort((a, b) => b.score - a.score);
-    const allocs = lis.map(li => li.impMin);
-    let rem = reqDay - allocs.reduce((s, a) => s + a, 0);
-    for (const { i } of scores) {
-      if (rem <= 0) break;
-      const add = Math.min(lis[i].impMax - allocs[i], rem);
-      allocs[i] += add; rem -= add;
-    }
-    return allocs;
-  }
-
-  function getSecondary(allocs) {
-    const total = allocs.reduce((s, a) => s + a, 0);
-    if (total === 0) return 0;
-    return allocs.reduce((s, a, i) => s + a * lis[i][secondaryKey], 0) / total;
-  }
-
-  // Binary search: find smallest lambda where secondary >= target
-  let lo = -100, hi = 100, bestAllocs = null;
-  for (let iter = 0; iter < 80; iter++) {
-    const mid = (lo + hi) / 2;
-    const allocs = allocForLambda(mid);
-    if (getSecondary(allocs) >= secondaryTarget) {
-      bestAllocs = allocs.slice();
-      hi = mid;
-    } else {
-      lo = mid;
+  if(cvrFeasible){
+    try{
+      const lp=buildLP(glpk,lis,D,'margin',[{type:'cvr',target:kpiCvr}]);
+      const res=glpk.solve(lp,{msglev:glpk.GLP_MSG_OFF});
+      if(res.result.status===glpk.GLP_OPT||res.result.status===glpk.GLP_FEAS){
+        const allocs=extractAllocs(res,lis,D);
+        return buildResult(lis,allocs,ST.OPTIMAL);
+      }
+    }catch(e){
+      logEl.innerHTML+=`<div style="color:var(--text3);">  step 1 error: ${e.message}</div>`;
     }
   }
-  // Safety fallback: target mathematically unreachable — return best possible allocation
-  if (!bestAllocs) bestAllocs = allocForLambda(hi);
-  return bestAllocs;
-}
 
-// Maximize margin while keeping weighted CVR >= kpiCvr
-function allocateMaxMarginWithCVR(lis, reqDay, kpiCvr) {
-  const allocs = lagrangianAlloc(lis, reqDay, 'margin', 'cvr', kpiCvr);
-  if (!allocs) return null;
-  if (weightedCVR(lis, allocs) < kpiCvr) return null;
-  integerise(allocs, lis, reqDay);
-  return allocs;
-}
+  const maxMargin=computeMaxMargin(lis,D);
+  const marginFeasible=maxMargin>=0.5;
+  logEl.innerHTML+=`<div style="color:var(--text3);">  max margin: ${(maxMargin*100).toFixed(1)}% [step 2 ${marginFeasible?'feasible':'infeasible'}]</div>`;
 
-// Maximize CVR while keeping weighted margin >= minMargin
-function allocateMaxCVRWithMargin(lis, reqDay, minMargin) {
-  const allocs = lagrangianAlloc(lis, reqDay, 'cvr', 'margin', minMargin);
-  if (!allocs) return null;
-  if (weightedMargin(lis, allocs) < minMargin) return null;
-  integerise(allocs, lis, reqDay);
-  return allocs;
-}
-
-// ── Max achievable CVR (used for feasibility check) ──
-function maxWeightedCVR(lis, reqDay) {
-  const n = lis.length;
-  const allocs = lis.map(li => li.impMin);
-  let rem = reqDay - allocs.reduce((s,a)=>s+a,0);
-  const order = [...Array(n).keys()].sort((a,b)=>lis[b].cvr-lis[a].cvr);
-  for (const i of order) {
-    if (rem <= 0) break;
-    const add = Math.min(lis[i].impMax - allocs[i], rem);
-    allocs[i] += add; rem -= add;
-  }
-  return weightedCVR(lis, allocs);
-}
-
-// ── Max achievable margin ──
-function maxWeightedMargin(lis, reqDay) {
-  const n = lis.length;
-  const allocs = lis.map(li => li.impMin);
-  let rem = reqDay - allocs.reduce((s,a)=>s+a,0);
-  const order = [...Array(n).keys()].sort((a,b)=>lis[b].margin-lis[a].margin);
-  for (const i of order) {
-    if (rem <= 0) break;
-    const add = Math.min(lis[i].impMax - allocs[i], rem);
-    allocs[i] += add; rem -= add;
-  }
-  return weightedMargin(lis, allocs);
-}
-
-function weightedCVR(lis, allocs) {
-  const totalImps = allocs.reduce((s,a)=>s+a,0);
-  if (totalImps === 0) return 0;
-  return allocs.reduce((s,a,i)=>s+a*lis[i].cvr,0) / totalImps;
-}
-function weightedMargin(lis, allocs) {
-  const totalImps = allocs.reduce((s,a)=>s+a,0);
-  if (totalImps === 0) return 0;
-  return allocs.reduce((s,a,i)=>s+a*lis[i].margin,0) / totalImps;
-}
-
-// ── Integerise: floor all, fix remainder by priority ──
-function integerise(allocs, lis, reqDay) {
-  // allocs already integer from the swap loop (increments of 1)
-  // but do a final clean pass to ensure integers and exact sum
-  for (let i=0;i<allocs.length;i++) allocs[i] = Math.round(allocs[i]);
-  fixRemainder(allocs, lis, reqDay);
-}
-
-function fixRemainder(allocs, lis, reqDay) {
-  let total = allocs.reduce((s,a)=>s+a,0);
-  let diff = reqDay - total;
-  if (diff === 0) return;
-  // Add: give to highest-margin LIs with room
-  if (diff > 0) {
-    const order = [...Array(lis.length).keys()].sort((a,b)=>lis[b].margin-lis[a].margin);
-    for (const i of order) {
-      if (diff <= 0) break;
-      const room = lis[i].impMax - allocs[i];
-      const add = Math.min(room, diff);
-      allocs[i] += add; diff -= add;
+  if(marginFeasible){
+    try{
+      const lp=buildLP(glpk,lis,D,'cvr',[{type:'margin',target:0.5}]);
+      const res=glpk.solve(lp,{msglev:glpk.GLP_MSG_OFF});
+      if(res.result.status===glpk.GLP_OPT||res.result.status===glpk.GLP_FEAS){
+        const allocs=extractAllocs(res,lis,D);
+        return buildResult(lis,allocs,ST.PERF);
+      }
+    }catch(e){
+      logEl.innerHTML+=`<div style="color:var(--text3);">  step 2 error: ${e.message}</div>`;
     }
   }
-  // Remove: take from lowest-margin LIs with slack above min
-  if (diff < 0) {
-    const order = [...Array(lis.length).keys()].sort((a,b)=>lis[a].margin-lis[b].margin);
-    for (const i of order) {
-      if (diff >= 0) break;
-      const slack = allocs[i] - lis[i].impMin;
-      const rem = Math.min(slack, -diff);
-      allocs[i] -= rem; diff += rem;
-    }
-  }
+
+  const allocs=lis.map(li=>li.impMin);
+  fixRemainder(allocs,lis,D);
+  return buildResult(lis,allocs,ST.FULL);
 }
 
-function buildResult(lis, allocs, status, billing, kpiCvr) {
-  const totalImps = allocs.reduce((s,a)=>s+a,0);
-  const wCVR    = weightedCVR(lis, allocs);
-  const wMargin = weightedMargin(lis, allocs);
-  const achCPA  = wCVR > 0 ? billing / (1000 * wCVR) : Infinity;
-  const newCost = allocs.reduce((s,a,i)=>s+a*lis[i].cpm/1000,0);
-  const newRev  = totalImps * billing / 1000;
-  // Old (current) metrics
-  const oldImps   = lis.reduce((s,li)=>s+li.currentImps,0);
-  const oldWCVR   = lis.reduce((s,li)=>s+li.currentImps*li.cvr,0) / (oldImps||1);
-  const oldMargin = lis.reduce((s,li)=>s+li.currentImps*li.margin,0) / (oldImps||1);
-  const oldCost   = lis.reduce((s,li)=>s+li.currentImps*li.cpm/1000,0);
-  const oldRev    = oldImps * billing / 1000;
-  const oldCPA    = oldWCVR > 0 ? billing / (1000 * oldWCVR) : Infinity;
+function buildLP(glpk,lis,D,objective,constraints){
+  const n=lis.length;
+  const vnames=lis.map((_,i)=>`x${i}`);
+  const objCoef=li=>objective==='margin'?li.margin:li.cvr;
 
-  return {
-    status, allocs, lis,
-    totalImps, wCVR, wMargin, achCPA, newCost, newRev,
-    oldImps, oldWCVR, oldMargin, oldCost, oldRev, oldCPA,
-    kpiCvr, kpiCpa: lis[0].kpiRate, billing,
-    cvrMet: wCVR >= kpiCvr,
-    marginMet: wMargin >= 0.5,
+  const subjectTo=[{
+    name:'delivery',
+    vars:vnames.map(name=>({name,coef:1})),
+    bnds:{type:glpk.GLP_FX,ub:D,lb:D},
+  }];
+
+  for(const c of constraints){
+    if(c.type==='cvr'){
+      subjectTo.push({
+        name:'cvr_constraint',
+        vars:lis.map((li,i)=>({name:vnames[i],coef:li.cvr-c.target})),
+        bnds:{type:glpk.GLP_LO,lb:0,ub:Infinity},
+      });
+    }
+    if(c.type==='margin'){
+      subjectTo.push({
+        name:'margin_constraint',
+        vars:lis.map((li,i)=>({name:vnames[i],coef:li.margin-c.target})),
+        bnds:{type:glpk.GLP_LO,lb:0,ub:Infinity},
+      });
+    }
+  }
+
+  return{
+    name:'IO_LP',
+    objective:{direction:glpk.GLP_MAX,name:'obj',vars:lis.map((li,i)=>({name:vnames[i],coef:objCoef(li)}))},
+    subjectTo,
+    bounds:lis.map((li,i)=>({name:vnames[i],type:glpk.GLP_DB,lb:li.impMin,ub:li.impMax})),
   };
 }
 
-// ════════════════════════════════════════════════════════
-// REVIEW SCREEN
-// ════════════════════════════════════════════════════════
-function renderReview() {
-  const ioIds = Object.keys(S.IOs);
-  const accepted = ioIds.filter(id => S.accepted[id]);
+function extractAllocs(result,lis,D){
+  const allocs=lis.map((li,i)=>{
+    const val=result.result.vars[`x${i}`]||0;
+    return Math.min(li.impMax,Math.max(li.impMin,Math.floor(val)));
+  });
+  fixRemainder(allocs,lis,D);
+  return allocs;
+}
 
-  // Top-level metrics (all IOs)
-  const optCount  = ioIds.filter(id=>S.IOs[id].status===STATUS.OPTIMAL).length;
-  const perfCount = ioIds.filter(id=>S.IOs[id].status===STATUS.PERF).length;
-  const fullCount = ioIds.filter(id=>S.IOs[id].status===STATUS.FULL).length;
-  const totalSaved = ioIds.reduce((s,id)=>{const r=S.IOs[id];return s+(r.oldCost-r.newCost);},0);
+function computeMaxCVR(lis,D){
+  const allocs=lis.map(li=>li.impMin);
+  let rem=D-allocs.reduce((s,a)=>s+a,0);
+  const order=[...Array(lis.length).keys()].sort((a,b)=>lis[b].cvr-lis[a].cvr);
+  for(const i of order){if(rem<=0)break;const add=Math.min(lis[i].impMax-allocs[i],rem);allocs[i]+=add;rem-=add;}
+  const tot=allocs.reduce((s,a)=>s+a,0);
+  return tot>0?allocs.reduce((s,a,i)=>s+a*lis[i].cvr,0)/tot:0;
+}
 
-  document.getElementById('review-metrics').innerHTML = `
-    <div class="met good"><div class="ml">IOs optimal</div><div class="mv">${optCount}</div><div class="ms">of ${ioIds.length} total</div></div>
-    <div class="met warn"><div class="ml">CVR infeasible</div><div class="mv">${perfCount}</div><div class="ms">margin-first fallback</div></div>
-    <div class="met hi"><div class="ml">Fully infeasible</div><div class="mv">${fullCount}</div><div class="ms">manual review needed</div></div>
+function computeMaxMargin(lis,D){
+  const allocs=lis.map(li=>li.impMin);
+  let rem=D-allocs.reduce((s,a)=>s+a,0);
+  const order=[...Array(lis.length).keys()].sort((a,b)=>lis[b].margin-lis[a].margin);
+  for(const i of order){if(rem<=0)break;const add=Math.min(lis[i].impMax-allocs[i],rem);allocs[i]+=add;rem-=add;}
+  const tot=allocs.reduce((s,a)=>s+a,0);
+  return tot>0?allocs.reduce((s,a,i)=>s+a*lis[i].margin,0)/tot:0;
+}
+
+function fixRemainder(allocs,lis,D){
+  let total=allocs.reduce((s,a)=>s+a,0);
+  let diff=D-total;
+  if(diff===0)return;
+  if(diff>0){
+    const order=[...Array(lis.length).keys()].sort((a,b)=>lis[b].margin-lis[a].margin);
+    for(const i of order){if(diff<=0)break;const add=Math.min(lis[i].impMax-allocs[i],diff);allocs[i]+=add;diff-=add;}
+  }else{
+    const order=[...Array(lis.length).keys()].sort((a,b)=>lis[a].margin-lis[b].margin);
+    for(const i of order){if(diff>=0)break;const rem=Math.min(allocs[i]-lis[i].impMin,-diff);allocs[i]-=rem;diff+=rem;}
+  }
+}
+
+function buildResult(lis,allocs,status){
+  const billing=lis[0].billing;
+  const kpiCvr=lis[0].kpiCvr;
+  const totalImps=allocs.reduce((s,a)=>s+a,0);
+  const wCVR=totalImps>0?allocs.reduce((s,a,i)=>s+a*lis[i].cvr,0)/totalImps:0;
+  const wMargin=totalImps>0?allocs.reduce((s,a,i)=>s+a*lis[i].margin,0)/totalImps:0;
+  const achCPA=wCVR>0?billing/(1000*wCVR):Infinity;
+  const newCost=allocs.reduce((s,a,i)=>s+a*lis[i].cpm/1000,0);
+  const newRev=totalImps*billing/1000;
+  const oldImps=lis.reduce((s,li)=>s+li.currentImps,0);
+  const oldWCVR=oldImps>0?lis.reduce((s,li)=>s+li.currentImps*li.cvr,0)/oldImps:0;
+  const oldMargin=oldImps>0?lis.reduce((s,li)=>s+li.currentImps*li.margin,0)/oldImps:0;
+  const oldCost=lis.reduce((s,li)=>s+li.currentImps*li.cpm/1000,0);
+  const oldRev=oldImps*billing/1000;
+  const oldCPA=oldWCVR>0?billing/(1000*oldWCVR):Infinity;
+  return{status,allocs,lis,totalImps,wCVR,wMargin,achCPA,newCost,newRev,oldImps,oldWCVR,oldMargin,oldCost,oldRev,oldCPA,kpiCvr,kpiCpa:lis[0].kpiRate,billing,cvrMet:wCVR>=kpiCvr};
+}
+
+function renderReview(){
+  const ioIds=Object.keys(S.IOs);
+  const optCount=ioIds.filter(id=>S.IOs[id].status===ST.OPTIMAL).length;
+  const perfCount=ioIds.filter(id=>S.IOs[id].status===ST.PERF).length;
+  const fullCount=ioIds.filter(id=>S.IOs[id].status===ST.FULL).length;
+  const totalSaved=ioIds.reduce((s,id)=>s+(S.IOs[id].oldCost-S.IOs[id].newCost),0);
+  const accCount=ioIds.filter(id=>S.accepted[id]).length;
+  document.getElementById('review-metrics').innerHTML=`
+    <div class="met good"><div class="ml">Optimal IOs</div><div class="mv">${optCount}</div><div class="ms">of ${ioIds.length} total</div></div>
+    <div class="met warn"><div class="ml">CPA not achievable</div><div class="mv">${perfCount}</div><div class="ms">margin fallback applied</div></div>
+    <div class="met hi"><div class="ml">Manual review</div><div class="mv">${fullCount}</div><div class="ms">fully infeasible</div></div>
     <div class="met good"><div class="ml">Total cost saved</div><div class="mv">${fM(totalSaved)}</div><div class="ms">across all IOs</div></div>
-    <div class="met"><div class="ml">Accepted IOs</div><div class="mv">${accepted.length}</div><div class="ms">will push to DV360</div></div>`;
+    <div class="met"><div class="ml">Accepted IOs</div><div class="mv" id="acc-count">${accCount}</div><div class="ms">will push to DV360</div></div>`;
 
-  const container = document.getElementById('review-io-cards'); container.innerHTML='';
-
-  ioIds.forEach(ioId => {
-    const r   = S.IOs[ioId];
-    const lis = r.lis;
-    const stClass = r.status===STATUS.OPTIMAL?'st-optimal':r.status===STATUS.PERF?'st-perf':'st-full';
-    const stTag   = r.status===STATUS.OPTIMAL
-      ? '<span class="tag t-ok">Optimal</span>'
-      : r.status===STATUS.PERF
-      ? '<span class="tag t-wa">CVR infeasible — margin ≥50% fallback</span>'
-      : '<span class="tag t-er">Fully infeasible — manual review required</span>';
-
-    const cvrClass  = r.cvrMet ? 'ok' : r.status===STATUS.FULL ? 'er' : 'wa';
-    const cpaAch    = r.achCPA < Infinity ? '$'+r.achCPA.toFixed(2) : '—';
-    const oldCPAstr = r.oldCPA < Infinity ? '$'+r.oldCPA.toFixed(2) : '—';
-
-    const card = document.createElement('div');
-    card.className = `io-card ${stClass}`;
-    card.innerHTML = `
-      <div class="io-hd open" onclick="toggleIO(this,'iob-${ioId}')">
-        <span class="iocv">›</span>
+  const container=document.getElementById('review-io-cards');container.innerHTML='';
+  ioIds.forEach(ioId=>{
+    const r=S.IOs[ioId];const lis=r.lis;
+    const stClass=r.status===ST.OPTIMAL?'st-optimal':r.status===ST.PERF?'st-perf':'st-full';
+    const stTag=r.status===ST.OPTIMAL?'<span class="tag t-ok">Optimal</span>':r.status===ST.PERF?'<span class="tag t-wa">CPA target not achievable</span>':'<span class="tag t-er">Manual review required</span>';
+    const cvrClass=r.cvrMet?'ok':r.status===ST.FULL?'er':'wa';
+    const cpaAch=r.achCPA<Infinity?'$'+r.achCPA.toFixed(2):'--';
+    const oldCPAstr=r.oldCPA<Infinity?'$'+r.oldCPA.toFixed(2):'--';
+    const card=document.createElement('div');
+    card.className=`io-card ${stClass}`;
+    card.innerHTML=`
+      <div class="io-hd open" onclick="tIO(this,'iob-${ioId}')">
+        <span class="iocv">+</span>
         <span class="ion">${lis[0].ioName||ioId}</span>
-        <span class="ioid" style="font-family:var(--mono);font-size:10px;color:var(--text3);">${ioId}</span>
+        <span class="ioid">${ioId}</span>
         ${stTag}
         <span class="iom">${lis.length} LIs</span>
-        <span class="iom">Cost: ${fM(r.oldCost)} → ${fM(r.newCost)}</span>
+        <span class="iom">Cost: ${fM(r.oldCost)} to ${fM(r.newCost)}</span>
       </div>
       <div class="io-body open" id="iob-${ioId}">
-        ${r.status !== STATUS.OPTIMAL ? `
-        <div class="banner ${r.status===STATUS.PERF?'warn':'err'}">
-          <span>⚠</span>
-          <span>${r.status===STATUS.PERF
-            ? `IO cannot meet the CVR target (${(r.kpiCvr*100).toFixed(4)}%) at any valid impression allocation. Solver has maximised weighted CVR subject to weighted margin ≥ 50%. Achieved CVR: ${(r.wCVR*100).toFixed(4)}% / CPA: ${cpaAch}. Accept to push this allocation or reject to keep current budgets.`
-            : `No valid impression allocation exists within line item bounds. All LIs allocated to daily minimums. Manual review in DV360 required — do not push.`
-          }</span>
-        </div>` : ''}
-        <!-- KPI strip -->
+        ${r.status!==ST.OPTIMAL?`<div class="banner ${r.status===ST.PERF?'warn':'err'}"><span>!</span><span>${r.status===ST.PERF?`CVR target (${(r.kpiCvr*100).toFixed(4)}%) cannot be met at any valid allocation. Solver maximised CVR subject to margin >= 50%. Achieved CVR: ${(r.wCVR*100).toFixed(4)}% / CPA: ${cpaAch}.`:`No valid allocation exists within line item bounds. Allocated to minimums. Manual DV360 review required.`}</span></div>`:''}
         <div class="kpi-strip">
-          <div class="kpi-cell">
-            <div class="kl">Target CVR</div>
-            <div class="kv">${(r.kpiCvr*100).toFixed(4)}%</div>
-            <div class="kt">= billing / (1000 × CPA)</div>
-          </div>
-          <div class="kpi-cell">
-            <div class="kl">Achieved CVR</div>
-            <div class="kv ${cvrClass}">${(r.wCVR*100).toFixed(4)}%</div>
-            <div class="kt">was ${(r.oldWCVR*100).toFixed(4)}%</div>
-          </div>
-          <div class="kpi-cell">
-            <div class="kl">Target CPA</div>
-            <div class="kv">$${r.kpiCpa.toFixed(2)}</div>
-            <div class="kt">client billing basis</div>
-          </div>
-          <div class="kpi-cell">
-            <div class="kl">Achieved CPA</div>
-            <div class="kv ${cvrClass}">${cpaAch}</div>
-            <div class="kt">was ${oldCPAstr}</div>
-          </div>
-          <div class="kpi-cell">
-            <div class="kl">New margin</div>
-            <div class="kv ${r.wMargin>=0.5?'ok':'wa'}">${fP(r.wMargin)}</div>
-            <div class="kt">was ${fP(r.oldMargin)}</div>
-          </div>
-          <div class="kpi-cell">
-            <div class="kl">Delivery</div>
-            <div class="kv ok">${fI(r.totalImps)}</div>
-            <div class="kt">req ${fI(lis[0].ioReqDay)} / day</div>
-          </div>
+          <div class="kpi-cell"><div class="kl">Target CVR</div><div class="kv">${(r.kpiCvr*100).toFixed(4)}%</div><div class="kt">billing / (1000 x CPA)</div></div>
+          <div class="kpi-cell"><div class="kl">Achieved CVR</div><div class="kv ${cvrClass}">${(r.wCVR*100).toFixed(4)}%</div><div class="kt">was ${(r.oldWCVR*100).toFixed(4)}%</div></div>
+          <div class="kpi-cell"><div class="kl">Target CPA</div><div class="kv">$${r.kpiCpa.toFixed(2)}</div><div class="kt">client billing basis</div></div>
+          <div class="kpi-cell"><div class="kl">Achieved CPA</div><div class="kv ${cvrClass}">${cpaAch}</div><div class="kt">was ${oldCPAstr}</div></div>
+          <div class="kpi-cell"><div class="kl">New margin</div><div class="kv ${r.wMargin>=0.5?'ok':'wa'}">${fP(r.wMargin)}</div><div class="kt">was ${fP(r.oldMargin)}</div></div>
+          <div class="kpi-cell"><div class="kl">Delivery</div><div class="kv ok">${fI(r.totalImps)}</div><div class="kt">req ${fI(lis[0].ioReqDay)}/day</div></div>
         </div>
-        <!-- LI table -->
-        <div class="tw">
-          <table>
-            <thead><tr>
-              <th>Line item</th>
-              <th>CVR 7d</th><th>Margin 7d</th>
-              <th>Old imps</th><th>New imps</th><th>Δ imps</th>
-              <th>Old cost</th><th>New cost</th><th>Δ cost</th>
-              <th>Old rev</th><th>New rev</th>
-            </tr></thead>
-            <tbody id="litb-${ioId}"></tbody>
-          </table>
-        </div>
-        <!-- IO accept checkbox -->
+        <div class="tw"><table>
+          <thead><tr><th>Line item</th><th>CVR 7d</th><th>Margin 7d</th><th>Old imps</th><th>New imps</th><th>Delta imps</th><th>Old cost</th><th>New cost</th><th>Delta cost</th><th>Old rev</th><th>New rev</th></tr></thead>
+          <tbody id="litb-${ioId}"></tbody>
+        </table></div>
         <div style="display:flex;align-items:center;gap:12px;padding:12px 18px;border-top:1px solid var(--border);background:var(--surface2);">
-          <input type="checkbox" id="acc-${ioId}"
-            ${S.accepted[ioId]?'checked':''}
-            ${r.status===STATUS.FULL?'disabled':''}
-            onchange="S.accepted['${ioId}']=this.checked;refreshReviewMetrics()">
+          <input type="checkbox" id="acc-${ioId}" ${S.accepted[ioId]?'checked':''} ${r.status===ST.FULL?'disabled':''} onchange="S.accepted['${ioId}']=this.checked;updateAccCount()">
           <label for="acc-${ioId}" style="margin:0;font-size:13px;color:var(--text2);font-family:var(--sans);cursor:pointer;">
-            ${r.status===STATUS.FULL
-              ? '<span style="color:var(--salmon);">Fully infeasible — excluded from push. Manual DV360 review required.</span>'
-              : r.status===STATUS.PERF
-              ? 'Include this IO in the DV360 push (CVR target not met — performance-maximised at ≥50% margin)'
-              : 'Include this IO in the DV360 push'}
+            ${r.status===ST.FULL?'<span style="color:var(--salmon);">Fully infeasible - excluded. Manual DV360 review required.</span>':r.status===ST.PERF?'Include in push (CPA not met, delivery and margin >= 50% satisfied)':'Include in DV360 push'}
           </label>
         </div>
       </div>`;
     container.appendChild(card);
-
-    // Populate LI rows
-    const tbody = document.getElementById(`litb-${ioId}`);
-    lis.forEach((li, j) => {
-      const newImps = r.allocs[j];
-      const oldImps = li.currentImps;
-      const dI = newImps - oldImps;
-      const oldCost = oldImps * li.cpm / 1000;
-      const newCost = newImps * li.cpm / 1000;
-      const dC = newCost - oldCost;
-      const oldRev = oldImps * li.billing / 1000;
-      const newRev = newImps * li.billing / 1000;
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
+    const tbody=document.getElementById(`litb-${ioId}`);
+    lis.forEach((li,j)=>{
+      const ni=r.allocs[j];const oi=li.currentImps;const dI=ni-oi;
+      const oc=oi*li.cpm/1000;const nc=ni*li.cpm/1000;const dC=nc-oc;
+      const tr=document.createElement('tr');
+      tr.innerHTML=`
         <td class="pri">${li.liName}<br><span style="font-family:var(--mono);font-size:10px;color:var(--text3);">${li.liId}</span></td>
         <td class="mono">${(li.cvr*100).toFixed(4)}%</td>
         <td class="mono">${fP(li.margin)}</td>
-        <td class="mono do">${fI(oldImps)}</td>
-        <td class="mono" style="color:var(--text);font-weight:500;">${fI(newImps)}</td>
+        <td class="mono do">${fI(oi)}</td>
+        <td class="mono" style="color:var(--text);font-weight:500;">${fI(ni)}</td>
         <td class="mono ${dI>0?'dup':dI<0?'ddn':''}">${dI>=0?'+':''}${fI(dI)}</td>
-        <td class="mono do">${fM(oldCost)}</td>
-        <td class="mono">${fM(newCost)}</td>
+        <td class="mono do">${fM(oc)}</td>
+        <td class="mono">${fM(nc)}</td>
         <td class="mono ${dC<0?'dup':dC>0?'ddn':''}">${dC>=0?'+':''}${fM(dC)}</td>
-        <td class="mono">${fM(oldRev)}</td>
-        <td class="mono">${fM(newRev)}</td>`;
+        <td class="mono">${fM(oi*li.billing/1000)}</td>
+        <td class="mono">${fM(ni*li.billing/1000)}</td>`;
       tbody.appendChild(tr);
     });
   });
 }
 
-function toggleIO(hd, bodyId) {
-  hd.classList.toggle('open');
-  const bd = document.getElementById(bodyId);
-  if (bd) bd.classList.toggle('open');
-}
+function tIO(hd,bodyId){hd.classList.toggle('open');const bd=document.getElementById(bodyId);if(bd)bd.classList.toggle('open');}
+function updateAccCount(){const n=Object.keys(S.IOs).filter(id=>S.accepted[id]).length;const el=document.getElementById('acc-count');if(el)el.textContent=n;}
 
-function refreshReviewMetrics() {
-  const accepted = Object.keys(S.IOs).filter(id=>S.accepted[id]);
-  document.querySelector('#review-metrics .met:last-child .mv').textContent = accepted.length;
-}
-
-// ════════════════════════════════════════════════════════
-// SAVINGS
-// ════════════════════════════════════════════════════════
-function goToSavings() {
-  const accIds = Object.keys(S.IOs).filter(id=>S.accepted[id]);
-  if (!accIds.length) { alert('No IOs accepted. Use the checkboxes in the review step to accept at least one IO.'); return; }
-
-  const totOldCost = accIds.reduce((s,id)=>s+S.IOs[id].oldCost,0);
-  const totNewCost = accIds.reduce((s,id)=>s+S.IOs[id].newCost,0);
-  const totOldRev  = accIds.reduce((s,id)=>s+S.IOs[id].oldRev,0);
-  const totNewRev  = accIds.reduce((s,id)=>s+S.IOs[id].newRev,0);
-  const saved = totOldCost - totNewCost;
-  const oldM  = totOldRev>0?(totOldRev-totOldCost)/totOldRev:0;
-  const newM  = totNewRev>0?(totNewRev-totNewCost)/totNewRev:0;
-
-  document.getElementById('sh-saved').textContent = fM(saved);
-  document.getElementById('sh-sub').textContent = saved >= 0
-    ? `${fP(totOldCost>0?saved/totOldCost:0)} cost reduction across ${accIds.length} accepted IOs`
-    : `Net cost increase of ${fM(Math.abs(saved))} across accepted IOs`;
-
-  document.getElementById('sav-metrics').innerHTML = `
-    <div class="met"><div class="ml">Old total cost</div><div class="mv">${fM(totOldCost)}</div></div>
-    <div class="met good"><div class="ml">New total cost</div><div class="mv">${fM(totNewCost)}</div></div>
-    <div class="met"><div class="ml">Old avg margin</div><div class="mv">${fP(oldM)}</div></div>
-    <div class="met hi"><div class="ml">New avg margin</div><div class="mv">${fP(newM)}</div></div>
-    <div class="met hi"><div class="ml">Margin lift</div><div class="mv">${newM>=oldM?'+':''}${((newM-oldM)*100).toFixed(1)}pp</div></div>`;
-
-  const tbody = document.getElementById('sav-tbody'); tbody.innerHTML='';
-  accIds.forEach(ioId => {
-    const r = S.IOs[ioId];
-    const sv = r.oldCost - r.newCost;
-    const oM = r.oldRev>0?(r.oldRev-r.oldCost)/r.oldRev:0;
-    const nM = r.newRev>0?(r.newRev-r.newCost)/r.newRev:0;
-    const stTag = r.status===STATUS.OPTIMAL
-      ? '<span class="tag t-ok">Optimal</span>'
-      : '<span class="tag t-wa">CVR inf.</span>';
-    const dlvPct = r.lis[0].ioReqDay>0 ? Math.round(r.totalImps/r.lis[0].ioReqDay*100)+'%' : '—';
-    const cpaAch = r.achCPA<Infinity ? '$'+r.achCPA.toFixed(2) : '—';
-
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
+function goToSavings(){
+  const accIds=Object.keys(S.IOs).filter(id=>S.accepted[id]);
+  if(!accIds.length){alert('No IOs accepted. Check at least one IO in the review step.');return;}
+  const tOC=accIds.reduce((s,id)=>s+S.IOs[id].oldCost,0);
+  const tNC=accIds.reduce((s,id)=>s+S.IOs[id].newCost,0);
+  const tOR=accIds.reduce((s,id)=>s+S.IOs[id].oldRev,0);
+  const tNR=accIds.reduce((s,id)=>s+S.IOs[id].newRev,0);
+  const saved=tOC-tNC;
+  const oM=tOR>0?(tOR-tOC)/tOR:0;
+  const nM=tNR>0?(tNR-tNC)/tNR:0;
+  document.getElementById('sh-saved').textContent=fM(saved);
+  document.getElementById('sh-sub').textContent=saved>=0?`${fP(tOC>0?saved/tOC:0)} cost reduction across ${accIds.length} accepted IOs`:`Net cost increase of ${fM(Math.abs(saved))}`;
+  document.getElementById('sav-metrics').innerHTML=`
+    <div class="met"><div class="ml">Old total cost</div><div class="mv">${fM(tOC)}</div></div>
+    <div class="met good"><div class="ml">New total cost</div><div class="mv">${fM(tNC)}</div></div>
+    <div class="met"><div class="ml">Old margin</div><div class="mv">${fP(oM)}</div></div>
+    <div class="met hi"><div class="ml">New margin</div><div class="mv">${fP(nM)}</div></div>
+    <div class="met hi"><div class="ml">Margin lift</div><div class="mv">${nM>=oM?'+':''}${((nM-oM)*100).toFixed(1)}pp</div></div>`;
+  const tbody=document.getElementById('sav-tbody');tbody.innerHTML='';
+  accIds.forEach(ioId=>{
+    const r=S.IOs[ioId];const sv=r.oldCost-r.newCost;
+    const oM2=r.oldRev>0?(r.oldRev-r.oldCost)/r.oldRev:0;
+    const nM2=r.newRev>0?(r.newRev-r.newCost)/r.newRev:0;
+    const dlv=r.lis[0].ioReqDay>0?Math.round(r.totalImps/r.lis[0].ioReqDay*100)+'%':'--';
+    const cpaAch=r.achCPA<Infinity?'$'+r.achCPA.toFixed(2):'--';
+    const stTag=r.status===ST.OPTIMAL?'<span class="tag t-ok">Optimal</span>':'<span class="tag t-wa">CPA not met</span>';
+    const tr=document.createElement('tr');
+    tr.innerHTML=`
       <td class="pri">${r.lis[0].ioName||ioId}<br><span style="font-family:var(--mono);font-size:10px;color:var(--text3);">${ioId}</span></td>
       <td>${stTag}</td>
-      <td class="mono">${fM(r.oldCost)}</td>
-      <td class="mono">${fM(r.newCost)}</td>
+      <td class="mono">${fM(r.oldCost)}</td><td class="mono">${fM(r.newCost)}</td>
       <td class="mono ${sv>0?'dup':sv<0?'ddn':''}">${sv>=0?'+':''}${fM(sv)}</td>
-      <td class="mono">${fP(oM)}</td>
-      <td class="mono" style="color:var(--green)">${fP(nM)}</td>
-      <td class="mono ${nM>=oM?'dup':'ddn'}">${nM>=oM?'+':''}${((nM-oM)*100).toFixed(1)}pp</td>
+      <td class="mono">${fP(oM2)}</td>
+      <td class="mono" style="color:var(--green)">${fP(nM2)}</td>
+      <td class="mono ${nM2>=oM2?'dup':'ddn'}">${nM2>=oM2?'+':''}${((nM2-oM2)*100).toFixed(1)}pp</td>
       <td class="mono">${(r.kpiCvr*100).toFixed(4)}%</td>
       <td class="mono ${r.cvrMet?'dup':'wa'}">${(r.wCVR*100).toFixed(4)}%</td>
-      <td class="mono ${r.cvrMet?'dup':'wa'}">${r.cvrMet?'✓':((r.wCVR/r.kpiCvr)*100).toFixed(1)+'% of target'}</td>
+      <td>${r.cvrMet?'<span class="tag t-ok">met</span>':'<span class="tag t-wa">not met</span>'}</td>
       <td class="mono">$${r.kpiCpa.toFixed(2)}</td>
       <td class="mono ${r.cvrMet?'dup':'wa'}">${cpaAch}</td>
-      <td class="mono">${dlvPct}</td>`;
+      <td class="mono">${dlv}</td>`;
     tbody.appendChild(tr);
   });
-
   goToScreen(4);
 }
 
-// ════════════════════════════════════════════════════════
-// PUSH
-// ════════════════════════════════════════════════════════
-function goToPush() {
-  const accIds = Object.keys(S.IOs).filter(id=>S.accepted[id]);
-  const liCount = accIds.reduce((s,id)=>s+S.IOs[id].lis.length,0);
-  document.getElementById('push-summary').innerHTML =
-    `Pushing budget changes for <strong>${liCount} line items</strong> across <strong>${accIds.length} accepted IOs</strong>.<br>
-     Budgets are derived from optimized daily impression allocations × cpm_7d, sent via <span style="font-family:var(--mono);font-size:11px;background:var(--surface2);padding:1px 6px;border-radius:3px;">lineItems.bulkUpdate</span> in batches of 100 per advertiser.<br><br>
-     <span style="color:var(--amber);">This cannot be undone. Download the audit CSV for a full record.</span>`;
+function goToPush(){
+  const accIds=Object.keys(S.IOs).filter(id=>S.accepted[id]);
+  const liCount=accIds.reduce((s,id)=>s+S.IOs[id].lis.length,0);
+  document.getElementById('push-summary').innerHTML=`Pushing budget changes for <strong>${liCount} line items</strong> across <strong>${accIds.length} accepted IOs</strong> via lineItems.bulkUpdate in batches of 100.<br><br><span style="color:var(--amber);">This cannot be undone. Download the audit CSV first.</span>`;
   goToScreen(5);
 }
 
-async function executePush() {
-  const btn = document.getElementById('push-btn'); btn.disabled=true;
+async function executePush(){
+  const btn=document.getElementById('push-btn');btn.disabled=true;
   document.getElementById('push-prog').style.display='block';
   document.getElementById('push-log-wrap').style.display='block';
-  const logEl = document.getElementById('push-log');
-  const fill  = document.getElementById('prog-fill');
-  const lbl   = document.getElementById('prog-lbl');
-
-  // Build update list from accepted IOs only
-  const updates = [];
-  Object.keys(S.IOs).filter(id=>S.accepted[id]).forEach(ioId => {
-    const r = S.IOs[ioId];
-    r.lis.forEach((li,j) => {
-      const newBudget = r.allocs[j] * li.cpm / 1000;
-      updates.push({ li, newBudget, newImps: r.allocs[j] });
-    });
+  const logEl=document.getElementById('push-log');
+  const fill=document.getElementById('prog-fill');
+  const lbl=document.getElementById('prog-lbl');
+  const updates=[];
+  Object.keys(S.IOs).filter(id=>S.accepted[id]).forEach(ioId=>{
+    const r=S.IOs[ioId];
+    r.lis.forEach((li,j)=>updates.push({li,newBudget:r.allocs[j]*li.cpm/1000,newImps:r.allocs[j]}));
   });
-
-  let done = 0;
-  logEl.innerHTML = `<div style="color:var(--blue);">▶ Pushing ${updates.length} line item updates</div>`;
-
-  if (S.tok === 'DEMO') {
-    for (const batch of chk(updates, 100)) {
-      await sl(500);
-      batch.forEach(({li, newBudget}) => {
-        logEl.innerHTML += `<div class="lok">✓ ${li.liId} — ${li.liName} → ${fM(newBudget)}</div>`;
-        li.currentBudget = newBudget; done++;
-      });
-      fill.style.width = Math.round(done/updates.length*100)+'%';
-      lbl.textContent = `${done} / ${updates.length} updated`;
-      logEl.scrollTop = logEl.scrollHeight;
+  let done=0;
+  logEl.innerHTML=`<div class="lin">Pushing ${updates.length} line item updates</div>`;
+  if(S.tok==='DEMO'){
+    for(const batch of chk(updates,100)){
+      await sleep(500);
+      batch.forEach(({li,newBudget})=>{logEl.innerHTML+=`<div class="lok">OK ${li.liId} ${li.liName} to ${fM(newBudget)}</div>`;li.currentBudget=newBudget;done++;});
+      fill.style.width=Math.round(done/updates.length*100)+'%';lbl.textContent=`${done} / ${updates.length}`;logEl.scrollTop=logEl.scrollHeight;
     }
-  } else {
-    // Group by advertiser
-    const byAdv = {};
-    updates.forEach(u => { const a=u.li.advId; if(!byAdv[a])byAdv[a]=[]; byAdv[a].push(u); });
-    for (const [advId, items] of Object.entries(byAdv)) {
-      logEl.innerHTML += `<div style="color:var(--blue);">▶ Advertiser ${advId} — ${items.length} LIs</div>`;
-      for (const batch of chk(items, 100)) {
-        try {
-          const reqs = batch.map(({li, newBudget}) => ({
-            lineItem: {
-              name: `advertisers/${advId}/lineItems/${li.liId}`,
-              budget: { maxAmount: Math.round(newBudget * 1e6).toString() }
-            },
-            updateMask: 'budget.maxAmount'
-          }));
-          const res = await fetch(`https://displayvideo.googleapis.com/v3/advertisers/${advId}/lineItems:bulkUpdate`, {
-            method: 'POST',
-            headers: { Authorization: `Bearer ${S.tok}`, 'Content-Type': 'application/json' },
-            body: JSON.stringify({ requests: reqs })
-          });
-          if (!res.ok) throw new Error(`API ${res.status}: ${await res.text()}`);
-          const data = await res.json();
-          batch.forEach(({li, newBudget}) => {
-            logEl.innerHTML += `<div class="lok">✓ ${li.liId} → ${fM(newBudget)}</div>`;
-            li.currentBudget = newBudget; done++;
-          });
-          if (data.errors?.length) data.errors.forEach(e => logEl.innerHTML += `<div class="ler">✗ ${JSON.stringify(e)}</div>`);
-        } catch(e) { logEl.innerHTML += `<div class="ler">✗ ${e.message}</div>`; }
-        fill.style.width = Math.round(done/updates.length*100)+'%';
-        lbl.textContent = `${done} / ${updates.length}`;
-        logEl.scrollTop = logEl.scrollHeight;
-        await sl(150);
+  }else{
+    const byAdv={};
+    updates.forEach(u=>{const a=u.li.advId;if(!byAdv[a])byAdv[a]=[];byAdv[a].push(u);});
+    for(const[advId,items]of Object.entries(byAdv)){
+      logEl.innerHTML+=`<div class="lin">Advertiser ${advId}: ${items.length} LIs</div>`;
+      for(const batch of chk(items,100)){
+        try{
+          const reqs=batch.map(({li,newBudget})=>({lineItem:{name:`advertisers/${advId}/lineItems/${li.liId}`,budget:{maxAmount:Math.round(newBudget*1e6).toString()}},updateMask:'budget.maxAmount'}));
+          const res=await fetch(`https://displayvideo.googleapis.com/v3/advertisers/${advId}/lineItems:bulkUpdate`,{method:'POST',headers:{Authorization:`Bearer ${S.tok}`,'Content-Type':'application/json'},body:JSON.stringify({requests:reqs})});
+          if(!res.ok)throw new Error(`API ${res.status}: ${await res.text()}`);
+          const data=await res.json();
+          batch.forEach(({li,newBudget})=>{logEl.innerHTML+=`<div class="lok">OK ${li.liId} to ${fM(newBudget)}</div>`;li.currentBudget=newBudget;done++;});
+          if(data.errors?.length)data.errors.forEach(e=>logEl.innerHTML+=`<div class="ler">ERR ${JSON.stringify(e)}</div>`);
+        }catch(e){logEl.innerHTML+=`<div class="ler">ERR ${e.message}</div>`;}
+        fill.style.width=Math.round(done/updates.length*100)+'%';lbl.textContent=`${done} / ${updates.length}`;logEl.scrollTop=logEl.scrollHeight;await sleep(150);
       }
     }
   }
-
-  logEl.innerHTML += `<div style="color:var(--blue);">■ Complete. ${done}/${updates.length} updated.</div>`;
+  logEl.innerHTML+=`<div class="lin">Complete. ${done}/${updates.length} updated.</div>`;
   document.getElementById('push-done').style.display='block';
 }
 
-// ════════════════════════════════════════════════════════
-// AUDIT CSV
-// ════════════════════════════════════════════════════════
-function exportAuditCSV() {
-  const rows = [[
-    'advertiser_id','advertiser_name','io_id','io_name',
-    'line_item_id','line_item_name',
-    'billing_cpm','cost_cpm_7d','margin_7d','cvr_7d',
-    'daily_imp_min','daily_imp_max',
-    'old_daily_imps','new_daily_imps','imp_delta',
-    'old_cost','new_cost','cost_delta','cost_saved',
-    'old_revenue','new_revenue',
-    'old_margin_pct','new_margin_pct','margin_lift_pp',
-    'io_target_cvr','io_achieved_cvr','io_cvr_met',
-    'io_target_cpa','io_achieved_cpa',
-    'io_req_imps_per_day','io_delivery_pct',
-    'io_solver_status','io_accepted'
-  ]];
-
-  const ioGroups = groupByIO(S.LIs);
-  Object.keys(ioGroups).forEach(ioId => {
-    const r = S.IOs[ioId];
-    if (!r) return;
-    const dlvPct = r.lis[0].ioReqDay>0 ? (r.totalImps/r.lis[0].ioReqDay*100).toFixed(1)+'%' : '—';
-    const cpaAch = r.achCPA<Infinity ? r.achCPA.toFixed(4) : 'inf';
-
-    r.lis.forEach((li,j) => {
-      const newImps = r.allocs[j];
-      const oldImps = li.currentImps;
-      const newCost = newImps * li.cpm / 1000;
-      const oldCost = oldImps * li.cpm / 1000;
-      const newRev  = newImps * li.billing / 1000;
-      const oldRev  = oldImps * li.billing / 1000;
-      const oM = oldRev>0?(oldRev-oldCost)/oldRev:0;
-      const nM = newRev>0?(newRev-newCost)/newRev:0;
-      rows.push([
-        li.advId, li.advName, li.ioId, li.ioName,
-        li.liId, li.liName,
-        li.billing.toFixed(4), li.cpm.toFixed(4), li.margin.toFixed(4), li.cvr.toFixed(6),
-        li.impMin, li.impMax,
-        oldImps, newImps, newImps-oldImps,
-        oldCost.toFixed(4), newCost.toFixed(4), (newCost-oldCost).toFixed(4), (oldCost-newCost).toFixed(4),
-        oldRev.toFixed(4), newRev.toFixed(4),
-        (oM*100).toFixed(2)+'%', (nM*100).toFixed(2)+'%', ((nM-oM)*100).toFixed(2)+'pp',
-        (r.kpiCvr*100).toFixed(6)+'%', (r.wCVR*100).toFixed(6)+'%', r.cvrMet?'yes':'no',
-        '$'+r.kpiCpa.toFixed(2), '$'+cpaAch,
-        li.ioReqDay, dlvPct,
-        r.status, S.accepted[ioId]?'yes':'no'
-      ]);
-    });
+function exportAuditCSV(){
+  const rows=[['advertiser_id','advertiser_name','io_id','io_name','line_item_id','line_item_name','billing_cpm','cost_cpm_7d','margin_7d','cvr_7d','daily_imp_min','daily_imp_max','old_daily_imps','new_daily_imps','imp_delta','old_cost','new_cost','cost_delta','cost_saved','old_revenue','new_revenue','old_margin_pct','new_margin_pct','margin_lift_pp','io_target_cvr','io_achieved_cvr','io_cvr_met','io_target_cpa','io_achieved_cpa','io_req_imps_per_day','io_solver_status','io_accepted']];
+  const ioNI={};
+  S.LIs.forEach(li=>{const r=S.IOs[li.ioId];if(!r)return;const j=r.lis.indexOf(li);if(!ioNI[li.ioId])ioNI[li.ioId]=0;ioNI[li.ioId]+=r.allocs[j]||0;});
+  S.LIs.forEach(li=>{
+    const r=S.IOs[li.ioId];if(!r)return;
+    const j=r.lis.indexOf(li);const ni=r.allocs[j]||0;const oi=li.currentImps;
+    const nc=ni*li.cpm/1000;const oc=oi*li.cpm/1000;
+    const nr=ni*li.billing/1000;const or_=oi*li.billing/1000;
+    const oM=or_>0?(or_-oc)/or_:0;const nM=nr>0?(nr-nc)/nr:0;
+    const cpaAch=r.achCPA<Infinity?r.achCPA.toFixed(4):'inf';
+    rows.push([li.advId,li.advName,li.ioId,li.ioName,li.liId,li.liName,li.billing.toFixed(4),li.cpm.toFixed(4),li.margin.toFixed(4),li.cvr.toFixed(6),li.impMin,li.impMax,oi,ni,ni-oi,oc.toFixed(4),nc.toFixed(4),(nc-oc).toFixed(4),(oc-nc).toFixed(4),or_.toFixed(4),nr.toFixed(4),(oM*100).toFixed(2)+'%',(nM*100).toFixed(2)+'%',((nM-oM)*100).toFixed(2)+'pp',(r.kpiCvr*100).toFixed(6)+'%',(r.wCVR*100).toFixed(6)+'%',r.cvrMet?'yes':'no','$'+r.kpiCpa.toFixed(2),'$'+cpaAch,li.ioReqDay,r.status,S.accepted[li.ioId]?'yes':'no']);
   });
-
-  const csv = rows.map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
-  const blob = new Blob([csv],{type:'text/csv'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a'); a.href=url;
-  a.download=`traveldesk-dv360-audit-${new Date().toISOString().slice(0,10)}.csv`;
-  a.click(); URL.revokeObjectURL(url);
+  const csv=rows.map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const blob=new Blob([csv],{type:'text/csv'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download=`traveldesk-dv360-audit-${new Date().toISOString().slice(0,10)}.csv`;a.click();URL.revokeObjectURL(url);
 }
 
-// ════════════════════════════════════════════════════════
-// UTILITIES
-// ════════════════════════════════════════════════════════
-function fM(n){if(n==null||isNaN(n))return'—';const a=Math.abs(n),s=n<0?'-':'';if(a>=1e6)return s+'$'+(a/1e6).toFixed(2)+'M';if(a>=1e3)return s+'$'+Math.round(a/1e3)+'k';return s+'$'+n.toFixed(2);}
-function fI(n){if(n==null||isNaN(n))return'—';const a=Math.abs(n),s=n<0?'-':'';if(a>=1e9)return s+(a/1e9).toFixed(2)+'B';if(a>=1e6)return s+(a/1e6).toFixed(2)+'M';if(a>=1e3)return s+(a/1e3).toFixed(1)+'k';return s+Math.round(a).toLocaleString();}
-function fP(n){return n!=null?(n*100).toFixed(1)+'%':'—';}
-function avg(arr,key){return arr.reduce((s,o)=>s+(o[key]||0),0)/(arr.length||1);}
+function fM(n){if(n==null||isNaN(n))return'--';const a=Math.abs(n),s=n<0?'-':'';if(a>=1e6)return s+'$'+(a/1e6).toFixed(2)+'M';if(a>=1e3)return s+'$'+Math.round(a/1e3)+'k';return s+'$'+n.toFixed(2);}
+function fI(n){if(n==null||isNaN(n))return'--';const a=Math.abs(n),s=n<0?'-':'';if(a>=1e9)return s+(a/1e9).toFixed(2)+'B';if(a>=1e6)return s+(a/1e6).toFixed(2)+'M';if(a>=1e3)return s+(a/1e3).toFixed(1)+'k';return s+Math.round(a).toLocaleString();}
+function fP(n){return n!=null?(n*100).toFixed(1)+'%':'--';}
 function groupByIO(lis){return lis.reduce((a,li)=>{if(!a[li.ioId])a[li.ioId]=[];a[li.ioId].push(li);return a;},{});}
 function chk(arr,n){const o=[];for(let i=0;i<arr.length;i+=n)o.push(arr.slice(i,i+n));return o;}
-function sl(ms){return new Promise(r=>setTimeout(r,ms));}
+function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
 function resetAll(){S.tok=null;S.LIs=[];S.IOs={};S.accepted={};goToScreen(0);}
 </script>
 </body>
