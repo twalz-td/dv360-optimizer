@@ -443,36 +443,42 @@ function parseCSV(file) {
   const reader = new FileReader();
   reader.onload = e => {
     const lines = e.target.result.split('\n').filter(Boolean);
-    const raw = lines[0].split(',').map(h => h.trim());
+    // Auto-detect delimiter: tab or comma
+    const delim = lines[0].includes('\t') ? '\t' : ',';
+    const raw = lines[0].split(delim).map(h => h.trim());
     const hdrs = raw.map(h => h.toLowerCase().replace(/\s+/g,'_'));
 
     // Map header names to indices
     const fi = name => hdrs.findIndex(h => h === name);
     const fc = name => hdrs.findIndex(h => h.includes(name));
 
+    // Flexible column matching — try exact then partial match
+    const fm = (...names) => { for (const n of names) { const i = hdrs.findIndex(h => h === n); if (i > -1) return i; } for (const n of names) { const i = hdrs.findIndex(h => h.includes(n)); if (i > -1) return i; } return -1; };
+
     const IDX = {
-      advName:  fi('advertiser') > -1 ? fi('advertiser') : 0,
-      advId:    fi('advertiser_id'),
-      ioName:   fi('insertion_order'),
-      ioId:     fi('insertion_order_id'),
-      liName:   fi('line_item'),
-      liId:     fi('line_item_id'),
-      billing:  fi('product_billing_rate'),
-      cvr:      fi('conversion_rate_7d'),
-      margin:   fi('margin_7d'),
-      cpm:      fi('cpm_7d'),
-      impMax:   fi('impression_daily_upper_bound'),
-      impMin:   fi('impression_daily_lower_bound'),
-      ioReqDay: fi('io_impressions_needed_per_day'),
-      kpiRate:  fi('io_kpi_rate'),
-      kpiCvr:   fi('io_kpi_conversion_rate'),
+      advName:  fm('advertiser') > -1 ? fm('advertiser') : 0,
+      advId:    fm('advertiser_id'),
+      ioName:   fm('insertion_order') > -1 && !hdrs[fm('insertion_order')].includes('id') ? fm('insertion_order') : -1,
+      ioId:     fm('insertion_order_id'),
+      liName:   fm('line_item') > -1 && !hdrs[fm('line_item')].includes('id') ? fm('line_item') : -1,
+      liId:     fm('line_item_id'),
+      billing:  fm('product_billing_rate'),
+      cvr:      fm('conversion_rate_7d','conversion_rate'),
+      margin:   fm('margin_7d','margin'),
+      cpm:      fm('cpm_7d','cpm'),
+      impMax:   fm('impression_daily_upper_bound','impression_upper_bound','daily_upper','upper_bound'),
+      impMin:   fm('impression_daily_lower_bound','impression_lower_bound','daily_lower','lower_bound'),
+      ioReqDay: fm('io_impressions_needed_per_day','needed_per_day','impressions_needed'),
+      kpiRate:  fm('io_kpi_rate','kpi_rate'),
+      kpiCvr:   fm('io_kpi_conversion_rate','kpi_conversion_rate'),
     };
 
     const needed = ['liId','ioId','billing','cvr','margin','cpm','impMax','impMin','ioReqDay','kpiRate','kpiCvr'];
+    const colNames = {liId:'Line_Item_ID',ioId:'Insertion_Order_ID',billing:'Product_Billing_Rate',cvr:'conversion_rate_7d',margin:'margin_7d',cpm:'cpm_7d',impMax:'impression_daily_upper_bound',impMin:'impression_daily_lower_bound',ioReqDay:'io_impressions_needed_per_day',kpiRate:'io_kpi_rate',kpiCvr:'io_kpi_conversion_rate'};
     const miss = needed.filter(k => IDX[k] === -1);
     if (miss.length) {
       document.getElementById('upload-status').innerHTML =
-        `<span style="color:var(--salmon);">Missing columns: ${miss.join(', ')}</span>`;
+        `<span style="color:var(--salmon);">Missing columns: ${miss.map(k=>colNames[k]||k).join(', ')}</span>`;
       return;
     }
 
@@ -482,7 +488,7 @@ function parseCSV(file) {
 
     lines.slice(1).forEach(line => {
       if (!line.trim()) return;
-      const row = line.split(',');
+      const row = line.split(delim);
       const liId = gv(row,'liId'); if (!liId) { skipped++; return; }
 
       const billing = parseFloat(gv(row,'billing'));
