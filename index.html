@@ -595,11 +595,20 @@ async function runAllSolvers() {
   for (const ioId of ioIds) {
     const lis = ioGroups[ioId];
     lbl.textContent = `Solving IO ${done+1}/${ioIds.length}: ${lis[0].ioName||ioId}`;
-    await sleep(10); // allow UI repaint
+    await sleep(0); // yield to browser before each IO
 
-    const result = solveIO(lis);
+    let result;
+    try {
+      result = solveIO(lis);
+    } catch(e) {
+      const fallbackAllocs = lis.map(li => li.impMin);
+      result = buildResult(lis, fallbackAllocs, STATUS.FULL, lis[0].billing, lis[0].kpiCvr);
+      log.innerHTML += `<div style="color:var(--salmon);">✗ ${lis[0].ioName||ioId} — error: ${e.message}</div>`;
+    }
+
     S.IOs[ioId] = result;
-    S.accepted[ioId] = result.status !== STATUS.FULL; // full infeasible defaults to not accepted
+    // Only auto-accept optimal — perf/full infeasible require manual user review
+    S.accepted[ioId] = result.status === STATUS.OPTIMAL;
 
     const icon = result.status===STATUS.OPTIMAL ? '✓' : result.status===STATUS.PERF ? '⚠' : '✗';
     const col  = result.status===STATUS.OPTIMAL ? 'color:var(--green)' : result.status===STATUS.PERF ? 'color:var(--amber)' : 'color:var(--salmon)';
@@ -608,6 +617,7 @@ async function runAllSolvers() {
 
     done++;
     fill.style.width = Math.round(done/ioIds.length*100)+'%';
+    await sleep(50); // yield to browser between IOs so UI stays responsive
   }
 
   lbl.textContent = `Done — ${ioIds.length} IOs solved`;
@@ -618,105 +628,90 @@ async function runAllSolvers() {
 
 // ── Core IO Solver ──────────────────────────────────────
 function solveIO(lis) {
-  const reqDay  = lis[0].ioReqDay;          // integer daily delivery target
-  const kpiCvr  = lis[0].kpiCvr;            // weighted CVR target
-  const billing = lis[0].billing;           // consistent across IO
+  const reqDay  = lis[0].ioReqDay;
+  const kpiCvr  = lis[0].kpiCvr;
+  const billing = lis[0].billing;
+  const logEl   = document.getElementById('solve-log');
 
-  // ── Step 1: Try to maximize margin subject to delivery + CVR ──
-  const r1 = solve(lis, reqDay, { enforceCvr: true, enforceMargin: false, minMargin: 0 });
-  if (r1.feasible) {
-    return buildResult(lis, r1.allocs, STATUS.OPTIMAL, billing, kpiCvr);
+  const totalMin = lis.reduce((s,li)=>s+li.impMin,0);
+  const totalMax = lis.reduce((s,li)=>s+li.impMax,0);
+
+  // Delivery feasibility check
+  if (reqDay < totalMin || reqDay > totalMax) {
+    logEl.innerHTML += `<div style="color:var(--text3);">  → delivery infeasible (req=${fI(reqDay)}, min=${fI(totalMin)}, max=${fI(totalMax)})</div>`;
+    const allocs = lis.map(li => li.impMin);
+    fixRemainder(allocs, lis, Math.min(Math.max(reqDay, totalMin), totalMax));
+    return buildResult(lis, allocs, STATUS.FULL, billing, kpiCvr);
   }
 
-  // ── Step 2: CVR infeasible — relax CVR, enforce margin >= 50%, maximize CVR ──
-  const r2 = solve(lis, reqDay, { enforceCvr: false, enforceMargin: true, minMargin: 0.5 });
-  if (r2.feasible) {
-    return buildResult(lis, r2.allocs, STATUS.PERF, billing, kpiCvr);
-  }
-
-  // ── Step 3: Fully infeasible — allocate minimums, report ──
-  const minAllocs = lis.map(li => li.impMin);
-  // If min total > reqDay, scale down proportionally but stay >= 1
-  const minTotal = minAllocs.reduce((s,a)=>s+a,0);
-  let allocs;
-  if (minTotal <= reqDay) {
-    allocs = minAllocs;
+  // Step 1: maximize margin, CVR >= kpiCvr
+  logEl.innerHTML += `<div style="color:var(--text3);">  → step 1: max margin w/ CVR≥${(kpiCvr*100).toFixed(4)}%</div>`;
+  logEl.scrollTop = logEl.scrollHeight;
+  const maxCVR = maxWeightedCVR(lis, reqDay);
+  if (maxCVR >= kpiCvr) {
+    const r1 = solve(lis, reqDay, { enforceCvr: true, enforceMargin: false, minMargin: 0 });
+    if (r1.feasible) {
+      logEl.innerHTML += `<div style="color:var(--text3);">  → optimal ✓</div>`;
+      return buildResult(lis, r1.allocs, STATUS.OPTIMAL, billing, kpiCvr);
+    }
   } else {
-    // Scale to reqDay proportionally, floor, fix remainder
-    const scale = reqDay / minTotal;
-    allocs = minAllocs.map(a => Math.max(1, Math.floor(a * scale)));
+    logEl.innerHTML += `<div style="color:var(--text3);">  → max CVR achievable ${(maxCVR*100).toFixed(4)}% < target, skipping step 1</div>`;
+  }
+
+  // Step 2: relax CVR, enforce margin >= 50%, maximize CVR
+  logEl.innerHTML += `<div style="color:var(--text3);">  → step 2: max CVR w/ margin≥50%</div>`;
+  logEl.scrollTop = logEl.scrollHeight;
+  const maxMar = maxWeightedMargin(lis, reqDay);
+  if (maxMar >= 0.5) {
+    const r2 = solve(lis, reqDay, { enforceCvr: false, enforceMargin: true, minMargin: 0.5 });
+    if (r2.feasible) {
+      logEl.innerHTML += `<div style="color:var(--text3);">  → perf fallback ✓</div>`;
+      return buildResult(lis, r2.allocs, STATUS.PERF, billing, kpiCvr);
+    }
+  } else {
+    logEl.innerHTML += `<div style="color:var(--text3);">  → max margin ${(maxMar*100).toFixed(1)}% < 50%, skipping step 2</div>`;
+  }
+
+  // Step 3: fully infeasible
+  logEl.innerHTML += `<div style="color:var(--text3);">  → fully infeasible, allocating minimums</div>`;
+  let allocs;
+  if (totalMin <= reqDay) {
+    allocs = lis.map(li => li.impMin);
+    fixRemainder(allocs, lis, reqDay);
+  } else {
+    const scale = reqDay / totalMin;
+    allocs = lis.map(li => Math.max(1, Math.floor(li.impMin * scale)));
     fixRemainder(allocs, lis, reqDay);
   }
   return buildResult(lis, allocs, STATUS.FULL, billing, kpiCvr);
 }
 
-// ── Generic solver: greedy with Lagrangian multiplier ──
+// ── Generic solver wrapper ──
 function solve(lis, reqDay, opts) {
-  const n = lis.length;
-
-  // Check feasibility: can we hit reqDay within bounds?
-  const totalMin = lis.reduce((s,li)=>s+li.impMin,0);
-  const totalMax = lis.reduce((s,li)=>s+li.impMax,0);
-  if (reqDay < totalMin || reqDay > totalMax) return {feasible:false};
-
-  // If enforcing CVR: check if max achievable CVR >= kpiCvr
   const kpiCvr = lis[0].kpiCvr;
-  if (opts.enforceCvr) {
-    // Max CVR achievable = allocate as many imps as possible to highest-CVR LIs
-    const maxAchievable = maxWeightedCVR(lis, reqDay);
-    if (maxAchievable < kpiCvr) return {feasible:false};
-  }
-
-  // If enforcing margin >= minMargin: check if feasible
-  if (opts.enforceMargin) {
-    // Can we achieve >= minMargin with valid allocation?
-    const maxMar = maxWeightedMargin(lis, reqDay);
-    if (maxMar < opts.minMargin) return {feasible:false};
-  }
-
-  // Composite score per LI
-  // For Step 1: score = margin (maximize margin, subject to CVR)
-  //   Use iterative: sort by margin desc, fill up, then check CVR;
-  //   if CVR fails, swap impressions from low-CVR to high-CVR LIs
-  // For Step 2: score = cvr (maximize CVR, subject to margin >= 0.5)
-
   let allocs;
   if (opts.enforceCvr) {
     allocs = allocateMaxMarginWithCVR(lis, reqDay, kpiCvr);
   } else {
     allocs = allocateMaxCVRWithMargin(lis, reqDay, opts.minMargin);
   }
-
   if (!allocs) return {feasible:false};
   return {feasible:true, allocs};
 }
 
 // ── Single-pass Lagrangian allocation ─────────────────────────────────────
-// Score each LI as: primaryWeight * primary_metric + lambda * secondary_metric
-// Binary search on lambda to find the value that satisfies the secondary constraint.
-// This runs in O(n log n * log(searchRange)) — effectively instant for any IO size.
+// Binary search on lambda — O(n log n * 60 iterations) — runs in milliseconds.
 
-function lagrangianAlloc(lis, reqDay, primaryKey, secondaryKey, secondaryTarget, secondaryDir) {
-  // secondaryDir: 'gte' means weighted secondary >= target, 'lte' means <=
-  const n = lis.length;
-
-  // Given a lambda, score = primary + lambda * secondary, allocate greedily, return allocs
+function lagrangianAlloc(lis, reqDay, primaryKey, secondaryKey, secondaryTarget) {
   function allocForLambda(lambda) {
-    const scores = lis.map((li, i) => ({
-      i,
-      score: li[primaryKey] + lambda * li[secondaryKey],
-    }));
+    const scores = lis.map((li, i) => ({ i, score: li[primaryKey] + lambda * li[secondaryKey] }));
     scores.sort((a, b) => b.score - a.score);
-
     const allocs = lis.map(li => li.impMin);
     let rem = reqDay - allocs.reduce((s, a) => s + a, 0);
-
     for (const { i } of scores) {
       if (rem <= 0) break;
-      const room = lis[i].impMax - allocs[i];
-      const add = Math.min(room, rem);
-      allocs[i] += add;
-      rem -= add;
+      const add = Math.min(lis[i].impMax - allocs[i], rem);
+      allocs[i] += add; rem -= add;
     }
     return allocs;
   }
@@ -727,31 +722,26 @@ function lagrangianAlloc(lis, reqDay, primaryKey, secondaryKey, secondaryTarget,
     return allocs.reduce((s, a, i) => s + a * lis[i][secondaryKey], 0) / total;
   }
 
-  // Binary search on lambda
-  // lambda > 0 increases weight on secondaryKey
-  let lo = -10, hi = 10;
-  let bestAllocs = null;
-
-  for (let iter = 0; iter < 60; iter++) {
+  // Binary search: find smallest lambda where secondary >= target
+  let lo = -100, hi = 100, bestAllocs = null;
+  for (let iter = 0; iter < 80; iter++) {
     const mid = (lo + hi) / 2;
     const allocs = allocForLambda(mid);
-    const sec = getSecondary(allocs);
-    const met = secondaryDir === 'gte' ? sec >= secondaryTarget : sec <= secondaryTarget;
-    if (met) {
+    if (getSecondary(allocs) >= secondaryTarget) {
       bestAllocs = allocs.slice();
-      hi = mid; // try smaller lambda (less weight on secondary)
+      hi = mid;
     } else {
-      lo = mid; // need more lambda to push secondary up
+      lo = mid;
     }
   }
-
-  return bestAllocs; // null if never feasible in lambda range
+  // Safety fallback: target mathematically unreachable — return best possible allocation
+  if (!bestAllocs) bestAllocs = allocForLambda(hi);
+  return bestAllocs;
 }
 
 // Maximize margin while keeping weighted CVR >= kpiCvr
 function allocateMaxMarginWithCVR(lis, reqDay, kpiCvr) {
-  // primaryKey=margin, secondaryKey=cvr, target=kpiCvr, dir=gte
-  const allocs = lagrangianAlloc(lis, reqDay, 'margin', 'cvr', kpiCvr, 'gte');
+  const allocs = lagrangianAlloc(lis, reqDay, 'margin', 'cvr', kpiCvr);
   if (!allocs) return null;
   if (weightedCVR(lis, allocs) < kpiCvr) return null;
   integerise(allocs, lis, reqDay);
@@ -760,8 +750,7 @@ function allocateMaxMarginWithCVR(lis, reqDay, kpiCvr) {
 
 // Maximize CVR while keeping weighted margin >= minMargin
 function allocateMaxCVRWithMargin(lis, reqDay, minMargin) {
-  // primaryKey=cvr, secondaryKey=margin, target=minMargin, dir=gte
-  const allocs = lagrangianAlloc(lis, reqDay, 'cvr', 'margin', minMargin, 'gte');
+  const allocs = lagrangianAlloc(lis, reqDay, 'cvr', 'margin', minMargin);
   if (!allocs) return null;
   if (weightedMargin(lis, allocs) < minMargin) return null;
   integerise(allocs, lis, reqDay);
