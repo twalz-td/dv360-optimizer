@@ -13,7 +13,6 @@
   --text:#f0efed;--text2:#9a9590;--text3:#5a5550;
   --green:#3dba82;--green-dim:rgba(61,186,130,0.10);
   --amber:#e8a23a;--amber-dim:rgba(232,162,58,0.10);
-  --blue:#5b8fff;
   --mono:'DM Mono',monospace;--sans:'DM Sans',sans-serif;
   --r:6px;--rl:10px;
 }
@@ -28,11 +27,9 @@ header{background:var(--black);border-bottom:1px solid var(--border);padding:0 3
 .ab.on{border-color:var(--salmon);color:var(--salmon);}
 .snav{display:flex;align-items:center;font-family:var(--mono);font-size:11px;}
 .si{display:flex;align-items:center;gap:7px;padding:0 10px;color:var(--text3);cursor:default;transition:color .2s;}
-.si.active{color:var(--text);}.si.done{color:var(--salmon);cursor:pointer;}.si.done:hover{color:var(--text);}
+.si.active{color:var(--text);}.si.done{color:var(--salmon);cursor:pointer;}
 .snum{width:20px;height:20px;border-radius:50%;border:1px solid currentColor;display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;}
 .si.active .snum{background:var(--salmon);border-color:var(--salmon);color:#fff;}
-.si.done .snum{background:var(--salmon);border-color:var(--salmon);color:#fff;}
-.ssep{color:var(--text3);font-size:10px;}
 main{padding:40px 32px;max-width:1400px;margin:0 auto;width:100%;}
 .screen{display:none;}.screen.active{display:block;}
 .pt{font-size:26px;font-weight:300;letter-spacing:-.03em;margin-bottom:6px;}
@@ -40,47 +37,25 @@ main{padding:40px 32px;max-width:1400px;margin:0 auto;width:100%;}
 .ps{font-size:13px;color:var(--text3);margin-bottom:32px;max-width:700px;}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:24px;margin-bottom:16px;}
 .ct{font-family:var(--mono);font-size:10px;font-weight:500;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:18px;}
-.sh{font-family:var(--mono);font-size:10px;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;margin:32px 0 12px;padding-bottom:10px;border-bottom:1px solid var(--border);}
 label{font-size:12px;color:var(--text2);display:block;margin-bottom:5px;font-family:var(--mono);}
-input[type=text],input[type=number],select{width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:var(--r);padding:10px 12px;color:var(--text);font-family:var(--mono);font-size:13px;outline:none;transition:border-color .15s;margin-bottom:14px;}
-input[type=text]:focus,input[type=number]:focus,select:focus{border-color:var(--salmon);}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:9px 18px;border-radius:var(--r);font-family:var(--mono);font-size:12px;font-weight:500;cursor:pointer;border:1px solid var(--border2);background:transparent;color:var(--text);transition:all .15s;letter-spacing:.02em;}
-.btn:hover{border-color:var(--salmon);color:var(--salmon);}.btn:active{transform:scale(.98);}.btn:disabled{opacity:.3;cursor:not-allowed;pointer-events:none;}
-.bp{background:var(--salmon);border-color:var(--salmon);color:#fff;}.bp:hover{background:var(--salmon-dark);border-color:var(--salmon-dark);color:#fff;}
-.bc{background:var(--green);border-color:var(--green);color:var(--black);}.bc:hover{opacity:.85;color:var(--black);}
-.mrow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-bottom:28px;}
+input[type=text]{width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:var(--r);padding:10px 12px;color:var(--text);font-family:var(--mono);font-size:13px;outline:none;margin-bottom:14px;}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:9px 18px;border-radius:var(--r);font-family:var(--mono);font-size:12px;font-weight:500;cursor:pointer;border:1px solid var(--border2);background:transparent;color:var(--text);transition:all .15s;}
+.btn:hover{border-color:var(--salmon);color:var(--salmon);}
+.bp{background:var(--salmon);border-color:var(--salmon);color:#fff;}
+.mrow{display:grid;grid-template-columns:repeat(4, 1fr);gap:12px;margin-bottom:28px;}
 .met{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:16px 18px;}
-.met .ml{font-family:var(--mono);font-size:10px;color:var(--text3);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px;}
-.met .mv{font-family:var(--mono);font-size:22px;font-weight:500;}
-.tw{overflow-x:auto;}
-table{width:100%;border-collapse:collapse;font-size:12px;}
-thead th{font-family:var(--mono);font-size:10px;font-weight:500;color:var(--text3);text-align:left;padding:8px 10px;border-bottom:1px solid var(--border);letter-spacing:.05em;text-transform:uppercase;white-space:nowrap;}
-tbody tr{border-bottom:1px solid var(--border);transition:background .1s;}
-tbody tr:hover{background:var(--surface2);}
-tbody td{padding:9px 10px;vertical-align:middle;color:var(--text2);}
-.tag{display:inline-block;font-family:var(--mono);font-size:10px;padding:3px 9px;border-radius:20px;font-weight:500;border:1px solid transparent;white-space:nowrap;}
-.t-ok{background:var(--green-dim);color:var(--green);border-color:rgba(61,186,130,.25);}
-.t-wa{background:var(--amber-dim);color:var(--amber);border-color:rgba(232,162,58,.25);}
-.t-er{background:var(--salmon-dim);color:var(--salmon);border-color:rgba(232,87,74,.25);}
-.io-card{border-radius:var(--rl);margin-bottom:14px;overflow:hidden;border:1px solid var(--border);}
-.io-hd{display:flex;align-items:center;gap:12px;padding:14px 18px;background:var(--surface2);cursor:pointer;user-select:none;flex-wrap:wrap;}
-.io-hd .ion{font-weight:500;color:var(--text);flex:1;min-width:180px;font-size:13px;}
-.io-body{display:none;}.io-body.open{display:block;}
-.kpi-strip{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:1px;background:var(--border);}
-.kpi-cell{background:var(--surface);padding:12px 14px;}
-.kpi-cell .kl{font-family:var(--mono);font-size:9px;color:var(--text3);letter-spacing:.07em;text-transform:uppercase;margin-bottom:4px;}
-.kpi-cell .kv{font-family:var(--mono);font-size:16px;font-weight:500;color:var(--text);}
-.banner{padding:11px 16px;font-size:12px;display:flex;gap:10px;align-items:flex-start;line-height:1.5;}
-.banner.warn{background:var(--amber-dim);color:var(--amber);}
-.banner.err{background:var(--salmon-dim);color:var(--salmon);}
-.pb-bg{height:3px;background:var(--surface3);border-radius:2px;overflow:hidden;margin-bottom:8px;}
-.pb-fill{height:3px;background:var(--salmon);border-radius:2px;transition:width .3s;width:0%;}
-.sav-hero{background:var(--surface);border:1px solid var(--salmon);border-radius:var(--rl);padding:36px;text-align:center;margin-bottom:24px;}
-.sav-hero .shv{font-family:var(--mono);font-size:52px;font-weight:500;color:var(--salmon);}
-.drop-zone{border:1px dashed var(--border2);border-radius:var(--rl);padding:32px;text-align:center;cursor:pointer;}
-.drop-zone:hover{border-color:var(--salmon);background:var(--salmon-dim);}
-.codeblk{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);padding:10px 14px;font-family:var(--mono);font-size:11px;color:var(--salmon);margin:10px 0;line-height:1.8;}
-::-webkit-scrollbar{width:5px;height:5px;}::-webkit-scrollbar-thumb{background:var(--surface3);border-radius:3px;}
+.met .ml{font-family:var(--mono);font-size:10px;color:var(--text3);text-transform:uppercase;}
+.met .mv{font-family:var(--mono);font-size:22px;font-weight:500;color:var(--text);}
+table{width:100%;border-collapse:collapse;font-size:12px;margin-top:10px;}
+thead th{font-family:var(--mono);font-size:10px;color:var(--text3);text-align:left;padding:8px 0;border-bottom:1px solid var(--border);}
+tbody td{padding:10px 0;color:var(--text2);border-bottom:1px solid var(--border);}
+.tag{font-family:var(--mono);font-size:10px;padding:3px 9px;border-radius:20px;}
+.t-ok{background:var(--green-dim);color:var(--green);}
+.t-er{background:var(--salmon-dim);color:var(--salmon);}
+.pb-bg{height:4px;background:var(--surface3);border-radius:2px;overflow:hidden;margin:20px 0;}
+.pb-fill{height:100%;background:var(--salmon);width:0%;transition:width .3s;}
+.io-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);margin-bottom:16px;overflow:hidden;}
+.io-hd{padding:16px 20px;background:var(--surface2);display:flex;justify-content:space-between;align-items:center;}
 </style>
 </head>
 <body>
@@ -92,64 +67,56 @@ tbody td{padding:9px 10px;vertical-align:middle;color:var(--text2);}
   </div>
   <div class="snav">
     <div class="si active" data-step="0"><div class="snum">1</div><span>Connect</span></div>
-    <span class="ssep">›</span>
     <div class="si" data-step="1"><div class="snum">2</div><span>Upload</span></div>
-    <span class="ssep">›</span>
     <div class="si" data-step="2"><div class="snum">3</div><span>Solve</span></div>
-    <span class="ssep">›</span>
     <div class="si" data-step="3"><div class="snum">4</div><span>Review</span></div>
   </div>
   <div class="ab" id="auth-badge">not connected</div>
 </header>
 
 <main>
-<div class="screen active" id="screen-0">
-  <div class="pt">Connect to <strong>DV360</strong></div>
-  <div class="ps">Authenticate with Google OAuth to enable bulk budget updates.</div>
-  <div class="card" style="max-width:500px;">
-    <div class="ct">OAuth2 configuration</div>
-    <label>Google OAuth2 Client ID</label>
-    <input type="text" id="client-id" placeholder="xxxxxxxxxx.apps.googleusercontent.com">
-    <button class="btn bp" onclick="startAuth()">Connect with Google</button>
-  </div>
-</div>
-
-<div class="screen" id="screen-1">
-  <div class="pt">Upload <strong>LP input file</strong></div>
-  <div class="ps">One CSV drives everything.</div>
-  <div class="g2" style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
-    <div class="card">
-      <div class="ct">Required columns</div>
-      <div class="codeblk">Line_Item_ID, Insertion_Order_ID, Product_Billing_Rate, cpm_7d, conversion_rate_7d, margin_7d, impression_daily_upper_bound, impression_daily_lower_bound, io_impressions_needed_per_day, io_kpi_conversion_rate</div>
-    </div>
-    <div class="card">
-      <div class="ct">Upload file</div>
-      <div class="drop-zone" onclick="document.getElementById('csv-in').click()">Click to upload CSV</div>
-      <input type="file" id="csv-in" accept=".csv" style="display:none" onchange="loadCSV(this)">
-      <div id="upload-status" style="margin-top:10px; font-family:var(--mono); font-size:11px;"></div>
+  <div class="screen active" id="screen-0">
+    <div class="pt">Connect to <strong>DV360</strong></div>
+    <div class="ps">Authenticate with Google to enable optimization.</div>
+    <div class="card" style="max-width:480px;">
+      <label>Google OAuth2 Client ID</label>
+      <input type="text" id="client-id" placeholder="xxxxxxxx.apps.googleusercontent.com">
+      <button class="btn bp" onclick="startAuth()">Connect with Google</button>
+      <button class="btn" style="margin-left:10px;" onclick="useDemoData()">Use Demo Data</button>
     </div>
   </div>
-  <div id="loaded-summary" style="display:none; margin-top:20px;">
-    <button class="btn bp" onclick="runOptimizer()">Run LP Solver</button>
-  </div>
-</div>
 
-<div class="screen" id="screen-2">
-  <div class="pt">Running <strong>Solver</strong></div>
-  <div class="card">
-    <div class="pb-bg"><div class="pb-fill" id="solve-fill"></div></div>
-    <div id="solve-log" style="font-family:var(--mono); font-size:11px; color:var(--text2); line-height:2;"></div>
+  <div class="screen" id="screen-1">
+    <div class="pt">Upload <strong>Input File</strong></div>
+    <div class="ps">Upload your CSV with performance and impression bounds.</div>
+    <div class="card">
+      <div class="ct">Drag & Drop CSV</div>
+      <input type="file" id="csv-in" accept=".csv" onchange="loadCSV(this)">
+      <div id="upload-status" style="margin-top:10px; font-family:var(--mono); color:var(--salmon);"></div>
+    </div>
+    <div id="loaded-summary" style="display:none;">
+      <button class="btn bp" onclick="runOptimizer()">Run LP Solver</button>
+    </div>
   </div>
-</div>
 
-<div class="screen" id="screen-3">
-  <div class="pt">Review <strong>Optimization</strong></div>
-  <div id="review-io-cards"></div>
-</div>
+  <div class="screen" id="screen-2">
+    <div class="pt">Solving <strong>Campaigns</strong></div>
+    <div class="card">
+      <div class="pb-bg"><div class="pb-fill" id="solve-fill"></div></div>
+      <div id="solve-log" style="font-family:var(--mono); font-size:12px; color:var(--text2);"></div>
+    </div>
+  </div>
+
+  <div class="screen" id="screen-3">
+    <div class="pt">Optimization <strong>Review</strong></div>
+    <div class="ps">Review proposed allocations and download the audit file.</div>
+    <div id="review-io-cards"></div>
+    <div id="review-actions" style="margin-top:30px; display:flex; gap:15px;"></div>
+  </div>
 </main>
 
 <script>
-const S = { tok: null, LIs: [], IOs: {}, accepted: {} };
+const S = { tok: null, LIs: [], IOs: {} };
 
 function goToScreen(n) {
   document.querySelectorAll('.screen').forEach((s,i) => s.classList.toggle('active', i===n));
@@ -161,7 +128,7 @@ function goToScreen(n) {
 
 function startAuth() {
   const cid = document.getElementById('client-id').value.trim();
-  if(!cid) return alert('Missing Client ID');
+  if(!cid) return alert('Enter Client ID');
   const p = new URLSearchParams({
     client_id: cid,
     redirect_uri: window.location.origin + window.location.pathname,
@@ -172,9 +139,18 @@ function startAuth() {
   window.location.href = 'https://accounts.google.com/o/oauth2/v2/auth?' + p;
 }
 
+function useDemoData() {
+  S.tok = "DEMO";
+  S.LIs = [
+    { id: "LI_1", ioId: "IO_ALPHA", billing: 10, cpm: 4, cvr: 0.02, margin: 0.6, min: 1000, max: 10000, target: 15000, kpi: 0.015 },
+    { id: "LI_2", ioId: "IO_ALPHA", billing: 10, cpm: 3, cvr: 0.01, margin: 0.7, min: 1000, max: 10000, target: 15000, kpi: 0.015 }
+  ];
+  goToScreen(1);
+  document.getElementById('loaded-summary').style.display = 'block';
+}
+
 window.onload = () => {
-  const hash = window.location.hash.substring(1);
-  const params = new URLSearchParams(hash);
+  const params = new URLSearchParams(window.location.hash.substring(1));
   if(params.has('access_token')) {
     S.tok = params.get('access_token');
     document.getElementById('auth-badge').textContent = 'connected';
@@ -184,12 +160,10 @@ window.onload = () => {
 };
 
 function loadCSV(input) {
-  const file = input.files[0];
   const reader = new FileReader();
   reader.onload = e => {
     const lines = e.target.result.split('\n').filter(l => l.trim());
     const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
-    
     S.LIs = lines.slice(1).map(line => {
       const cols = line.split(',');
       const obj = {};
@@ -207,13 +181,12 @@ function loadCSV(input) {
         kpi: parseFloat(obj.io_kpi_conversion_rate)
       };
     });
-    document.getElementById('upload-status').textContent = `Loaded ${S.LIs.length} line items.`;
     document.getElementById('loaded-summary').style.display = 'block';
+    document.getElementById('upload-status').textContent = `Loaded ${S.LIs.length} items.`;
   };
-  reader.readAsText(file);
+  reader.readAsText(input.files[0]);
 }
 
-// ════════ MATH ENGINE: LAGRANGIAN ITERATIVE SOLVER ════════
 async function runOptimizer() {
   goToScreen(2);
   const log = document.getElementById('solve-log');
@@ -222,34 +195,28 @@ async function runOptimizer() {
   for(let i=0; i<ios.length; i++) {
     const ioId = ios[i];
     const lis = S.LIs.filter(li => li.ioId === ioId);
-    log.innerHTML += `Solving IO: ${ioId}...<br>`;
+    log.innerHTML += `Solving ${ioId}...<br>`;
     
-    // Step 1: Start at min bounds
-    let currentTotal = lis.reduce((s, li) => s + li.min, 0);
+    // Lagrangian Greedy Logic
     let target = lis[0].target;
-    let allocs = lis.map(li => ({ id: li.id, imps: li.min }));
+    let allocs = lis.map(li => ({ id: li.id, imps: li.min, cvr: li.cvr }));
+    let remaining = target - lis.reduce((s, li) => s + li.min, 0);
 
-    // Step 2: Iterative Greedy Fill
-    // Priority Score = Margin + (lambda * CVR)
-    // We adjust lambda to hit the CVR constraint
-    let lambda = 0; 
-    let step = target - currentTotal;
-    
-    if(step > 0) {
-      lis.sort((a, b) => b.margin - a.margin); // Simplified greedy for v1
-      for(let li of lis) {
-        let room = li.max - li.min;
-        let add = Math.min(room, step);
-        let idx = allocs.findIndex(a => a.id === li.id);
-        allocs[idx].imps += add;
-        step -= add;
-        if(step <= 0) break;
-      }
+    // Sort by Margin (Simplified Greedy)
+    lis.sort((a,b) => b.margin - a.margin);
+    for(let li of lis) {
+      if(remaining <= 0) break;
+      let add = Math.min(li.max - li.min, remaining);
+      let idx = allocs.findIndex(a => a.id === li.id);
+      allocs[idx].imps += add;
+      remaining -= add;
     }
+
+    const avgCvr = allocs.reduce((s, a) => s + (a.imps * a.cvr), 0) / target;
+    S.IOs[ioId] = { allocs, status: avgCvr >= lis[0].kpi ? 'Optimal' : 'KPI Miss', avgCvr, kpi: lis[0].kpi };
     
-    S.IOs[ioId] = { allocs, status: step <= 0 ? 'Optimal' : 'Infeasible' };
     document.getElementById('solve-fill').style.width = `${((i+1)/ios.length)*100}%`;
-    await new Promise(r => setTimeout(r, 50));
+    await new Promise(r => setTimeout(r, 100));
   }
   renderReview();
   goToScreen(3);
@@ -257,11 +224,38 @@ async function runOptimizer() {
 
 function renderReview() {
   const container = document.getElementById('review-io-cards');
+  container.innerHTML = '';
   Object.entries(S.IOs).forEach(([id, data]) => {
-    container.innerHTML += `<div class="io-card">
-      <div class="io-hd"><span>IO: ${id}</span> <span class="tag t-ok">${data.status}</span></div>
-    </div>`;
+    container.innerHTML += `
+      <div class="io-card">
+        <div class="io-hd">
+          <span>IO: <strong>${id}</strong></span>
+          <span class="tag ${data.status==='Optimal'?'t-ok':'t-er'}">${data.status}</span>
+        </div>
+        <div style="padding:20px;">
+          <div style="font-size:11px; color:var(--text3); margin-bottom:10px;">
+            Target CVR: ${(data.kpi*100).toFixed(3)}% | Achieved: ${(data.avgCvr*100).toFixed(3)}%
+          </div>
+          <table>
+            <thead><tr><th>LINE ITEM</th><th>PROPOSED IMPRESSIONS</th></tr></thead>
+            <tbody>
+              ${data.allocs.map(a => `<tr><td style="font-family:var(--mono);">${a.id}</td><td style="color:var(--green);">${a.imps.toLocaleString()}</td></tr>`).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>`;
   });
+  document.getElementById('review-actions').innerHTML = `<button class="btn bp" onclick="exportCSV()">Download Audit CSV</button>`;
+}
+
+function exportCSV() {
+  let csv = "IO_ID,Line_Item_ID,Impressions\\n";
+  Object.entries(S.IOs).forEach(([io, d]) => d.allocs.forEach(a => csv += `${io},${a.id},${a.imps}\\n`));
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'dv360_optimization_audit.csv';
+  a.click();
 }
 </script>
 </body>
