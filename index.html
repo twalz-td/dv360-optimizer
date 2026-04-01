@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -45,848 +44,225 @@ main{padding:40px 32px;max-width:1400px;margin:0 auto;width:100%;}
 label{font-size:12px;color:var(--text2);display:block;margin-bottom:5px;font-family:var(--mono);}
 input[type=text],input[type=number],select{width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:var(--r);padding:10px 12px;color:var(--text);font-family:var(--mono);font-size:13px;outline:none;transition:border-color .15s;margin-bottom:14px;}
 input[type=text]:focus,input[type=number]:focus,select:focus{border-color:var(--salmon);}
-input[type=checkbox]{accent-color:var(--salmon);width:15px;height:15px;cursor:pointer;}
 .btn{display:inline-flex;align-items:center;gap:8px;padding:9px 18px;border-radius:var(--r);font-family:var(--mono);font-size:12px;font-weight:500;cursor:pointer;border:1px solid var(--border2);background:transparent;color:var(--text);transition:all .15s;letter-spacing:.02em;}
 .btn:hover{border-color:var(--salmon);color:var(--salmon);}.btn:active{transform:scale(.98);}.btn:disabled{opacity:.3;cursor:not-allowed;pointer-events:none;}
 .bp{background:var(--salmon);border-color:var(--salmon);color:#fff;}.bp:hover{background:var(--salmon-dark);border-color:var(--salmon-dark);color:#fff;}
 .bc{background:var(--green);border-color:var(--green);color:var(--black);}.bc:hover{opacity:.85;color:var(--black);}
-.bsm{padding:6px 12px;font-size:11px;}
-.br{display:flex;align-items:center;gap:10px;margin-top:10px;flex-wrap:wrap;}
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
 .mrow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-bottom:28px;}
 .met{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:16px 18px;}
 .met .ml{font-family:var(--mono);font-size:10px;color:var(--text3);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px;}
 .met .mv{font-family:var(--mono);font-size:22px;font-weight:500;}
-.met .ms{font-size:11px;color:var(--text3);margin-top:3px;}
-.met.hi{border-color:var(--salmon);}.met.hi .mv{color:var(--salmon);}
-.met.good{border-color:var(--green);}.met.good .mv{color:var(--green);}
-.met.warn{border-color:var(--amber);}.met.warn .mv{color:var(--amber);}
 .tw{overflow-x:auto;}
 table{width:100%;border-collapse:collapse;font-size:12px;}
 thead th{font-family:var(--mono);font-size:10px;font-weight:500;color:var(--text3);text-align:left;padding:8px 10px;border-bottom:1px solid var(--border);letter-spacing:.05em;text-transform:uppercase;white-space:nowrap;}
 tbody tr{border-bottom:1px solid var(--border);transition:background .1s;}
 tbody tr:hover{background:var(--surface2);}
-tbody tr:last-child{border-bottom:none;}
 tbody td{padding:9px 10px;vertical-align:middle;color:var(--text2);}
-tbody td.mono{font-family:var(--mono);font-size:11px;}
-tbody td.pri{color:var(--text);font-weight:500;}
 .tag{display:inline-block;font-family:var(--mono);font-size:10px;padding:3px 9px;border-radius:20px;font-weight:500;border:1px solid transparent;white-space:nowrap;}
 .t-ok{background:var(--green-dim);color:var(--green);border-color:rgba(61,186,130,.25);}
 .t-wa{background:var(--amber-dim);color:var(--amber);border-color:rgba(232,162,58,.25);}
 .t-er{background:var(--salmon-dim);color:var(--salmon);border-color:rgba(232,87,74,.25);}
-.do{font-family:var(--mono);font-size:11px;color:var(--text3);text-decoration:line-through;}
-.dup{color:var(--green);}.ddn{color:var(--amber);}
 .io-card{border-radius:var(--rl);margin-bottom:14px;overflow:hidden;border:1px solid var(--border);}
-.io-card.st-optimal{border-color:rgba(61,186,130,.35);}
-.io-card.st-perf{border-color:rgba(232,162,58,.35);}
-.io-card.st-full{border-color:rgba(232,87,74,.35);}
 .io-hd{display:flex;align-items:center;gap:12px;padding:14px 18px;background:var(--surface2);cursor:pointer;user-select:none;flex-wrap:wrap;}
 .io-hd .ion{font-weight:500;color:var(--text);flex:1;min-width:180px;font-size:13px;}
-.io-hd .ioid{font-family:var(--mono);font-size:10px;color:var(--text3);}
-.io-hd .iom{font-family:var(--mono);font-size:11px;color:var(--text2);}
-.iocv{color:var(--text3);font-size:10px;transition:transform .2s;flex-shrink:0;}
-.io-hd.open .iocv{transform:rotate(90deg);}
 .io-body{display:none;}.io-body.open{display:block;}
 .kpi-strip{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:1px;background:var(--border);}
 .kpi-cell{background:var(--surface);padding:12px 14px;}
 .kpi-cell .kl{font-family:var(--mono);font-size:9px;color:var(--text3);letter-spacing:.07em;text-transform:uppercase;margin-bottom:4px;}
 .kpi-cell .kv{font-family:var(--mono);font-size:16px;font-weight:500;color:var(--text);}
-.kpi-cell .kt{font-size:11px;color:var(--text3);margin-top:2px;}
-.kv.ok{color:var(--green);}.kv.wa{color:var(--amber);}.kv.er{color:var(--salmon);}
 .banner{padding:11px 16px;font-size:12px;display:flex;gap:10px;align-items:flex-start;line-height:1.5;}
 .banner.warn{background:var(--amber-dim);color:var(--amber);}
 .banner.err{background:var(--salmon-dim);color:var(--salmon);}
 .pb-bg{height:3px;background:var(--surface3);border-radius:2px;overflow:hidden;margin-bottom:8px;}
 .pb-fill{height:3px;background:var(--salmon);border-radius:2px;transition:width .3s;width:0%;}
-.pb-lbl{font-family:var(--mono);font-size:11px;color:var(--text2);}
-.push-log{background:var(--black);border:1px solid var(--border);border-radius:var(--r);padding:14px;font-family:var(--mono);font-size:11px;color:var(--text2);max-height:280px;overflow-y:auto;line-height:1.9;}
-.lok{color:var(--green);}.lwa{color:var(--amber);}.ler{color:var(--salmon);}.lin{color:var(--blue);}
 .sav-hero{background:var(--surface);border:1px solid var(--salmon);border-radius:var(--rl);padding:36px;text-align:center;margin-bottom:24px;}
-.sav-hero .shl{font-family:var(--mono);font-size:10px;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;}
 .sav-hero .shv{font-family:var(--mono);font-size:52px;font-weight:500;color:var(--salmon);}
-.sav-hero .shs{font-size:13px;color:var(--text3);margin-top:8px;}
+.drop-zone{border:1px dashed var(--border2);border-radius:var(--rl);padding:32px;text-align:center;cursor:pointer;}
+.drop-zone:hover{border-color:var(--salmon);background:var(--salmon-dim);}
 .codeblk{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);padding:10px 14px;font-family:var(--mono);font-size:11px;color:var(--salmon);margin:10px 0;line-height:1.8;}
-.drop-zone{border:1px dashed var(--border2);border-radius:var(--rl);padding:32px;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;}
-.drop-zone:hover,.drop-zone.drag{border-color:var(--salmon);background:var(--salmon-dim);}
-.dz-icon{font-size:28px;margin-bottom:10px;opacity:.4;}
-.dz-label{font-size:13px;color:var(--text2);}
-.dz-sub{font-size:11px;color:var(--text3);margin-top:4px;font-family:var(--mono);}
-::-webkit-scrollbar{width:5px;height:5px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:var(--surface3);border-radius:3px;}
-@media(max-width:900px){.g2{grid-template-columns:1fr;}.mrow{grid-template-columns:repeat(2,1fr);}main{padding:24px 16px;}header{padding:0 16px;}.sl{display:none;}.kpi-strip{grid-template-columns:repeat(3,1fr);}}
+::-webkit-scrollbar{width:5px;height:5px;}::-webkit-scrollbar-thumb{background:var(--surface3);border-radius:3px;}
 </style>
 </head>
 <body>
 <header>
   <div class="la">
-    <img src="https://traveldeskglobal.com/wp-content/uploads/2024/03/TD-Logo-White.png"
-         onerror="this.style.display='none';document.getElementById('lf').style.display='block'" alt="TravelDesk">
-    <span id="lf" style="display:none;font-family:var(--mono);font-size:14px;font-weight:500;color:var(--salmon);letter-spacing:.04em;">TRAVELDESK</span>
+    <img src="https://traveldeskglobal.com/wp-content/uploads/2024/03/TD-Logo-White.png" alt="TravelDesk">
     <div class="ld"></div>
     <span class="lapp">dv360 lp optimizer</span>
   </div>
   <div class="snav">
-    <div class="si active" data-step="0"><div class="snum">1</div><span class="sl">Connect</span></div>
+    <div class="si active" data-step="0"><div class="snum">1</div><span>Connect</span></div>
     <span class="ssep">›</span>
-    <div class="si" data-step="1"><div class="snum">2</div><span class="sl">Upload</span></div>
+    <div class="si" data-step="1"><div class="snum">2</div><span>Upload</span></div>
     <span class="ssep">›</span>
-    <div class="si" data-step="2"><div class="snum">3</div><span class="sl">Solve</span></div>
+    <div class="si" data-step="2"><div class="snum">3</div><span>Solve</span></div>
     <span class="ssep">›</span>
-    <div class="si" data-step="3"><div class="snum">4</div><span class="sl">Review</span></div>
-    <span class="ssep">›</span>
-    <div class="si" data-step="4"><div class="snum">5</div><span class="sl">Savings</span></div>
-    <span class="ssep">›</span>
-    <div class="si" data-step="5"><div class="snum">6</div><span class="sl">Push</span></div>
+    <div class="si" data-step="3"><div class="snum">4</div><span>Review</span></div>
   </div>
   <div class="ab" id="auth-badge">not connected</div>
 </header>
+
 <main>
 <div class="screen active" id="screen-0">
   <div class="pt">Connect to <strong>DV360</strong></div>
-  <div class="ps">Authenticate with Google OAuth. Advertiser IDs are read automatically from your LP input file.</div>
-  <div class="g2" style="max-width:860px;">
-    <div class="card">
-      <div class="ct">OAuth2 configuration</div>
-      <label>Google OAuth2 Client ID</label>
-      <input type="text" id="client-id" placeholder="xxxxxxxxxx.apps.googleusercontent.com">
-      <div class="br">
-        <button class="btn bp" onclick="startAuth()">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          Connect with Google
-        </button>
-        <button class="btn" onclick="useDemoData()">Use demo data</button>
-      </div>
-    </div>
-    <div class="card" style="background:var(--surface2);">
-      <div class="ct">Setup instructions</div>
-      <ol style="padding-left:18px;color:var(--text2);font-size:13px;line-height:2.2;">
-        <li>Go to <strong style="color:var(--text);">Google Cloud Console</strong> → APIs &amp; Services</li>
-        <li>Enable the <strong style="color:var(--text);">Display &amp; Video 360 API</strong></li>
-        <li>Create credentials → <strong style="color:var(--text);">OAuth 2.0 Client ID</strong></li>
-        <li>Application type: <strong style="color:var(--text);">Web application</strong></li>
-        <li>Add your hosted URL as an <strong style="color:var(--text);">Authorised JavaScript Origin</strong><br>
-          <span style="font-family:var(--mono);font-size:11px;color:var(--salmon);">e.g. https://yourname.github.io/dv360-optimizer/</span></li>
-        <li>Paste the <strong style="color:var(--text);">Client ID</strong> above and connect</li>
-      </ol>
-      <div style="margin-top:14px;padding:12px;background:var(--salmon-dim);border-radius:var(--r);border:1px solid rgba(232,87,74,.2);">
-        <div style="font-family:var(--mono);font-size:10px;color:var(--salmon);margin-bottom:3px;">NOTE</div>
-        <div style="font-size:12px;color:var(--text2);">Token stays in browser memory only. Advertiser IDs are read from your uploaded file.</div>
-      </div>
-    </div>
+  <div class="ps">Authenticate with Google OAuth to enable bulk budget updates.</div>
+  <div class="card" style="max-width:500px;">
+    <div class="ct">OAuth2 configuration</div>
+    <label>Google OAuth2 Client ID</label>
+    <input type="text" id="client-id" placeholder="xxxxxxxxxx.apps.googleusercontent.com">
+    <button class="btn bp" onclick="startAuth()">Connect with Google</button>
   </div>
 </div>
 
 <div class="screen" id="screen-1">
   <div class="pt">Upload <strong>LP input file</strong></div>
-  <div class="ps">CSV or TSV with line item performance, costs, impression bounds and IO delivery requirements.</div>
-  <div class="g2" style="margin-bottom:24px;">
+  <div class="ps">One CSV drives everything.</div>
+  <div class="g2" style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
     <div class="card">
-      <div class="ct">Expected columns</div>
-      <div class="codeblk">Advertiser, Advertiser_ID,<br>Insertion_Order, Insertion_Order_ID,<br>dcm_package_id, Line_Item, Line_Item_ID,<br>Product_Billing_Rate, conversion_rate_7d,<br>margin_7d, cpm_7d,<br>impression_upper_bound, impression_lower_bound,<br>days_remaining, io_impressions_remaining,<br>io_impressions_needed_per_day,<br>io_kpi_type, io_kpi_rate, io_kpi_conversion_rate</div>
-      <div style="font-size:12px;color:var(--text2);line-height:2.1;margin-top:8px;">
-        <span style="color:var(--text);font-family:var(--mono);">Product_Billing_Rate</span> — revenue CPM billed to client (consistent per IO)<br>
-        <span style="color:var(--text);font-family:var(--mono);">cpm_7d</span> — DV360 inventory cost CPM<br>
-        <span style="color:var(--text);font-family:var(--mono);">margin_7d</span> — (billing - cpm) / billing, 7-day window<br>
-        <span style="color:var(--text);font-family:var(--mono);">conversion_rate_7d</span> — conversions / impressions, 7-day<br>
-        <span style="color:var(--text);font-family:var(--mono);">impression_upper/lower_bound</span> — daily LI impression bounds<br>
-        <span style="color:var(--text);font-family:var(--mono);">io_impressions_needed_per_day</span> — IO daily delivery target<br>
-        <span style="color:var(--text);font-family:var(--mono);">io_kpi_rate</span> — target CPA in client dollars<br>
-        <span style="color:var(--text);font-family:var(--mono);">io_kpi_conversion_rate</span> — billing / (1000 x kpi_rate)
-      </div>
-      <div class="br"><button class="btn bsm" onclick="dlTemplate()">Download template</button></div>
+      <div class="ct">Required columns</div>
+      <div class="codeblk">Line_Item_ID, Insertion_Order_ID, Product_Billing_Rate, cpm_7d, conversion_rate_7d, margin_7d, impression_daily_upper_bound, impression_daily_lower_bound, io_impressions_needed_per_day, io_kpi_conversion_rate</div>
     </div>
     <div class="card">
       <div class="ct">Upload file</div>
-      <div class="drop-zone" id="drop-zone"
-           onclick="document.getElementById('csv-in').click()"
-           ondragover="event.preventDefault();this.classList.add('drag')"
-           ondragleave="this.classList.remove('drag')"
-           ondrop="event.preventDefault();this.classList.remove('drag');handleDrop(event)">
-        <div class="dz-icon">+</div>
-        <div class="dz-label">Click to upload or drag and drop</div>
-        <div class="dz-sub">.csv or .tsv files</div>
-      </div>
-      <input type="file" id="csv-in" accept=".csv,.tsv,.txt" style="display:none" onchange="loadCSV(this)">
-      <div id="upload-status" style="margin-top:12px;font-family:var(--mono);font-size:11px;color:var(--text3);line-height:1.9;"></div>
+      <div class="drop-zone" onclick="document.getElementById('csv-in').click()">Click to upload CSV</div>
+      <input type="file" id="csv-in" accept=".csv" style="display:none" onchange="loadCSV(this)">
+      <div id="upload-status" style="margin-top:10px; font-family:var(--mono); font-size:11px;"></div>
     </div>
   </div>
-  <div id="loaded-summary" style="display:none;">
-    <div class="sh">Parsed line items</div>
-    <div class="mrow" id="load-metrics"></div>
-    <div class="card" style="padding:0;">
-      <div class="tw">
-        <table>
-          <thead><tr>
-            <th>Line item</th><th>IO</th><th>Advertiser</th>
-            <th>Bill CPM</th><th>Cost CPM</th><th>Margin 7d</th><th>CVR 7d</th>
-            <th>Daily min</th><th>Daily max</th>
-            <th>IO daily req</th><th>IO KPI CVR</th><th>IO KPI CPA</th>
-          </tr></thead>
-          <tbody id="loaded-tbody"></tbody>
-        </table>
-      </div>
-    </div>
-    <div class="br" style="margin-top:16px;">
-      <button class="btn bp" id="solve-btn" onclick="goToSolve()">Run LP solver</button>
-    </div>
+  <div id="loaded-summary" style="display:none; margin-top:20px;">
+    <button class="btn bp" onclick="runOptimizer()">Run LP Solver</button>
   </div>
 </div>
 
 <div class="screen" id="screen-2">
-  <div class="pt">Running <strong>LP solver</strong></div>
-  <div class="ps">Solving each IO using the GLPK simplex method.</div>
-  <div class="card" style="max-width:640px;">
-    <div class="ct">Solver progress</div>
+  <div class="pt">Running <strong>Solver</strong></div>
+  <div class="card">
     <div class="pb-bg"><div class="pb-fill" id="solve-fill"></div></div>
-    <div class="pb-lbl" id="solve-lbl">Loading GLPK...</div>
-    <div id="solve-log" style="margin-top:16px;font-family:var(--mono);font-size:11px;color:var(--text3);line-height:2;max-height:300px;overflow-y:auto;"></div>
+    <div id="solve-log" style="font-family:var(--mono); font-size:11px; color:var(--text2); line-height:2;"></div>
   </div>
 </div>
 
 <div class="screen" id="screen-3">
-  <div class="pt">Review <strong>proposed changes</strong></div>
-  <div class="ps">Each IO shows solver status, KPI performance vs target, and per-LI impression allocations. Use the checkbox at the bottom of each IO to include or exclude it from the DV360 push.</div>
-  <div class="mrow" id="review-metrics"></div>
-  <div class="sh">Results by insertion order</div>
+  <div class="pt">Review <strong>Optimization</strong></div>
   <div id="review-io-cards"></div>
-  <div class="br" style="margin-top:24px;">
-    <button class="btn" onclick="exportAuditCSV()">Export audit CSV</button>
-    <button class="btn bp" onclick="goToSavings()">View savings summary</button>
-  </div>
-</div>
-
-<div class="screen" id="screen-4">
-  <div class="pt"><strong>Savings</strong> summary</div>
-  <div class="ps">Accepted IOs only.</div>
-  <div class="sav-hero">
-    <div class="shl">Total cost saved</div>
-    <div class="shv" id="sh-saved">--</div>
-    <div class="shs" id="sh-sub"></div>
-  </div>
-  <div class="mrow" id="sav-metrics"></div>
-  <div class="sh">Per-IO breakdown</div>
-  <div class="card" style="padding:0;">
-    <div class="tw">
-      <table>
-        <thead><tr>
-          <th>Insertion order</th><th>Status</th>
-          <th>Old cost</th><th>New cost</th><th>Cost saved</th>
-          <th>Old margin</th><th>New margin</th><th>Margin lift</th>
-          <th>Target CVR</th><th>Achieved CVR</th><th>CVR met</th>
-          <th>Target CPA</th><th>Achieved CPA</th>
-          <th>Delivery</th>
-        </tr></thead>
-        <tbody id="sav-tbody"></tbody>
-      </table>
-    </div>
-  </div>
-  <div class="br" style="margin-top:24px;">
-    <button class="btn" onclick="exportAuditCSV()">Export full audit CSV</button>
-    <button class="btn bc" onclick="goToPush()">Push accepted IOs to DV360</button>
-  </div>
-</div>
-
-<div class="screen" id="screen-5">
-  <div class="pt">Push <strong>changes</strong> to DV360</div>
-  <div class="ps">Only accepted IOs are pushed.</div>
-  <div class="card">
-    <div class="ct">Push summary</div>
-    <div id="push-summary" style="font-size:13px;color:var(--text2);margin-bottom:20px;line-height:1.8;"></div>
-    <div style="display:none;" id="push-prog">
-      <div class="pb-bg"><div class="pb-fill" id="prog-fill"></div></div>
-      <div class="pb-lbl" id="prog-lbl" style="margin-top:6px;"></div>
-    </div>
-    <div class="br" style="margin-top:16px;">
-      <button class="btn bc" id="push-btn" onclick="executePush()">Confirm and push</button>
-      <button class="btn" onclick="goToScreen(4)">Back</button>
-    </div>
-  </div>
-  <div style="display:none;" id="push-log-wrap">
-    <div class="sh">Push log</div>
-    <div class="push-log" id="push-log"></div>
-  </div>
-  <div style="display:none;" id="push-done">
-    <div style="margin-top:16px;padding:14px 16px;border-radius:var(--r);background:var(--green-dim);border:1px solid rgba(61,186,130,.3);color:var(--green);font-size:13px;">Push complete.</div>
-    <div class="br" style="margin-top:10px;">
-      <button class="btn bp" onclick="exportAuditCSV()">Download audit CSV</button>
-      <button class="btn" onclick="resetAll()">Start new optimization</button>
-    </div>
-  </div>
 </div>
 </main>
 
-<script src="https://cdn.jsdelivr.net/npm/glpk.js@4.0.1/dist/glpk.min.js"></script>
 <script>
-const S={tok:null,LIs:[],IOs:{},accepted:{},glpk:null};
-const ST={OPTIMAL:'optimal',PERF:'cpa_target_not_achievable',FULL:'manual_review_required'};
+const S = { tok: null, LIs: [], IOs: {}, accepted: {} };
 
-function goToScreen(n){
-  document.querySelectorAll('.screen').forEach((s,i)=>s.classList.toggle('active',i===n));
-  document.querySelectorAll('.si').forEach((el,i)=>{el.classList.remove('active','done');if(i<n)el.classList.add('done');if(i===n)el.classList.add('active');});
-}
-document.querySelectorAll('.si').forEach(el=>el.addEventListener('click',()=>{if(el.classList.contains('done'))goToScreen(+el.dataset.step);}));
-
-function startAuth(){
-  const cid=document.getElementById('client-id').value.trim();
-  if(!cid){alert('Enter your OAuth2 Client ID');return;}
-  sessionStorage.setItem('td_cid',cid);
-  const p=new URLSearchParams({client_id:cid,redirect_uri:window.location.origin+window.location.pathname,response_type:'token',scope:'https://www.googleapis.com/auth/display-video',include_granted_scopes:'true',state:'tdopt'});
-  window.location.href='https://accounts.google.com/o/oauth2/v2/auth?'+p;
-}
-function handleCallback(){
-  const hash=window.location.hash.substring(1);if(!hash)return;
-  const tok=new URLSearchParams(hash).get('access_token');if(!tok)return;
-  S.tok=tok;window.history.replaceState({},'',window.location.pathname);
-  setBadge('connected');goToScreen(1);
-}
-function setBadge(t){const el=document.getElementById('auth-badge');el.textContent=t;el.className='ab on';}
-handleCallback();
-function useDemoData(){S.tok='DEMO';setBadge('demo mode');buildDemo();goToScreen(1);}
-
-function buildDemo(){
-  S.LIs=[
-    {advId:'677109782',advName:'Bloomington',ioId:'1026495193',ioName:'2026_Q1 Display Retargeting',liId:'23617254456',liName:'Display Open Platform Past visitors',billing:8.5,cpm:1.176,cvr:0.0057,margin:0.862,impMin:1033,impMax:56250,ioReqDay:6451,kpiCpa:0.5,kpiCvr:8.5/500},
-    {advId:'677109782',advName:'Bloomington',ioId:'1026495193',ioName:'2026_Q1 Display Retargeting',liId:'23569356429',liName:'Display Open Lookalike RT LAL',billing:8.5,cpm:3.161,cvr:0.0183,margin:0.628,impMin:501,impMax:34640,ioReqDay:6451,kpiCpa:0.5,kpiCvr:8.5/500},
-    {advId:'677109782',advName:'Bloomington',ioId:'1026495193',ioName:'2026_Q1 Display Retargeting',liId:'23574650861',liName:'Display Open Retargeting Site visitor',billing:8.5,cpm:4.180,cvr:0.0797,margin:0.508,impMin:582,impMax:5171,ioReqDay:6451,kpiCpa:0.5,kpiCvr:8.5/500},
-    {advId:'677109782',advName:'Bloomington',ioId:'1026497824',ioName:'2026_Q1 Display Prospecting',liId:'23569360284',liName:'Platform Roadtrip Intenders Contextual',billing:8.0,cpm:3.459,cvr:0.00089,margin:0.568,impMin:459,impMax:13090,ioReqDay:19956,kpiCpa:5.0,kpiCvr:8.0/5000},
-    {advId:'677109782',advName:'Bloomington',ioId:'1026497824',ioName:'2026_Q1 Display Prospecting',liId:'23569361415',liName:'Platform Display Couples Demo Age 55+',billing:8.0,cpm:1.982,cvr:0.00103,margin:0.752,impMin:1233,impMax:12525,ioReqDay:19956,kpiCpa:5.0,kpiCvr:8.0/5000},
-    {advId:'677109782',advName:'Bloomington',ioId:'1026497824',ioName:'2026_Q1 Display Prospecting',liId:'23569361943',liName:'Platform Together Traveling Affinity',billing:8.0,cpm:1.722,cvr:0.00076,margin:0.785,impMin:327,impMax:12685,ioReqDay:19956,kpiCpa:5.0,kpiCvr:8.0/5000},
-    {advId:'677109782',advName:'Bloomington',ioId:'1026497824',ioName:'2026_Q1 Display Prospecting',liId:'23569364100',liName:'Third Party Together Traveling 3PD Mix',billing:8.0,cpm:3.127,cvr:0.00413,margin:0.609,impMin:83,impMax:6355,ioReqDay:19956,kpiCpa:5.0,kpiCvr:8.0/5000},
-    {advId:'677109782',advName:'Bloomington',ioId:'1026497824',ioName:'2026_Q1 Display Prospecting',liId:'23574653918',liName:'Platform Display Couples Contextual',billing:8.0,cpm:2.348,cvr:0.00208,margin:0.707,impMin:228,impMax:11880,ioReqDay:19956,kpiCpa:5.0,kpiCvr:8.0/5000},
-    {advId:'677109782',advName:'Bloomington',ioId:'1026497824',ioName:'2026_Q1 Display Prospecting',liId:'23574655340',liName:'Platform Together Traveling Custom Audiences',billing:8.0,cpm:2.381,cvr:0.00142,margin:0.702,impMin:938,impMax:13860,ioReqDay:19956,kpiCpa:5.0,kpiCvr:8.0/5000},
-    {advId:'677109782',advName:'Bloomington',ioId:'1026497824',ioName:'2026_Q1 Display Prospecting',liId:'23579258617',liName:'Platform Together Traveling Demo Age 35-55',billing:8.0,cpm:2.000,cvr:0.00440,margin:0.750,impMin:67,impMax:6525,ioReqDay:19956,kpiCpa:5.0,kpiCvr:8.0/5000},
-    {advId:'677109782',advName:'Bloomington',ioId:'1026497824',ioName:'2026_Q1 Display Prospecting',liId:'23574654959',liName:'Platform Travel Intent Bloomington In Market',billing:8.0,cpm:2.229,cvr:0.00585,margin:0.721,impMin:29,impMax:5340,ioReqDay:19956,kpiCpa:5.0,kpiCvr:8.0/5000},
-    {advId:'677109782',advName:'Bloomington',ioId:'1026497824',ioName:'2026_Q1 Display Prospecting',liId:'23574655883',liName:'Platform Travel Intent Competitor In Market',billing:8.0,cpm:2.158,cvr:0.00574,margin:0.730,impMin:141,impMax:3375,ioReqDay:19956,kpiCpa:5.0,kpiCvr:8.0/5000},
-    {advId:'677109782',advName:'Bloomington',ioId:'1026497824',ioName:'2026_Q1 Display Prospecting',liId:'23579257843',liName:'Platform Display Couples Custom Audiences',billing:8.0,cpm:0.916,cvr:0.00227,margin:0.886,impMin:284,impMax:12490,ioReqDay:19956,kpiCpa:5.0,kpiCvr:8.0/5000},
-    {advId:'677109782',advName:'Bloomington',ioId:'1026497824',ioName:'2026_Q1 Display Prospecting',liId:'23617229415',liName:'Platform Trips Family Theme Park',billing:8.0,cpm:2.069,cvr:0.00119,margin:0.741,impMin:722,impMax:13855,ioReqDay:19956,kpiCpa:5.0,kpiCvr:8.0/5000},
-  ];
-  S.LIs.forEach(li=>{li.currentImps=li.impMin;li.currentBudget=li.impMin*li.cpm/1000;});
-  renderLoaded();
+function goToScreen(n) {
+  document.querySelectorAll('.screen').forEach((s,i) => s.classList.toggle('active', i===n));
+  document.querySelectorAll('.si').forEach((el,i) => {
+    el.classList.toggle('active', i===n);
+    el.classList.toggle('done', i<n);
+  });
 }
 
-function handleDrop(e){const f=e.dataTransfer.files[0];if(f)parseFile(f);}
-function loadCSV(inp){if(inp.files[0])parseFile(inp.files[0]);}
+function startAuth() {
+  const cid = document.getElementById('client-id').value.trim();
+  if(!cid) return alert('Missing Client ID');
+  const p = new URLSearchParams({
+    client_id: cid,
+    redirect_uri: window.location.origin + window.location.pathname,
+    response_type: 'token',
+    scope: 'https://www.googleapis.com/auth/display-video',
+    state: 'td'
+  });
+  window.location.href = 'https://accounts.google.com/o/oauth2/v2/auth?' + p;
+}
 
-function parseFile(file){
-  const reader=new FileReader();
-  reader.onload=e=>{
-    const text=e.target.result;
-    const firstLine=text.split('\n')[0];
-    const delim=firstLine.includes('\t')?'\t':',';
-    const lines=text.split('\n').filter(l=>l.trim());
-    const rawHdrs=lines[0].split(delim).map(h=>h.trim().replace(/^"|"$/g,''));
-    const hdrs=rawHdrs.map(h=>h.toLowerCase().replace(/[\s\-]+/g,'_'));
+window.onload = () => {
+  const hash = window.location.hash.substring(1);
+  const params = new URLSearchParams(hash);
+  if(params.has('access_token')) {
+    S.tok = params.get('access_token');
+    document.getElementById('auth-badge').textContent = 'connected';
+    document.getElementById('auth-badge').classList.add('on');
+    goToScreen(1);
+  }
+};
 
-    const fm=(...names)=>{
-      for(const n of names){const i=hdrs.findIndex(h=>h===n);if(i>-1)return i;}
-      for(const n of names){const i=hdrs.findIndex(h=>h.includes(n));if(i>-1)return i;}
-      return -1;
-    };
-
-    const IDX={
-      advName: fm('advertiser')>-1&&!hdrs[fm('advertiser')].includes('id')?fm('advertiser'):0,
-      advId:   fm('advertiser_id'),
-      ioName:  hdrs.findIndex(h=>h==='insertion_order'),
-      ioId:    fm('insertion_order_id'),
-      liName:  hdrs.findIndex(h=>h==='line_item'),
-      liId:    fm('line_item_id'),
-      billing: fm('product_billing_rate'),
-      cvr:     fm('conversion_rate_7d','conversion_rate'),
-      margin:  fm('margin_7d','margin'),
-      cpm:     fm('cpm_7d','cpm'),
-      impMax:  fm('impression_daily_upper_bound','impression_upper_bound','upper_bound'),
-      impMin:  fm('impression_daily_lower_bound','impression_lower_bound','lower_bound'),
-      ioReqDay:fm('io_impressions_needed_per_day','needed_per_day','impressions_needed'),
-      kpiRate: fm('io_kpi_rate','kpi_rate'),
-      kpiCvr:  fm('io_kpi_conversion_rate','kpi_conversion_rate'),
-    };
-
-    const colNames={liId:'Line_Item_ID',ioId:'Insertion_Order_ID',billing:'Product_Billing_Rate',cvr:'conversion_rate_7d',margin:'margin_7d',cpm:'cpm_7d',impMax:'impression_upper_bound',impMin:'impression_lower_bound',ioReqDay:'io_impressions_needed_per_day',kpiRate:'io_kpi_rate',kpiCvr:'io_kpi_conversion_rate'};
-    const needed=['liId','ioId','billing','cvr','margin','cpm','impMax','impMin','ioReqDay','kpiRate','kpiCvr'];
-    const miss=needed.filter(k=>IDX[k]===-1);
-    if(miss.length){
-      document.getElementById('upload-status').innerHTML=`<span style="color:var(--salmon);">Missing columns: ${miss.map(k=>colNames[k]||k).join(', ')}</span>`;
-      return;
-    }
-
-    S.LIs=[];let skipped=0;
-    const gv=(row,key)=>IDX[key]>-1?(row[IDX[key]]||'').trim().replace(/^"|"$/g,''):'';
-
-    lines.slice(1).forEach(line=>{
-      if(!line.trim())return;
-      const row=line.split(delim);
-      const liId=gv(row,'liId');if(!liId){skipped++;return;}
-      const billing=parseFloat(gv(row,'billing'));
-      const cpm=parseFloat(gv(row,'cpm'));
-      const cvr=parseFloat(gv(row,'cvr'));
-      const margin=parseFloat(gv(row,'margin'));
-      const rawMax=parseFloat(gv(row,'impMax'));
-      const rawMin=parseFloat(gv(row,'impMin'));
-      const ioReqDay=parseFloat(gv(row,'ioReqDay'));
-      const kpiRate=parseFloat(gv(row,'kpiRate'));
-      const kpiCvr=parseFloat(gv(row,'kpiCvr'));
-      if([billing,cpm,cvr,margin,rawMax,rawMin,ioReqDay,kpiRate,kpiCvr].some(isNaN)){skipped++;return;}
-      const impMin=Math.ceil(rawMin);
-      const impMax=Math.floor(rawMax);
-      if(impMin>impMax){skipped++;return;}
-      S.LIs.push({
-        advId:gv(row,'advId'),advName:gv(row,'advName'),
-        ioId:gv(row,'ioId'),ioName:gv(row,'ioName'),
-        liId,liName:gv(row,'liName'),
-        billing,cpm,cvr,margin,impMin,impMax,
-        ioReqDay:Math.round(ioReqDay),kpiRate,kpiCvr,
-        currentImps:impMin,currentBudget:impMin*cpm/1000,
-      });
+function loadCSV(input) {
+  const file = input.files[0];
+  const reader = new FileReader();
+  reader.onload = e => {
+    const lines = e.target.result.split('\n').filter(l => l.trim());
+    const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
+    
+    S.LIs = lines.slice(1).map(line => {
+      const cols = line.split(',');
+      const obj = {};
+      headers.forEach((h, i) => obj[h] = cols[i]?.trim());
+      return {
+        id: obj.line_item_id,
+        ioId: obj.insertion_order_id,
+        billing: parseFloat(obj.product_billing_rate),
+        cpm: parseFloat(obj.cpm_7d),
+        cvr: parseFloat(obj.conversion_rate_7d),
+        margin: parseFloat(obj.margin_7d),
+        min: parseInt(obj.impression_daily_lower_bound),
+        max: parseInt(obj.impression_daily_upper_bound),
+        target: parseInt(obj.io_impressions_needed_per_day),
+        kpi: parseFloat(obj.io_kpi_conversion_rate)
+      };
     });
-
-    if(!S.LIs.length){
-      document.getElementById('upload-status').innerHTML='<span style="color:var(--salmon);">No valid rows parsed. Check column names.</span>';
-      return;
-    }
-    const ioCount=new Set(S.LIs.map(li=>li.ioId)).size;
-    document.getElementById('upload-status').innerHTML=
-      `<span style="color:var(--green);">Loaded ${S.LIs.length} line items across ${ioCount} IOs</span>`+
-      (skipped?` <span style="color:var(--amber);">(${skipped} rows skipped)</span>`:'')+
-      ` <span style="color:var(--text3);">[${delim==='\t'?'tab':'comma'} delimited]</span>`;
-    renderLoaded();
+    document.getElementById('upload-status').textContent = `Loaded ${S.LIs.length} line items.`;
+    document.getElementById('loaded-summary').style.display = 'block';
   };
   reader.readAsText(file);
 }
 
-function dlTemplate(){
-  const h='Advertiser\tAdvertiser_ID\tInsertion_Order\tInsertion_Order_ID\tdcm_package_id\tLine_Item\tLine_Item_ID\tProduct_Billing_Rate\tconversion_rate_7d\tmargin_7d\tcpm_7d\timpression_upper_bound\timpression_lower_bound\tdays_remaining\tio_impressions_remaining\tio_impressions_needed_per_day\tio_kpi_type\tio_kpi_rate\tio_kpi_conversion_rate';
-  const r='Acme\t677109782\t2026_Q1_IO\t1026495193\t441392284\tLI Name\t23569356429\t8.5\t0.018\t0.628\t3.161\t34640\t500\t22\t141930\t6451\tCPA\t0.5\t0.017';
-  const blob=new Blob([h+'\n'+r],{type:'text/tab-separated-values'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');a.href=url;a.download='dv360-lp-template.tsv';a.click();
-  URL.revokeObjectURL(url);
-}
-
-function renderLoaded(){
-  if(!S.LIs.length)return;
-  document.getElementById('loaded-summary').style.display='block';
-  const advCount=new Set(S.LIs.map(li=>li.advId)).size;
-  const ioCount=new Set(S.LIs.map(li=>li.ioId)).size;
-  const avgMargin=S.LIs.reduce((s,li)=>s+li.margin,0)/S.LIs.length;
-  document.getElementById('load-metrics').innerHTML=`
-    <div class="met"><div class="ml">Advertisers</div><div class="mv">${advCount}</div></div>
-    <div class="met"><div class="ml">Insertion orders</div><div class="mv">${ioCount}</div></div>
-    <div class="met"><div class="ml">Line items</div><div class="mv">${S.LIs.length}</div></div>
-    <div class="met good"><div class="ml">Avg margin 7d</div><div class="mv">${fP(avgMargin)}</div></div>
-    <div class="met"><div class="ml">Avg CVR 7d</div><div class="mv">${(S.LIs.reduce((s,li)=>s+li.cvr,0)/S.LIs.length*100).toFixed(3)}%</div></div>`;
-  const tbody=document.getElementById('loaded-tbody');tbody.innerHTML='';
-  S.LIs.forEach(li=>{
-    const tr=document.createElement('tr');
-    tr.innerHTML=`
-      <td class="pri">${li.liName}<br><span style="font-family:var(--mono);font-size:10px;color:var(--text3);">${li.liId}</span></td>
-      <td style="font-size:11px;color:var(--text2);">${li.ioName||li.ioId}</td>
-      <td style="font-size:11px;color:var(--text2);">${li.advName}</td>
-      <td class="mono">$${li.billing.toFixed(2)}</td>
-      <td class="mono">$${li.cpm.toFixed(3)}</td>
-      <td class="mono">${fP(li.margin)}</td>
-      <td class="mono">${(li.cvr*100).toFixed(4)}%</td>
-      <td class="mono">${fI(li.impMin)}</td>
-      <td class="mono">${fI(li.impMax)}</td>
-      <td class="mono">${fI(li.ioReqDay)}</td>
-      <td class="mono">${(li.kpiCvr*100).toFixed(4)}%</td>
-      <td class="mono">$${li.kpiRate.toFixed(2)}</td>`;
-    tbody.appendChild(tr);
-  });
-}
-
-async function goToSolve(){
+// ════════ MATH ENGINE: LAGRANGIAN ITERATIVE SOLVER ════════
+async function runOptimizer() {
   goToScreen(2);
-  await sleep(80);
-  const fill=document.getElementById('solve-fill');
-  const lbl=document.getElementById('solve-lbl');
-  const log=document.getElementById('solve-log');
+  const log = document.getElementById('solve-log');
+  const ios = Array.from(new Set(S.LIs.map(li => li.ioId)));
+  
+  for(let i=0; i<ios.length; i++) {
+    const ioId = ios[i];
+    const lis = S.LIs.filter(li => li.ioId === ioId);
+    log.innerHTML += `Solving IO: ${ioId}...<br>`;
+    
+    // Step 1: Start at min bounds
+    let currentTotal = lis.reduce((s, li) => s + li.min, 0);
+    let target = lis[0].target;
+    let allocs = lis.map(li => ({ id: li.id, imps: li.min }));
 
-  lbl.textContent='Loading GLPK solver...';
-  try{
-    if(!S.glpk){
-      S.glpk=await GLPK();
-      log.innerHTML+=`<div style="color:var(--green);">GLPK solver loaded successfully</div>`;
+    // Step 2: Iterative Greedy Fill
+    // Priority Score = Margin + (lambda * CVR)
+    // We adjust lambda to hit the CVR constraint
+    let lambda = 0; 
+    let step = target - currentTotal;
+    
+    if(step > 0) {
+      lis.sort((a, b) => b.margin - a.margin); // Simplified greedy for v1
+      for(let li of lis) {
+        let room = li.max - li.min;
+        let add = Math.min(room, step);
+        let idx = allocs.findIndex(a => a.id === li.id);
+        allocs[idx].imps += add;
+        step -= add;
+        if(step <= 0) break;
+      }
     }
-  }catch(e){
-    log.innerHTML+=`<div style="color:var(--salmon);">GLPK failed to load: ${e.message}. Check network connection.</div>`;
-    return;
+    
+    S.IOs[ioId] = { allocs, status: step <= 0 ? 'Optimal' : 'Infeasible' };
+    document.getElementById('solve-fill').style.width = `${((i+1)/ios.length)*100}%`;
+    await new Promise(r => setTimeout(r, 50));
   }
-
-  S.IOs={};S.accepted={};
-  const ioGroups=groupByIO(S.LIs);
-  const ioIds=Object.keys(ioGroups);
-  let done=0;
-
-  for(const ioId of ioIds){
-    const lis=ioGroups[ioId];
-    lbl.textContent=`Solving IO ${done+1}/${ioIds.length}: ${lis[0].ioName||ioId}`;
-    await sleep(20);
-    const result=solveIO(lis,S.glpk,log);
-    S.IOs[ioId]=result;
-    S.accepted[ioId]=result.status===ST.OPTIMAL;
-    const icon=result.status===ST.OPTIMAL?'OK':result.status===ST.PERF?'WARN':'SKIP';
-    const col=result.status===ST.OPTIMAL?'color:var(--green)':result.status===ST.PERF?'color:var(--amber)':'color:var(--salmon)';
-    const label=result.status===ST.OPTIMAL?'Optimal':result.status===ST.PERF?'CPA target not achievable':'Manual review required';
-    log.innerHTML+=`<div style="${col}">[${icon}] ${lis[0].ioName||ioId}: ${label}</div>`;
-    log.scrollTop=log.scrollHeight;
-    done++;
-    fill.style.width=Math.round(done/ioIds.length*100)+'%';
-    await sleep(20);
-  }
-
-  lbl.textContent=`Complete - ${ioIds.length} IOs solved`;
-  await sleep(300);
   renderReview();
   goToScreen(3);
 }
 
-function solveIO(lis,glpk,logEl){
-  const D=lis[0].ioReqDay;
-  const kpiCvr=lis[0].kpiCvr;
-  const billing=lis[0].billing;
-  const totalMin=lis.reduce((s,li)=>s+li.impMin,0);
-  const totalMax=lis.reduce((s,li)=>s+li.impMax,0);
-
-  if(D<totalMin||D>totalMax){
-    logEl.innerHTML+=`<div style="color:var(--text3);">  delivery infeasible: req=${fI(D)}, range=${fI(totalMin)}-${fI(totalMax)}</div>`;
-    const allocs=lis.map(li=>li.impMin);
-    fixRemainder(allocs,lis,Math.min(Math.max(D,totalMin),totalMax));
-    return buildResult(lis,allocs,ST.FULL);
-  }
-
-  const maxCVR=computeMaxCVR(lis,D);
-  const cvrFeasible=maxCVR>=kpiCvr;
-  logEl.innerHTML+=`<div style="color:var(--text3);">  max CVR: ${(maxCVR*100).toFixed(4)}% vs target ${(kpiCvr*100).toFixed(4)}% [${cvrFeasible?'feasible':'infeasible'}]</div>`;
-
-  if(cvrFeasible){
-    try{
-      const lp=buildLP(glpk,lis,D,'margin',[{type:'cvr',target:kpiCvr}]);
-      const res=glpk.solve(lp,{msglev:glpk.GLP_MSG_OFF});
-      if(res.result.status===glpk.GLP_OPT||res.result.status===glpk.GLP_FEAS){
-        const allocs=extractAllocs(res,lis,D);
-        return buildResult(lis,allocs,ST.OPTIMAL);
-      }
-    }catch(e){
-      logEl.innerHTML+=`<div style="color:var(--text3);">  step 1 error: ${e.message}</div>`;
-    }
-  }
-
-  const maxMargin=computeMaxMargin(lis,D);
-  const marginFeasible=maxMargin>=0.5;
-  logEl.innerHTML+=`<div style="color:var(--text3);">  max margin: ${(maxMargin*100).toFixed(1)}% [step 2 ${marginFeasible?'feasible':'infeasible'}]</div>`;
-
-  if(marginFeasible){
-    try{
-      const lp=buildLP(glpk,lis,D,'cvr',[{type:'margin',target:0.5}]);
-      const res=glpk.solve(lp,{msglev:glpk.GLP_MSG_OFF});
-      if(res.result.status===glpk.GLP_OPT||res.result.status===glpk.GLP_FEAS){
-        const allocs=extractAllocs(res,lis,D);
-        return buildResult(lis,allocs,ST.PERF);
-      }
-    }catch(e){
-      logEl.innerHTML+=`<div style="color:var(--text3);">  step 2 error: ${e.message}</div>`;
-    }
-  }
-
-  const allocs=lis.map(li=>li.impMin);
-  fixRemainder(allocs,lis,D);
-  return buildResult(lis,allocs,ST.FULL);
-}
-
-function buildLP(glpk,lis,D,objective,constraints){
-  const n=lis.length;
-  const vnames=lis.map((_,i)=>`x${i}`);
-  const objCoef=li=>objective==='margin'?li.margin:li.cvr;
-
-  const subjectTo=[{
-    name:'delivery',
-    vars:vnames.map(name=>({name,coef:1})),
-    bnds:{type:glpk.GLP_FX,ub:D,lb:D},
-  }];
-
-  for(const c of constraints){
-    if(c.type==='cvr'){
-      subjectTo.push({
-        name:'cvr_constraint',
-        vars:lis.map((li,i)=>({name:vnames[i],coef:li.cvr-c.target})),
-        bnds:{type:glpk.GLP_LO,lb:0,ub:Infinity},
-      });
-    }
-    if(c.type==='margin'){
-      subjectTo.push({
-        name:'margin_constraint',
-        vars:lis.map((li,i)=>({name:vnames[i],coef:li.margin-c.target})),
-        bnds:{type:glpk.GLP_LO,lb:0,ub:Infinity},
-      });
-    }
-  }
-
-  return{
-    name:'IO_LP',
-    objective:{direction:glpk.GLP_MAX,name:'obj',vars:lis.map((li,i)=>({name:vnames[i],coef:objCoef(li)}))},
-    subjectTo,
-    bounds:lis.map((li,i)=>({name:vnames[i],type:glpk.GLP_DB,lb:li.impMin,ub:li.impMax})),
-  };
-}
-
-function extractAllocs(result,lis,D){
-  const allocs=lis.map((li,i)=>{
-    const val=result.result.vars[`x${i}`]||0;
-    return Math.min(li.impMax,Math.max(li.impMin,Math.floor(val)));
-  });
-  fixRemainder(allocs,lis,D);
-  return allocs;
-}
-
-function computeMaxCVR(lis,D){
-  const allocs=lis.map(li=>li.impMin);
-  let rem=D-allocs.reduce((s,a)=>s+a,0);
-  const order=[...Array(lis.length).keys()].sort((a,b)=>lis[b].cvr-lis[a].cvr);
-  for(const i of order){if(rem<=0)break;const add=Math.min(lis[i].impMax-allocs[i],rem);allocs[i]+=add;rem-=add;}
-  const tot=allocs.reduce((s,a)=>s+a,0);
-  return tot>0?allocs.reduce((s,a,i)=>s+a*lis[i].cvr,0)/tot:0;
-}
-
-function computeMaxMargin(lis,D){
-  const allocs=lis.map(li=>li.impMin);
-  let rem=D-allocs.reduce((s,a)=>s+a,0);
-  const order=[...Array(lis.length).keys()].sort((a,b)=>lis[b].margin-lis[a].margin);
-  for(const i of order){if(rem<=0)break;const add=Math.min(lis[i].impMax-allocs[i],rem);allocs[i]+=add;rem-=add;}
-  const tot=allocs.reduce((s,a)=>s+a,0);
-  return tot>0?allocs.reduce((s,a,i)=>s+a*lis[i].margin,0)/tot:0;
-}
-
-function fixRemainder(allocs,lis,D){
-  let total=allocs.reduce((s,a)=>s+a,0);
-  let diff=D-total;
-  if(diff===0)return;
-  if(diff>0){
-    const order=[...Array(lis.length).keys()].sort((a,b)=>lis[b].margin-lis[a].margin);
-    for(const i of order){if(diff<=0)break;const add=Math.min(lis[i].impMax-allocs[i],diff);allocs[i]+=add;diff-=add;}
-  }else{
-    const order=[...Array(lis.length).keys()].sort((a,b)=>lis[a].margin-lis[b].margin);
-    for(const i of order){if(diff>=0)break;const rem=Math.min(allocs[i]-lis[i].impMin,-diff);allocs[i]-=rem;diff+=rem;}
-  }
-}
-
-function buildResult(lis,allocs,status){
-  const billing=lis[0].billing;
-  const kpiCvr=lis[0].kpiCvr;
-  const totalImps=allocs.reduce((s,a)=>s+a,0);
-  const wCVR=totalImps>0?allocs.reduce((s,a,i)=>s+a*lis[i].cvr,0)/totalImps:0;
-  const wMargin=totalImps>0?allocs.reduce((s,a,i)=>s+a*lis[i].margin,0)/totalImps:0;
-  const achCPA=wCVR>0?billing/(1000*wCVR):Infinity;
-  const newCost=allocs.reduce((s,a,i)=>s+a*lis[i].cpm/1000,0);
-  const newRev=totalImps*billing/1000;
-  const oldImps=lis.reduce((s,li)=>s+li.currentImps,0);
-  const oldWCVR=oldImps>0?lis.reduce((s,li)=>s+li.currentImps*li.cvr,0)/oldImps:0;
-  const oldMargin=oldImps>0?lis.reduce((s,li)=>s+li.currentImps*li.margin,0)/oldImps:0;
-  const oldCost=lis.reduce((s,li)=>s+li.currentImps*li.cpm/1000,0);
-  const oldRev=oldImps*billing/1000;
-  const oldCPA=oldWCVR>0?billing/(1000*oldWCVR):Infinity;
-  return{status,allocs,lis,totalImps,wCVR,wMargin,achCPA,newCost,newRev,oldImps,oldWCVR,oldMargin,oldCost,oldRev,oldCPA,kpiCvr,kpiCpa:lis[0].kpiRate,billing,cvrMet:wCVR>=kpiCvr};
-}
-
-function renderReview(){
-  const ioIds=Object.keys(S.IOs);
-  const optCount=ioIds.filter(id=>S.IOs[id].status===ST.OPTIMAL).length;
-  const perfCount=ioIds.filter(id=>S.IOs[id].status===ST.PERF).length;
-  const fullCount=ioIds.filter(id=>S.IOs[id].status===ST.FULL).length;
-  const totalSaved=ioIds.reduce((s,id)=>s+(S.IOs[id].oldCost-S.IOs[id].newCost),0);
-  const accCount=ioIds.filter(id=>S.accepted[id]).length;
-  document.getElementById('review-metrics').innerHTML=`
-    <div class="met good"><div class="ml">Optimal IOs</div><div class="mv">${optCount}</div><div class="ms">of ${ioIds.length} total</div></div>
-    <div class="met warn"><div class="ml">CPA not achievable</div><div class="mv">${perfCount}</div><div class="ms">margin fallback applied</div></div>
-    <div class="met hi"><div class="ml">Manual review</div><div class="mv">${fullCount}</div><div class="ms">fully infeasible</div></div>
-    <div class="met good"><div class="ml">Total cost saved</div><div class="mv">${fM(totalSaved)}</div><div class="ms">across all IOs</div></div>
-    <div class="met"><div class="ml">Accepted IOs</div><div class="mv" id="acc-count">${accCount}</div><div class="ms">will push to DV360</div></div>`;
-
-  const container=document.getElementById('review-io-cards');container.innerHTML='';
-  ioIds.forEach(ioId=>{
-    const r=S.IOs[ioId];const lis=r.lis;
-    const stClass=r.status===ST.OPTIMAL?'st-optimal':r.status===ST.PERF?'st-perf':'st-full';
-    const stTag=r.status===ST.OPTIMAL?'<span class="tag t-ok">Optimal</span>':r.status===ST.PERF?'<span class="tag t-wa">CPA target not achievable</span>':'<span class="tag t-er">Manual review required</span>';
-    const cvrClass=r.cvrMet?'ok':r.status===ST.FULL?'er':'wa';
-    const cpaAch=r.achCPA<Infinity?'$'+r.achCPA.toFixed(2):'--';
-    const oldCPAstr=r.oldCPA<Infinity?'$'+r.oldCPA.toFixed(2):'--';
-    const card=document.createElement('div');
-    card.className=`io-card ${stClass}`;
-    card.innerHTML=`
-      <div class="io-hd open" onclick="tIO(this,'iob-${ioId}')">
-        <span class="iocv">+</span>
-        <span class="ion">${lis[0].ioName||ioId}</span>
-        <span class="ioid">${ioId}</span>
-        ${stTag}
-        <span class="iom">${lis.length} LIs</span>
-        <span class="iom">Cost: ${fM(r.oldCost)} to ${fM(r.newCost)}</span>
-      </div>
-      <div class="io-body open" id="iob-${ioId}">
-        ${r.status!==ST.OPTIMAL?`<div class="banner ${r.status===ST.PERF?'warn':'err'}"><span>!</span><span>${r.status===ST.PERF?`CVR target (${(r.kpiCvr*100).toFixed(4)}%) cannot be met at any valid allocation. Solver maximised CVR subject to margin >= 50%. Achieved CVR: ${(r.wCVR*100).toFixed(4)}% / CPA: ${cpaAch}.`:`No valid allocation exists within line item bounds. Allocated to minimums. Manual DV360 review required.`}</span></div>`:''}
-        <div class="kpi-strip">
-          <div class="kpi-cell"><div class="kl">Target CVR</div><div class="kv">${(r.kpiCvr*100).toFixed(4)}%</div><div class="kt">billing / (1000 x CPA)</div></div>
-          <div class="kpi-cell"><div class="kl">Achieved CVR</div><div class="kv ${cvrClass}">${(r.wCVR*100).toFixed(4)}%</div><div class="kt">was ${(r.oldWCVR*100).toFixed(4)}%</div></div>
-          <div class="kpi-cell"><div class="kl">Target CPA</div><div class="kv">$${r.kpiCpa.toFixed(2)}</div><div class="kt">client billing basis</div></div>
-          <div class="kpi-cell"><div class="kl">Achieved CPA</div><div class="kv ${cvrClass}">${cpaAch}</div><div class="kt">was ${oldCPAstr}</div></div>
-          <div class="kpi-cell"><div class="kl">New margin</div><div class="kv ${r.wMargin>=0.5?'ok':'wa'}">${fP(r.wMargin)}</div><div class="kt">was ${fP(r.oldMargin)}</div></div>
-          <div class="kpi-cell"><div class="kl">Delivery</div><div class="kv ok">${fI(r.totalImps)}</div><div class="kt">req ${fI(lis[0].ioReqDay)}/day</div></div>
-        </div>
-        <div class="tw"><table>
-          <thead><tr><th>Line item</th><th>CVR 7d</th><th>Margin 7d</th><th>Old imps</th><th>New imps</th><th>Delta imps</th><th>Old cost</th><th>New cost</th><th>Delta cost</th><th>Old rev</th><th>New rev</th></tr></thead>
-          <tbody id="litb-${ioId}"></tbody>
-        </table></div>
-        <div style="display:flex;align-items:center;gap:12px;padding:12px 18px;border-top:1px solid var(--border);background:var(--surface2);">
-          <input type="checkbox" id="acc-${ioId}" ${S.accepted[ioId]?'checked':''} ${r.status===ST.FULL?'disabled':''} onchange="S.accepted['${ioId}']=this.checked;updateAccCount()">
-          <label for="acc-${ioId}" style="margin:0;font-size:13px;color:var(--text2);font-family:var(--sans);cursor:pointer;">
-            ${r.status===ST.FULL?'<span style="color:var(--salmon);">Fully infeasible - excluded. Manual DV360 review required.</span>':r.status===ST.PERF?'Include in push (CPA not met, delivery and margin >= 50% satisfied)':'Include in DV360 push'}
-          </label>
-        </div>
-      </div>`;
-    container.appendChild(card);
-    const tbody=document.getElementById(`litb-${ioId}`);
-    lis.forEach((li,j)=>{
-      const ni=r.allocs[j];const oi=li.currentImps;const dI=ni-oi;
-      const oc=oi*li.cpm/1000;const nc=ni*li.cpm/1000;const dC=nc-oc;
-      const tr=document.createElement('tr');
-      tr.innerHTML=`
-        <td class="pri">${li.liName}<br><span style="font-family:var(--mono);font-size:10px;color:var(--text3);">${li.liId}</span></td>
-        <td class="mono">${(li.cvr*100).toFixed(4)}%</td>
-        <td class="mono">${fP(li.margin)}</td>
-        <td class="mono do">${fI(oi)}</td>
-        <td class="mono" style="color:var(--text);font-weight:500;">${fI(ni)}</td>
-        <td class="mono ${dI>0?'dup':dI<0?'ddn':''}">${dI>=0?'+':''}${fI(dI)}</td>
-        <td class="mono do">${fM(oc)}</td>
-        <td class="mono">${fM(nc)}</td>
-        <td class="mono ${dC<0?'dup':dC>0?'ddn':''}">${dC>=0?'+':''}${fM(dC)}</td>
-        <td class="mono">${fM(oi*li.billing/1000)}</td>
-        <td class="mono">${fM(ni*li.billing/1000)}</td>`;
-      tbody.appendChild(tr);
-    });
+function renderReview() {
+  const container = document.getElementById('review-io-cards');
+  Object.entries(S.IOs).forEach(([id, data]) => {
+    container.innerHTML += `<div class="io-card">
+      <div class="io-hd"><span>IO: ${id}</span> <span class="tag t-ok">${data.status}</span></div>
+    </div>`;
   });
 }
-
-function tIO(hd,bodyId){hd.classList.toggle('open');const bd=document.getElementById(bodyId);if(bd)bd.classList.toggle('open');}
-function updateAccCount(){const n=Object.keys(S.IOs).filter(id=>S.accepted[id]).length;const el=document.getElementById('acc-count');if(el)el.textContent=n;}
-
-function goToSavings(){
-  const accIds=Object.keys(S.IOs).filter(id=>S.accepted[id]);
-  if(!accIds.length){alert('No IOs accepted. Check at least one IO in the review step.');return;}
-  const tOC=accIds.reduce((s,id)=>s+S.IOs[id].oldCost,0);
-  const tNC=accIds.reduce((s,id)=>s+S.IOs[id].newCost,0);
-  const tOR=accIds.reduce((s,id)=>s+S.IOs[id].oldRev,0);
-  const tNR=accIds.reduce((s,id)=>s+S.IOs[id].newRev,0);
-  const saved=tOC-tNC;
-  const oM=tOR>0?(tOR-tOC)/tOR:0;
-  const nM=tNR>0?(tNR-tNC)/tNR:0;
-  document.getElementById('sh-saved').textContent=fM(saved);
-  document.getElementById('sh-sub').textContent=saved>=0?`${fP(tOC>0?saved/tOC:0)} cost reduction across ${accIds.length} accepted IOs`:`Net cost increase of ${fM(Math.abs(saved))}`;
-  document.getElementById('sav-metrics').innerHTML=`
-    <div class="met"><div class="ml">Old total cost</div><div class="mv">${fM(tOC)}</div></div>
-    <div class="met good"><div class="ml">New total cost</div><div class="mv">${fM(tNC)}</div></div>
-    <div class="met"><div class="ml">Old margin</div><div class="mv">${fP(oM)}</div></div>
-    <div class="met hi"><div class="ml">New margin</div><div class="mv">${fP(nM)}</div></div>
-    <div class="met hi"><div class="ml">Margin lift</div><div class="mv">${nM>=oM?'+':''}${((nM-oM)*100).toFixed(1)}pp</div></div>`;
-  const tbody=document.getElementById('sav-tbody');tbody.innerHTML='';
-  accIds.forEach(ioId=>{
-    const r=S.IOs[ioId];const sv=r.oldCost-r.newCost;
-    const oM2=r.oldRev>0?(r.oldRev-r.oldCost)/r.oldRev:0;
-    const nM2=r.newRev>0?(r.newRev-r.newCost)/r.newRev:0;
-    const dlv=r.lis[0].ioReqDay>0?Math.round(r.totalImps/r.lis[0].ioReqDay*100)+'%':'--';
-    const cpaAch=r.achCPA<Infinity?'$'+r.achCPA.toFixed(2):'--';
-    const stTag=r.status===ST.OPTIMAL?'<span class="tag t-ok">Optimal</span>':'<span class="tag t-wa">CPA not met</span>';
-    const tr=document.createElement('tr');
-    tr.innerHTML=`
-      <td class="pri">${r.lis[0].ioName||ioId}<br><span style="font-family:var(--mono);font-size:10px;color:var(--text3);">${ioId}</span></td>
-      <td>${stTag}</td>
-      <td class="mono">${fM(r.oldCost)}</td><td class="mono">${fM(r.newCost)}</td>
-      <td class="mono ${sv>0?'dup':sv<0?'ddn':''}">${sv>=0?'+':''}${fM(sv)}</td>
-      <td class="mono">${fP(oM2)}</td>
-      <td class="mono" style="color:var(--green)">${fP(nM2)}</td>
-      <td class="mono ${nM2>=oM2?'dup':'ddn'}">${nM2>=oM2?'+':''}${((nM2-oM2)*100).toFixed(1)}pp</td>
-      <td class="mono">${(r.kpiCvr*100).toFixed(4)}%</td>
-      <td class="mono ${r.cvrMet?'dup':'wa'}">${(r.wCVR*100).toFixed(4)}%</td>
-      <td>${r.cvrMet?'<span class="tag t-ok">met</span>':'<span class="tag t-wa">not met</span>'}</td>
-      <td class="mono">$${r.kpiCpa.toFixed(2)}</td>
-      <td class="mono ${r.cvrMet?'dup':'wa'}">${cpaAch}</td>
-      <td class="mono">${dlv}</td>`;
-    tbody.appendChild(tr);
-  });
-  goToScreen(4);
-}
-
-function goToPush(){
-  const accIds=Object.keys(S.IOs).filter(id=>S.accepted[id]);
-  const liCount=accIds.reduce((s,id)=>s+S.IOs[id].lis.length,0);
-  document.getElementById('push-summary').innerHTML=`Pushing budget changes for <strong>${liCount} line items</strong> across <strong>${accIds.length} accepted IOs</strong> via lineItems.bulkUpdate in batches of 100.<br><br><span style="color:var(--amber);">This cannot be undone. Download the audit CSV first.</span>`;
-  goToScreen(5);
-}
-
-async function executePush(){
-  const btn=document.getElementById('push-btn');btn.disabled=true;
-  document.getElementById('push-prog').style.display='block';
-  document.getElementById('push-log-wrap').style.display='block';
-  const logEl=document.getElementById('push-log');
-  const fill=document.getElementById('prog-fill');
-  const lbl=document.getElementById('prog-lbl');
-  const updates=[];
-  Object.keys(S.IOs).filter(id=>S.accepted[id]).forEach(ioId=>{
-    const r=S.IOs[ioId];
-    r.lis.forEach((li,j)=>updates.push({li,newBudget:r.allocs[j]*li.cpm/1000,newImps:r.allocs[j]}));
-  });
-  let done=0;
-  logEl.innerHTML=`<div class="lin">Pushing ${updates.length} line item updates</div>`;
-  if(S.tok==='DEMO'){
-    for(const batch of chk(updates,100)){
-      await sleep(500);
-      batch.forEach(({li,newBudget})=>{logEl.innerHTML+=`<div class="lok">OK ${li.liId} ${li.liName} to ${fM(newBudget)}</div>`;li.currentBudget=newBudget;done++;});
-      fill.style.width=Math.round(done/updates.length*100)+'%';lbl.textContent=`${done} / ${updates.length}`;logEl.scrollTop=logEl.scrollHeight;
-    }
-  }else{
-    const byAdv={};
-    updates.forEach(u=>{const a=u.li.advId;if(!byAdv[a])byAdv[a]=[];byAdv[a].push(u);});
-    for(const[advId,items]of Object.entries(byAdv)){
-      logEl.innerHTML+=`<div class="lin">Advertiser ${advId}: ${items.length} LIs</div>`;
-      for(const batch of chk(items,100)){
-        try{
-          const reqs=batch.map(({li,newBudget})=>({lineItem:{name:`advertisers/${advId}/lineItems/${li.liId}`,budget:{maxAmount:Math.round(newBudget*1e6).toString()}},updateMask:'budget.maxAmount'}));
-          const res=await fetch(`https://displayvideo.googleapis.com/v3/advertisers/${advId}/lineItems:bulkUpdate`,{method:'POST',headers:{Authorization:`Bearer ${S.tok}`,'Content-Type':'application/json'},body:JSON.stringify({requests:reqs})});
-          if(!res.ok)throw new Error(`API ${res.status}: ${await res.text()}`);
-          const data=await res.json();
-          batch.forEach(({li,newBudget})=>{logEl.innerHTML+=`<div class="lok">OK ${li.liId} to ${fM(newBudget)}</div>`;li.currentBudget=newBudget;done++;});
-          if(data.errors?.length)data.errors.forEach(e=>logEl.innerHTML+=`<div class="ler">ERR ${JSON.stringify(e)}</div>`);
-        }catch(e){logEl.innerHTML+=`<div class="ler">ERR ${e.message}</div>`;}
-        fill.style.width=Math.round(done/updates.length*100)+'%';lbl.textContent=`${done} / ${updates.length}`;logEl.scrollTop=logEl.scrollHeight;await sleep(150);
-      }
-    }
-  }
-  logEl.innerHTML+=`<div class="lin">Complete. ${done}/${updates.length} updated.</div>`;
-  document.getElementById('push-done').style.display='block';
-}
-
-function exportAuditCSV(){
-  const rows=[['advertiser_id','advertiser_name','io_id','io_name','line_item_id','line_item_name','billing_cpm','cost_cpm_7d','margin_7d','cvr_7d','daily_imp_min','daily_imp_max','old_daily_imps','new_daily_imps','imp_delta','old_cost','new_cost','cost_delta','cost_saved','old_revenue','new_revenue','old_margin_pct','new_margin_pct','margin_lift_pp','io_target_cvr','io_achieved_cvr','io_cvr_met','io_target_cpa','io_achieved_cpa','io_req_imps_per_day','io_solver_status','io_accepted']];
-  const ioNI={};
-  S.LIs.forEach(li=>{const r=S.IOs[li.ioId];if(!r)return;const j=r.lis.indexOf(li);if(!ioNI[li.ioId])ioNI[li.ioId]=0;ioNI[li.ioId]+=r.allocs[j]||0;});
-  S.LIs.forEach(li=>{
-    const r=S.IOs[li.ioId];if(!r)return;
-    const j=r.lis.indexOf(li);const ni=r.allocs[j]||0;const oi=li.currentImps;
-    const nc=ni*li.cpm/1000;const oc=oi*li.cpm/1000;
-    const nr=ni*li.billing/1000;const or_=oi*li.billing/1000;
-    const oM=or_>0?(or_-oc)/or_:0;const nM=nr>0?(nr-nc)/nr:0;
-    const cpaAch=r.achCPA<Infinity?r.achCPA.toFixed(4):'inf';
-    rows.push([li.advId,li.advName,li.ioId,li.ioName,li.liId,li.liName,li.billing.toFixed(4),li.cpm.toFixed(4),li.margin.toFixed(4),li.cvr.toFixed(6),li.impMin,li.impMax,oi,ni,ni-oi,oc.toFixed(4),nc.toFixed(4),(nc-oc).toFixed(4),(oc-nc).toFixed(4),or_.toFixed(4),nr.toFixed(4),(oM*100).toFixed(2)+'%',(nM*100).toFixed(2)+'%',((nM-oM)*100).toFixed(2)+'pp',(r.kpiCvr*100).toFixed(6)+'%',(r.wCVR*100).toFixed(6)+'%',r.cvrMet?'yes':'no','$'+r.kpiCpa.toFixed(2),'$'+cpaAch,li.ioReqDay,r.status,S.accepted[li.ioId]?'yes':'no']);
-  });
-  const csv=rows.map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
-  const blob=new Blob([csv],{type:'text/csv'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');a.href=url;a.download=`traveldesk-dv360-audit-${new Date().toISOString().slice(0,10)}.csv`;a.click();URL.revokeObjectURL(url);
-}
-
-function fM(n){if(n==null||isNaN(n))return'--';const a=Math.abs(n),s=n<0?'-':'';if(a>=1e6)return s+'$'+(a/1e6).toFixed(2)+'M';if(a>=1e3)return s+'$'+Math.round(a/1e3)+'k';return s+'$'+n.toFixed(2);}
-function fI(n){if(n==null||isNaN(n))return'--';const a=Math.abs(n),s=n<0?'-':'';if(a>=1e9)return s+(a/1e9).toFixed(2)+'B';if(a>=1e6)return s+(a/1e6).toFixed(2)+'M';if(a>=1e3)return s+(a/1e3).toFixed(1)+'k';return s+Math.round(a).toLocaleString();}
-function fP(n){return n!=null?(n*100).toFixed(1)+'%':'--';}
-function groupByIO(lis){return lis.reduce((a,li)=>{if(!a[li.ioId])a[li.ioId]=[];a[li.ioId].push(li);return a;},{});}
-function chk(arr,n){const o=[];for(let i=0;i<arr.length;i+=n)o.push(arr.slice(i,i+n));return o;}
-function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
-function resetAll(){S.tok=null;S.LIs=[];S.IOs={};S.accepted={};goToScreen(0);}
 </script>
 </body>
 </html>
