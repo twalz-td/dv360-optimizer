@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cougars Baseball IQ</title>
+    <style>
+        :root {
+            --maroon: #800000;
+            --black: #1a1a1a;
+            --white: #ffffff;
+            --success: #28a745;
+            --fail: #dc3545;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--black);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+        }
+        #game-container {
+            width: 100%;
+            max-width: 500px;
+            background: var(--white);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+        }
+        header {
+            background: var(--maroon);
+            color: var(--white);
+            padding: 15px;
+            text-align: center;
+            border-bottom: 5px solid var(--black);
+        }
+        .stats-bar {
+            display: flex;
+            justify-content: space-around;
+            background: #333;
+            color: white;
+            padding: 10px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        #field {
+            width: 100%;
+            height: 200px;
+            background: #2d5a27;
+            position: relative;
+            border-bottom: 10px solid #d2b48c;
+        }
+        .diamond {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(45deg);
+            border: 1px dashed rgba(255,255,255,0.3);
+        }
+        .base {
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            background: white;
+            transform: rotate(-45deg);
+        }
+        #h-base { bottom: -7px; right: -7px; }
+        #f-base { top: -7px; right: -7px; }
+        #s-base { top: -7px; left: -7px; }
+        #t-base { bottom: -7px; left: -7px; }
+        
+        .runner {
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            background: var(--maroon);
+            border: 2px solid white;
+            border-radius: 50%;
+            display: none;
+            z-index: 5;
+        }
+
+        #ui { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
+        #tag { 
+            background: var(--maroon); 
+            color: white; 
+            padding: 4px 10px; 
+            font-size: 0.7rem; 
+            border-radius: 4px; 
+            display: inline-block; 
+            margin-bottom: 10px; 
+        }
+        #q { font-size: 1.1rem; font-weight: bold; margin-bottom: 20px; }
+        .btn-list { display: grid; gap: 10px; }
+        button { 
+            padding: 15px; 
+            border: 2px solid #ddd; 
+            border-radius: 8px; 
+            background: white; 
+            font-size: 1rem; 
+            text-align: left; 
+            cursor: pointer; 
+        }
+        .correct { background: var(--success) !important; color: white; border-color: #1e7e34; }
+        .wrong { background: var(--fail) !important; color: white; border-color: #bd2130; }
+        
+        #feedback { margin-top: 15px; padding: 15px; border-radius: 8px; display: none; line-height: 1.4; }
+        #next { 
+            margin-top: auto; 
+            background: var(--maroon); 
+            color: white; 
+            padding: 20px; 
+            text-align: center; 
+            font-weight: bold; 
+            display: none; 
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div id="game-container">
+    <header><h1>COUGARS IQ</h1></header>
+    <div class="stats-bar">
+        <span>REP: <span id="count">1</span>/10</span>
+        <span>POINTS: <span id="pts">0</span></span>
+    </div>
+    <div id="field">
+        <div class="diamond">
+            <div class="base" id="h-base"></div>
+            <div class="base" id="f-base"></div>
+            <div class="base" id="s-base"></div>
+            <div class="base" id="t-base"></div>
+        </div>
+        <div id="r1" class="runner" style="top: 50%; right: 23%;"></div>
+        <div id="r2" class="runner" style="top: 20%; left: 49%;"></div>
+        <div id="r3" class="runner" style="top: 50%; left: 23%;"></div>
+    </div>
+    <div id="ui">
+        <div id="tag">POSITION</div>
+        <div id="q">Question loading...</div>
+        <div class="btn-list" id="btns"></div>
+        <div id="feedback"></div>
+    </div>
+    <div id="next">NEXT PLAY →</div>
+</div>
+
+<script>
+const drill = [
+    {p: "BASERUNNER", q: "Runner on 1st, 1 out. Fly ball deep to Center. What is your move?", r: [1], o: ["Tag up", "Go halfway", "Sprint to 2nd"], a: 1, e: "Go halfway! If it drops, you score. If caught, you can get back safely."},
+    {p: "PITCHER", q: "You are in the stretch. You start your motion but your foot slips off the rubber and you stop. Call?", r: [1], o: ["No pitch", "Balk", "Ball"], a: 1, e: "BALK! Any stop once you start your motion on the rubber moves the runner up."},
+    {p: "CATCHER", q: "Dropped 3rd strike with 2 outs. Batter runs to 1st. What do you do?", r: [], o: ["Nothing, he's out", "Tag him or throw to 1st", "Ask the Umpire"], a: 1, e: "With 2 outs, you MUST complete the out at 1st or by tagging the runner."},
+    {p: "INFIELDER", q: "Runners on 1st & 2nd, 0 outs. Pop fly to Shortstop. Umpire yells 'Infield Fly!' but it's dropped.", r: [1,2], o: ["Runners must run", "Batter is out, runners stay", "Play is dead"], a: 1, e: "Batter is out automatically. Runners stay put because the force play is gone!"},
+    {p: "OUTFIELDER", q: "Single to Right Field. Runner on 1st is going to 3rd. Where do you throw?", r: [1], o: ["Directly to 3rd", "To the Cutoff Man", "Home"], a: 1, e: "Hit the Cutoff! A low hard throw to the SS/2B keeps the double play or a tag at 3rd alive."},
+    {p: "BASERUNNER", q: "On 2nd base. Grounder hit to the Shortstop (to your left). Do you run?", r: [2], o: ["Yes, sprint to 3rd", "No, freeze/stay", "Run back to 1st"], a: 1, e: "The Freeze! Never run into an out. If it's hit in front of you, stay put until the throw goes to 1st."},
+    {p: "PITCHER", q: "Ground ball to the 1st Baseman who is pulled off the bag. What is your job?", r: [], o: ["Watch the play", "Sprint to 1st to cover", "Back up Home"], a: 1, e: "P-to-1st! You are the backup 1st baseman on any ball hit to the right side."},
+    {p: "CATCHER", q: "Runner on 3rd. Pitch in the dirt, you block it. What is your first move?", r: [3], o: ["Throw to 1st", "Snap your head to 3rd to check runner", "Throw to 2nd"], a: 1, e: "The Look-Back. Freeze that runner at 3rd before you do anything else!"},
+    {p: "HITTER", q: "Runner on 3rd, 1 out. 3-0 Count. What's the plan?", r: [3], o: ["Swing for the fences", "Take the pitch", "Bunt"], a: 1, e: "Take! The pitcher is struggling. Don't bail him out with a weak pop-up on 3-0."},
+    {p: "BASERUNNER", q: "On 3rd base. Ball hits the dirt and kicks 5 feet away from the catcher. Coach is quiet.", r: [3], o: ["Stay at 3rd", "Go for Home", "Wait for a sign"], a: 1, e: "The Dirty 30! If the ball is in the dirt and gets away, you don't need a coach to tell you to score!"}
+];
+
+let cur = 0, score = 0;
+const load = () => {
+    const d = drill[cur];
+    document.getElementById('tag').innerText = d.p;
+    document.getElementById('q').innerText = d.q;
+    document.getElementById('btns').innerHTML = '';
+    document.getElementById('feedback').style.display = 'none';
+    document.getElementById('next').style.display = 'none';
+    document.querySelectorAll('.runner').forEach(r => r.style.display = 'none');
+    d.r.forEach(n => document.getElementById('r'+n).style.display = 'block');
+    d.o.forEach((txt, i) => {
+        const b = document.createElement('button');
+        b.innerText = txt;
+        b.onclick = () => {
+            const btns = document.querySelectorAll('button');
+            btns.forEach(btn => btn.disabled = true);
+            if(i === d.a) { b.classList.add('correct'); score += 100; } 
+            else { b.classList.add('wrong'); btns[d.a].classList.add('correct'); }
+            document.getElementById('pts').innerText = score;
+            document.getElementById('feedback').style.display = 'block';
+            document.getElementById('feedback').innerHTML = d.e;
+            document.getElementById('next').style.display = 'block';
+        };
+        document.getElementById('btns').appendChild(b);
+    });
+    document.getElementById('count').innerText = cur + 1;
+};
+
+document.getElementById('next').onclick = () => {
+    cur++;
+    if(cur < drill.length) load();
+    else document.getElementById('ui').innerHTML = "<h2>DRILL COMPLETE!</h2><p>Cougar IQ: " + score + "</p><button onclick='location.reload()'>RESTART</button>";
+};
+load();
+</script>
+</body>
+</html>
