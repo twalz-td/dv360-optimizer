@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,123 +6,62 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TravelDesk — DV360 LP Optimizer</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap');
-:root {
-  --salmon:#E8574A;
-  --salmon-dim:rgba(232,87,74,0.10);
-  --salmon-dark:#c43e32;
-  --black:#0f0f0f;
-  --surface:#1a1a1a;
-  --surface2:#242424;
-  --surface3:#2e2e2e;
-  --border:rgba(255,255,255,0.07);
-  --border2:rgba(255,255,255,0.13);
-  --text:#f0efed;
-  --text2:#9a9590;
-  --text3:#5a5550;
-  --green:#3dba82;
-  --green-dim:rgba(61,186,130,0.10);
-  --amber:#e8a23a;
-  --amber-dim:rgba(232,162,58,0.10);
-  --mono:'DM Mono',monospace;
-  --sans:'DM Sans',sans-serif;
-  --r:6px; --rl:10px;
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap');
+:root{
+  --salmon:#E8574A;--salmon-dark:#c43e32;--salmon-dim:rgba(232,87,74,0.10);
+  --black:#0f0f0f;--surface:#1a1a1a;--surface2:#242424;--surface3:#2e2e2e;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);
+  --text:#f0efed;--text2:#9a9590;--text3:#5a5550;
+  --green:#3dba82;--green-dim:rgba(61,186,130,0.10);
+  --amber:#e8a23a;--amber-dim:rgba(232,162,58,0.10);
+  --blue:#5b8fff;
+  --mono:'DM Mono',monospace;--sans:'DM Sans',sans-serif;
+  --r:6px;--rl:10px;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:var(--sans);background:var(--black);color:var(--text);font-size:14px;line-height:1.6;min-height:100vh;}
-a{color:var(--salmon);text-decoration:none;}
-
-/* ── HEADER ── */
-header{
-  background:var(--black);
-  border-bottom:1px solid var(--border);
-  padding:0 32px;height:60px;
-  display:flex;align-items:center;justify-content:space-between;
-  position:sticky;top:0;z-index:100;
-}
-.logo-area{display:flex;align-items:center;gap:16px;}
-.logo-area img{height:28px;width:auto;display:block;}
-.logo-divider{width:1px;height:20px;background:var(--border2);}
-.logo-app{font-family:var(--mono);font-size:11px;color:var(--text3);letter-spacing:.06em;}
-.auth-badge{font-family:var(--mono);font-size:11px;padding:4px 12px;border-radius:20px;border:1px solid var(--border2);color:var(--text3);}
-.auth-badge.connected{border-color:var(--salmon);color:var(--salmon);}
-
-/* ── STEPS ── */
-.steps-nav{display:flex;align-items:center;font-family:var(--mono);font-size:11px;}
-.step-item{display:flex;align-items:center;gap:7px;padding:0 12px;color:var(--text3);cursor:default;transition:color .2s;}
-.step-item.active{color:var(--text);}
-.step-item.done{color:var(--salmon);cursor:pointer;}
-.step-item.done:hover{color:var(--text);}
-.step-num{width:20px;height:20px;border-radius:50%;border:1px solid currentColor;display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;}
-.step-item.active .step-num{background:var(--salmon);border-color:var(--salmon);color:#fff;}
-.step-item.done .step-num{background:var(--salmon);border-color:var(--salmon);color:#fff;}
-.step-sep{color:var(--text3);font-size:10px;}
-
-/* ── LAYOUT ── */
-main{padding:40px 32px;max-width:1320px;margin:0 auto;width:100%;}
+header{background:var(--black);border-bottom:1px solid var(--border);padding:0 32px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.la{display:flex;align-items:center;gap:14px;}
+.la img{height:26px;width:auto;}
+.ld{width:1px;height:18px;background:var(--border2);}
+.lapp{font-family:var(--mono);font-size:11px;color:var(--text3);letter-spacing:.06em;}
+.ab{font-family:var(--mono);font-size:11px;padding:4px 12px;border-radius:20px;border:1px solid var(--border2);color:var(--text3);}
+.ab.on{border-color:var(--salmon);color:var(--salmon);}
+.snav{display:flex;align-items:center;font-family:var(--mono);font-size:11px;}
+.si{display:flex;align-items:center;gap:7px;padding:0 10px;color:var(--text3);cursor:default;transition:color .2s;}
+.si.active{color:var(--text);}.si.done{color:var(--salmon);cursor:pointer;}.si.done:hover{color:var(--text);}
+.snum{width:20px;height:20px;border-radius:50%;border:1px solid currentColor;display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;}
+.si.active .snum{background:var(--salmon);border-color:var(--salmon);color:#fff;}
+.si.done .snum{background:var(--salmon);border-color:var(--salmon);color:#fff;}
+.ssep{color:var(--text3);font-size:10px;}
+main{padding:40px 32px;max-width:1400px;margin:0 auto;width:100%;}
 .screen{display:none;}.screen.active{display:block;}
-.page-title{font-size:26px;font-weight:300;letter-spacing:-.03em;margin-bottom:6px;}
-.page-title strong{font-weight:500;color:var(--salmon);}
-.page-sub{font-size:13px;color:var(--text3);margin-bottom:32px;max-width:640px;}
-
-/* ── CARDS ── */
+.pt{font-size:26px;font-weight:300;letter-spacing:-.03em;margin-bottom:6px;}
+.pt strong{font-weight:500;color:var(--salmon);}
+.ps{font-size:13px;color:var(--text3);margin-bottom:32px;max-width:700px;}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:24px;margin-bottom:16px;}
-.card-title{font-family:var(--mono);font-size:10px;font-weight:500;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:18px;}
-.sec-head{font-family:var(--mono);font-size:10px;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;margin:32px 0 12px;padding-bottom:10px;border-bottom:1px solid var(--border);}
-
-/* ── INPUTS ── */
+.ct{font-family:var(--mono);font-size:10px;font-weight:500;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:18px;}
+.sh{font-family:var(--mono);font-size:10px;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;margin:32px 0 12px;padding-bottom:10px;border-bottom:1px solid var(--border);}
 label{font-size:12px;color:var(--text2);display:block;margin-bottom:5px;font-family:var(--mono);}
-input[type=text],input[type=number],select{
-  width:100%;background:var(--surface2);border:1px solid var(--border2);
-  border-radius:var(--r);padding:10px 12px;color:var(--text);
-  font-family:var(--mono);font-size:13px;outline:none;
-  transition:border-color .15s;margin-bottom:14px;
-}
+input[type=text],input[type=number],select{width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:var(--r);padding:10px 12px;color:var(--text);font-family:var(--mono);font-size:13px;outline:none;transition:border-color .15s;margin-bottom:14px;}
 input[type=text]:focus,input[type=number]:focus,select:focus{border-color:var(--salmon);}
-textarea{
-  width:100%;background:var(--surface2);border:1px solid var(--border2);
-  border-radius:var(--r);padding:10px 12px;color:var(--text);
-  font-family:var(--mono);font-size:13px;outline:none;
-  resize:vertical;min-height:72px;margin-bottom:14px;
-}
-textarea:focus{border-color:var(--salmon);}
-input[type=checkbox]{accent-color:var(--salmon);width:14px;height:14px;cursor:pointer;}
-
-/* ── BUTTONS ── */
-.btn{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:9px 18px;border-radius:var(--r);
-  font-family:var(--mono);font-size:12px;font-weight:500;
-  cursor:pointer;border:1px solid var(--border2);
-  background:transparent;color:var(--text);
-  transition:all .15s;letter-spacing:.02em;
-}
-.btn:hover{border-color:var(--salmon);color:var(--salmon);}
-.btn:active{transform:scale(.98);}
-.btn:disabled{opacity:.3;cursor:not-allowed;pointer-events:none;}
-.btn-primary{background:var(--salmon);border-color:var(--salmon);color:#fff;}
-.btn-primary:hover{background:var(--salmon-dark);border-color:var(--salmon-dark);color:#fff;}
-.btn-confirm{background:var(--green);border-color:var(--green);color:var(--black);}
-.btn-confirm:hover{opacity:.85;color:var(--black);}
-.btn-sm{padding:6px 12px;font-size:11px;}
-.btn-row{display:flex;align-items:center;gap:10px;margin-top:10px;flex-wrap:wrap;}
-
-/* ── GRID ── */
+textarea{width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:var(--r);padding:10px 12px;color:var(--text);font-family:var(--mono);font-size:13px;outline:none;resize:vertical;min-height:72px;margin-bottom:14px;}
+input[type=checkbox]{accent-color:var(--salmon);width:15px;height:15px;cursor:pointer;}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:9px 18px;border-radius:var(--r);font-family:var(--mono);font-size:12px;font-weight:500;cursor:pointer;border:1px solid var(--border2);background:transparent;color:var(--text);transition:all .15s;letter-spacing:.02em;}
+.btn:hover{border-color:var(--salmon);color:var(--salmon);}.btn:active{transform:scale(.98);}.btn:disabled{opacity:.3;cursor:not-allowed;pointer-events:none;}
+.bp{background:var(--salmon);border-color:var(--salmon);color:#fff;}.bp:hover{background:var(--salmon-dark);border-color:var(--salmon-dark);color:#fff;}
+.bc{background:var(--green);border-color:var(--green);color:var(--black);}.bc:hover{opacity:.85;color:var(--black);}
+.bsm{padding:6px 12px;font-size:11px;}
+.br{display:flex;align-items:center;gap:10px;margin-top:10px;flex-wrap:wrap;}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
-.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;}
-
-/* ── METRICS ── */
 .mrow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-bottom:28px;}
-.metric{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:16px 18px;}
-.metric .ml{font-family:var(--mono);font-size:10px;color:var(--text3);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px;}
-.metric .mv{font-family:var(--mono);font-size:22px;font-weight:500;}
-.metric .ms{font-size:11px;color:var(--text3);margin-top:3px;}
-.metric.hi{border-color:var(--salmon);}
-.metric.hi .mv{color:var(--salmon);}
-.metric.good{border-color:var(--green);}
-.metric.good .mv{color:var(--green);}
-
-/* ── TABLE ── */
+.met{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:16px 18px;}
+.met .ml{font-family:var(--mono);font-size:10px;color:var(--text3);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px;}
+.met .mv{font-family:var(--mono);font-size:22px;font-weight:500;}
+.met .ms{font-size:11px;color:var(--text3);margin-top:3px;}
+.met.hi{border-color:var(--salmon);}.met.hi .mv{color:var(--salmon);}
+.met.good{border-color:var(--green);}.met.good .mv{color:var(--green);}
+.met.warn{border-color:var(--amber);}.met.warn .mv{color:var(--amber);}
 .tw{overflow-x:auto;}
 table{width:100%;border-collapse:collapse;font-size:12px;}
 thead th{font-family:var(--mono);font-size:10px;font-weight:500;color:var(--text3);text-align:left;padding:8px 10px;border-bottom:1px solid var(--border);letter-spacing:.05em;text-transform:uppercase;white-space:nowrap;}
@@ -131,130 +71,97 @@ tbody tr:last-child{border-bottom:none;}
 tbody td{padding:9px 10px;vertical-align:middle;color:var(--text2);}
 tbody td.mono{font-family:var(--mono);font-size:11px;}
 tbody td.pri{color:var(--text);font-weight:500;}
-
-/* ── TAGS ── */
-.tag{display:inline-block;font-family:var(--mono);font-size:10px;padding:2px 8px;border-radius:20px;font-weight:500;border:1px solid transparent;}
-.tag-bran{background:rgba(232,87,74,.12);color:#f07d73;border-color:rgba(232,87,74,.25);}
-.tag-pros{background:rgba(61,186,130,.10);color:#3dba82;border-color:rgba(61,186,130,.2);}
-.tag-retr{background:rgba(232,162,58,.10);color:#e8a23a;border-color:rgba(232,162,58,.2);}
-.tag-perf{background:rgba(120,140,255,.10);color:#8899ff;border-color:rgba(120,140,255,.2);}
-.tag-vide{background:rgba(200,100,255,.10);color:#c878ff;border-color:rgba(200,100,255,.2);}
-
-/* ── STATUS ── */
-.stat{font-family:var(--mono);font-size:10px;padding:3px 8px;border-radius:4px;font-weight:500;}
-.st-ok{background:var(--green-dim);color:var(--green);}
-.st-wa{background:var(--amber-dim);color:var(--amber);}
-.st-ne{background:var(--surface3);color:var(--text3);}
-.st-er{background:var(--salmon-dim);color:var(--salmon);}
-
-/* ── DIFF ── */
+.tag{display:inline-block;font-family:var(--mono);font-size:10px;padding:3px 9px;border-radius:20px;font-weight:500;border:1px solid transparent;white-space:nowrap;}
+.t-ok{background:var(--green-dim);color:var(--green);border-color:rgba(61,186,130,.25);}
+.t-wa{background:var(--amber-dim);color:var(--amber);border-color:rgba(232,162,58,.25);}
+.t-er{background:var(--salmon-dim);color:var(--salmon);border-color:rgba(232,87,74,.25);}
+.t-ne{background:var(--surface3);color:var(--text3);border-color:var(--border2);}
 .do{font-family:var(--mono);font-size:11px;color:var(--text3);text-decoration:line-through;}
 .dup{color:var(--green);}.ddn{color:var(--amber);}
-
-/* ── IO ACCORDION ── */
-.io-group{margin-bottom:8px;}
-.io-hd{display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);cursor:pointer;user-select:none;transition:border-color .15s;}
-.io-hd:hover{border-color:var(--border2);}
-.io-hd.open{border-radius:var(--r) var(--r) 0 0;border-bottom-color:transparent;}
-.io-hd .ion{font-weight:500;color:var(--text);flex:1;font-size:13px;}
-.io-hd .ioi{font-family:var(--mono);font-size:10px;color:var(--text3);}
+/* IO review cards */
+.io-card{border-radius:var(--rl);margin-bottom:14px;overflow:hidden;border:1px solid var(--border);}
+.io-card.st-optimal{border-color:rgba(61,186,130,.35);}
+.io-card.st-perf{border-color:rgba(232,162,58,.35);}
+.io-card.st-full{border-color:rgba(232,87,74,.35);}
+.io-hd{display:flex;align-items:center;gap:12px;padding:14px 18px;background:var(--surface2);cursor:pointer;user-select:none;flex-wrap:wrap;}
+.io-hd .ion{font-weight:500;color:var(--text);flex:1;min-width:180px;font-size:13px;}
+.io-hd .ioid{font-family:var(--mono);font-size:10px;color:var(--text3);}
 .io-hd .iom{font-family:var(--mono);font-size:11px;color:var(--text2);}
-.io-cv{color:var(--text3);font-size:10px;transition:transform .2s;}
-.io-hd.open .io-cv{transform:rotate(90deg);}
-.io-bd{display:none;border:1px solid var(--border);border-top:none;border-radius:0 0 var(--r) var(--r);background:var(--surface);}
-.io-bd.open{display:block;}
-
-/* ── INLINE EDIT ── */
-.ie{background:transparent;border:none;border-bottom:1px solid var(--border2);color:var(--text);font-family:var(--mono);font-size:12px;width:90px;padding:2px 4px;outline:none;text-align:right;}
-.ie:focus{border-bottom-color:var(--salmon);}
-
-/* ── PROGRESS ── */
-.prog-bg{height:3px;background:var(--surface3);border-radius:2px;overflow:hidden;margin-bottom:8px;}
-.prog-fill{height:3px;background:var(--salmon);border-radius:2px;transition:width .3s ease;width:0%;}
-.prog-lbl{font-family:var(--mono);font-size:11px;color:var(--text2);}
-
-/* ── ALERTS ── */
-.alert{padding:12px 16px;border-radius:var(--r);font-size:13px;margin-bottom:12px;border:1px solid;}
-.al-wa{background:var(--amber-dim);border-color:rgba(232,162,58,.3);color:var(--amber);}
-.al-ok{background:var(--green-dim);border-color:rgba(61,186,130,.3);color:var(--green);}
-.al-er{background:var(--salmon-dim);border-color:rgba(232,87,74,.3);color:var(--salmon);}
-.al-in{background:rgba(120,140,255,.08);border-color:rgba(120,140,255,.2);color:#8899ff;}
-
-/* ── CODE ── */
-.codeblk{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);padding:10px 14px;font-family:var(--mono);font-size:11px;color:var(--salmon);margin:10px 0;line-height:1.8;word-break:break-all;}
-
-/* ── PUSH LOG ── */
+.iocv{color:var(--text3);font-size:10px;transition:transform .2s;flex-shrink:0;}
+.io-hd.open .iocv{transform:rotate(90deg);}
+.io-body{display:none;}.io-body.open{display:block;}
+/* KPI strip */
+.kpi-strip{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:1px;background:var(--border);margin-bottom:0;}
+.kpi-cell{background:var(--surface);padding:12px 14px;}
+.kpi-cell .kl{font-family:var(--mono);font-size:9px;color:var(--text3);letter-spacing:.07em;text-transform:uppercase;margin-bottom:4px;}
+.kpi-cell .kv{font-family:var(--mono);font-size:16px;font-weight:500;color:var(--text);}
+.kpi-cell .kt{font-size:11px;color:var(--text3);margin-top:2px;}
+.kv.ok{color:var(--green);}.kv.wa{color:var(--amber);}.kv.er{color:var(--salmon);}
+/* banner */
+.banner{padding:11px 16px;font-size:12px;display:flex;gap:10px;align-items:flex-start;line-height:1.5;}
+.banner.warn{background:var(--amber-dim);color:var(--amber);}
+.banner.err{background:var(--salmon-dim);color:var(--salmon);}
+/* accept row */
+.accept-row{display:flex;align-items:center;gap:12px;padding:12px 18px;border-top:1px solid var(--border);background:var(--surface2);}
+.accept-row label{margin:0;font-size:13px;color:var(--text2);font-family:var(--sans);cursor:pointer;}
+/* progress */
+.pb-bg{height:3px;background:var(--surface3);border-radius:2px;overflow:hidden;margin-bottom:8px;}
+.pb-fill{height:3px;background:var(--salmon);border-radius:2px;transition:width .3s;width:0%;}
+.pb-lbl{font-family:var(--mono);font-size:11px;color:var(--text2);}
 .push-log{background:var(--black);border:1px solid var(--border);border-radius:var(--r);padding:14px;font-family:var(--mono);font-size:11px;color:var(--text2);max-height:280px;overflow-y:auto;line-height:1.9;}
-.lok{color:var(--green);}.lwa{color:var(--amber);}.ler{color:var(--salmon);}.lin{color:#8899ff;}
-
-/* ── SAVINGS HERO ── */
+.lok{color:var(--green);}.lwa{color:var(--amber);}.ler{color:var(--salmon);}.lin{color:var(--blue);}
 .sav-hero{background:var(--surface);border:1px solid var(--salmon);border-radius:var(--rl);padding:36px;text-align:center;margin-bottom:24px;}
 .sav-hero .shl{font-family:var(--mono);font-size:10px;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;}
 .sav-hero .shv{font-family:var(--mono);font-size:52px;font-weight:500;color:var(--salmon);}
 .sav-hero .shs{font-size:13px;color:var(--text3);margin-top:8px;}
-
-/* ── UPLOAD DROP ZONE ── */
+.codeblk{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);padding:10px 14px;font-family:var(--mono);font-size:11px;color:var(--salmon);margin:10px 0;line-height:1.8;}
 .drop-zone{border:1px dashed var(--border2);border-radius:var(--rl);padding:32px;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;}
 .drop-zone:hover,.drop-zone.drag{border-color:var(--salmon);background:var(--salmon-dim);}
-.drop-zone .dz-icon{font-size:28px;margin-bottom:10px;opacity:.4;}
-.drop-zone .dz-label{font-size:13px;color:var(--text2);}
-.drop-zone .dz-sub{font-size:11px;color:var(--text3);margin-top:4px;font-family:var(--mono);}
-
-::-webkit-scrollbar{width:5px;height:5px;}
-::-webkit-scrollbar-track{background:transparent;}
-::-webkit-scrollbar-thumb{background:var(--surface3);border-radius:3px;}
-
-@media(max-width:900px){
-  .g2,.g3{grid-template-columns:1fr;}
-  .mrow{grid-template-columns:repeat(2,1fr);}
-  main{padding:24px 16px;}
-  header{padding:0 16px;}
-  .step-label{display:none;}
-}
+.dz-icon{font-size:28px;margin-bottom:10px;opacity:.4;}
+.dz-label{font-size:13px;color:var(--text2);}
+.dz-sub{font-size:11px;color:var(--text3);margin-top:4px;font-family:var(--mono);}
+::-webkit-scrollbar{width:5px;height:5px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:var(--surface3);border-radius:3px;}
+@media(max-width:900px){.g2{grid-template-columns:1fr;}.mrow{grid-template-columns:repeat(2,1fr);}main{padding:24px 16px;}header{padding:0 16px;}.sl{display:none;}.kpi-strip{grid-template-columns:repeat(3,1fr);}}
 </style>
 </head>
 <body>
-<div style="display:flex;flex-direction:column;min-height:100vh;">
-
-<!-- ══ HEADER ══════════════════════════════════════════════════════════ -->
 <header>
-  <div class="logo-area">
+  <div class="la">
     <img src="https://traveldeskglobal.com/wp-content/uploads/2024/03/TD-Logo-White.png"
-         onerror="this.style.display='none';document.getElementById('logo-fallback').style.display='block'"
-         alt="TravelDesk">
-    <span id="logo-fallback" style="display:none;font-family:var(--mono);font-size:14px;font-weight:500;color:var(--salmon);letter-spacing:.04em;">TRAVELDESK</span>
-    <div class="logo-divider"></div>
-    <span class="logo-app">dv360 lp optimizer</span>
+         onerror="this.style.display='none';document.getElementById('lf').style.display='block'" alt="TravelDesk">
+    <span id="lf" style="display:none;font-family:var(--mono);font-size:14px;font-weight:500;color:var(--salmon);letter-spacing:.04em;">TRAVELDESK</span>
+    <div class="ld"></div>
+    <span class="lapp">dv360 lp optimizer</span>
   </div>
-  <div class="steps-nav" id="steps-nav">
-    <div class="step-item active" data-step="0"><div class="step-num">1</div><span class="step-label">Connect</span></div>
-    <span class="step-sep">›</span>
-    <div class="step-item" data-step="1"><div class="step-num">2</div><span class="step-label">Upload</span></div>
-    <span class="step-sep">›</span>
-    <div class="step-item" data-step="2"><div class="step-num">3</div><span class="step-label">Solve</span></div>
-    <span class="step-sep">›</span>
-    <div class="step-item" data-step="3"><div class="step-num">4</div><span class="step-label">Review</span></div>
-    <span class="step-sep">›</span>
-    <div class="step-item" data-step="4"><div class="step-num">5</div><span class="step-label">Savings</span></div>
-    <span class="step-sep">›</span>
-    <div class="step-item" data-step="5"><div class="step-num">6</div><span class="step-label">Push</span></div>
+  <div class="snav">
+    <div class="si active" data-step="0"><div class="snum">1</div><span class="sl">Connect</span></div>
+    <span class="ssep">›</span>
+    <div class="si" data-step="1"><div class="snum">2</div><span class="sl">Upload</span></div>
+    <span class="ssep">›</span>
+    <div class="si" data-step="2"><div class="snum">3</div><span class="sl">Solve</span></div>
+    <span class="ssep">›</span>
+    <div class="si" data-step="3"><div class="snum">4</div><span class="sl">Review</span></div>
+    <span class="ssep">›</span>
+    <div class="si" data-step="4"><div class="snum">5</div><span class="sl">Savings</span></div>
+    <span class="ssep">›</span>
+    <div class="si" data-step="5"><div class="snum">6</div><span class="sl">Push</span></div>
   </div>
-  <div class="auth-badge" id="auth-badge">not connected</div>
+  <div class="ab" id="auth-badge">not connected</div>
 </header>
 
 <main>
 
-<!-- ══ 1. CONNECT ══════════════════════════════════════════════════════ -->
+<!-- ══ 1. CONNECT ══════════════════════════════════════════════ -->
 <div class="screen active" id="screen-0">
-  <div class="page-title">Connect to <strong>DV360</strong></div>
-  <div class="page-sub">Authenticate with Google OAuth. Advertiser IDs are read from your LP input file — no manual entry needed.</div>
+  <div class="pt">Connect to <strong>DV360</strong></div>
+  <div class="ps">Authenticate with Google OAuth. Advertiser IDs are read automatically from your LP input file.</div>
   <div class="g2" style="max-width:860px;">
     <div class="card">
-      <div class="card-title">OAuth2 configuration</div>
+      <div class="ct">OAuth2 configuration</div>
       <label>Google OAuth2 Client ID</label>
       <input type="text" id="client-id" placeholder="xxxxxxxxxx.apps.googleusercontent.com">
-      <div class="btn-row">
-        <button class="btn btn-primary" onclick="startAuth()">
+      <div class="br">
+        <button class="btn bp" onclick="startAuth()">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
           Connect with Google
         </button>
@@ -262,7 +169,7 @@ tbody td.pri{color:var(--text);font-weight:500;}
       </div>
     </div>
     <div class="card" style="background:var(--surface2);">
-      <div class="card-title">Setup instructions</div>
+      <div class="ct">Setup instructions</div>
       <ol style="padding-left:18px;color:var(--text2);font-size:13px;line-height:2.2;">
         <li>Go to <strong style="color:var(--text);">Google Cloud Console</strong> → APIs &amp; Services</li>
         <li>Enable the <strong style="color:var(--text);">Display &amp; Video 360 API</strong></li>
@@ -273,198 +180,198 @@ tbody td.pri{color:var(--text);font-weight:500;}
         <li>Paste the <strong style="color:var(--text);">Client ID</strong> above and connect</li>
       </ol>
       <div style="margin-top:14px;padding:12px;background:var(--salmon-dim);border-radius:var(--r);border:1px solid rgba(232,87,74,.2);">
-        <div style="font-family:var(--mono);font-size:10px;color:var(--salmon);margin-bottom:3px;letter-spacing:.06em;">NOTE</div>
-        <div style="font-size:12px;color:var(--text2);">Your access token stays in browser memory only and is never transmitted elsewhere. Advertiser IDs are derived from your uploaded LP CSV.</div>
+        <div style="font-family:var(--mono);font-size:10px;color:var(--salmon);margin-bottom:3px;">NOTE</div>
+        <div style="font-size:12px;color:var(--text2);">Token stays in browser memory only. Advertiser IDs are read from your uploaded CSV.</div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ══ 2. UPLOAD ════════════════════════════════════════════════════════ -->
+<!-- ══ 2. UPLOAD ══════════════════════════════════════════════ -->
 <div class="screen" id="screen-1">
-  <div class="page-title">Upload <strong>LP input file</strong></div>
-  <div class="page-sub">One CSV drives everything — line item performance, costs, impression bounds, and IO delivery requirements. Advertiser IDs are read from this file to fetch live DV360 data automatically.</div>
-
+  <div class="pt">Upload <strong>LP input file</strong></div>
+  <div class="ps">One CSV drives everything — performance, costs, impression bounds, and IO delivery requirements.</div>
   <div class="g2" style="margin-bottom:24px;">
     <div class="card">
-      <div class="card-title">Required CSV schema</div>
-      <div class="codeblk">advertiser_id, line_item_id, io_id,<br>conversion_rate, cost_cpm, revenue_cpm,<br>imp_min, imp_max, io_required_impressions</div>
-      <div style="font-size:12px;color:var(--text2);line-height:2;margin-top:4px;">
-        <span style="color:var(--text);font-family:var(--mono);">advertiser_id</span> — DV360 advertiser the LI belongs to<br>
-        <span style="color:var(--text);font-family:var(--mono);">line_item_id</span> — DV360 line item ID<br>
-        <span style="color:var(--text);font-family:var(--mono);">io_id</span> — Insertion order ID<br>
-        <span style="color:var(--text);font-family:var(--mono);">conversion_rate</span> — conversions ÷ impressions<br>
-        <span style="color:var(--text);font-family:var(--mono);">cost_cpm</span> — media cost per 1,000 impressions<br>
-        <span style="color:var(--text);font-family:var(--mono);">revenue_cpm</span> — revenue per 1,000 impressions<br>
-        <span style="color:var(--text);font-family:var(--mono);">imp_min</span> — minimum impressions for this LI<br>
-        <span style="color:var(--text);font-family:var(--mono);">imp_max</span> — maximum impressions for this LI<br>
-        <span style="color:var(--text);font-family:var(--mono);">io_required_impressions</span> — total IO must deliver (repeat same value per IO)
+      <div class="ct">Required CSV schema</div>
+      <div class="codeblk">Advertiser, Advertiser_ID, Insertion_Order, Insertion_Order_ID,<br>
+dcm_package_id, Line_Item, Line_Item_ID,<br>
+Product_Billing_Rate, conversion_rate_7d, margin_7d, cpm_7d,<br>
+impression_daily_upper_bound, impression_daily_lower_bound,<br>
+days_remaining, io_impressions_remaining,<br>
+io_impressions_needed_per_day,<br>
+io_kpi_type, io_kpi_rate, io_kpi_conversion_rate</div>
+      <div style="font-size:12px;color:var(--text2);line-height:2.1;margin-top:8px;">
+        <span style="color:var(--text);font-family:var(--mono);">Product_Billing_Rate</span> — revenue CPM billed to client (consistent per IO)<br>
+        <span style="color:var(--text);font-family:var(--mono);">cpm_7d</span> — DV360 inventory cost CPM<br>
+        <span style="color:var(--text);font-family:var(--mono);">margin_7d</span> — (billing_rate − cpm_7d) / billing_rate<br>
+        <span style="color:var(--text);font-family:var(--mono);">conversion_rate_7d</span> — conversions / impressions (7-day window)<br>
+        <span style="color:var(--text);font-family:var(--mono);">impression_daily_upper/lower_bound</span> — daily LI impression bounds<br>
+        <span style="color:var(--text);font-family:var(--mono);">io_impressions_needed_per_day</span> — IO daily delivery target (impressions)<br>
+        <span style="color:var(--text);font-family:var(--mono);">io_kpi_rate</span> — target CPA in client dollars<br>
+        <span style="color:var(--text);font-family:var(--mono);">io_kpi_conversion_rate</span> — billing_rate / (1000 × kpi_rate)
       </div>
-      <div class="btn-row">
-        <button class="btn btn-sm" onclick="downloadTemplate()">↓ Download template</button>
-      </div>
+      <div class="br"><button class="btn bsm" onclick="dlTemplate()">↓ Download template</button></div>
     </div>
     <div class="card">
-      <div class="card-title">Upload file</div>
-      <div class="drop-zone" id="drop-zone" onclick="document.getElementById('csv-input').click()"
+      <div class="ct">Upload file</div>
+      <div class="drop-zone" id="drop-zone"
+           onclick="document.getElementById('csv-in').click()"
            ondragover="event.preventDefault();this.classList.add('drag')"
            ondragleave="this.classList.remove('drag')"
            ondrop="event.preventDefault();this.classList.remove('drag');handleDrop(event)">
         <div class="dz-icon">⬆</div>
-        <div class="dz-label">Click to upload or drag & drop</div>
+        <div class="dz-label">Click to upload or drag &amp; drop</div>
         <div class="dz-sub">.csv files only</div>
       </div>
-      <input type="file" id="csv-input" accept=".csv" style="display:none" onchange="loadCSV(this)">
+      <input type="file" id="csv-in" accept=".csv" style="display:none" onchange="loadCSV(this)">
       <div id="upload-status" style="margin-top:12px;font-family:var(--mono);font-size:11px;color:var(--text3);line-height:1.9;"></div>
     </div>
   </div>
 
   <div id="loaded-summary" style="display:none;">
-    <div class="sec-head">Parsed line items</div>
+    <div class="sh">Parsed line items</div>
     <div class="mrow" id="load-metrics"></div>
     <div class="card" style="padding:0;">
       <div class="tw">
         <table>
           <thead><tr>
-            <th>Line item</th><th>Advertiser</th><th>IO</th>
-            <th>Cost CPM</th><th>Rev CPM</th><th>CVR</th>
-            <th>Imp min</th><th>Imp max</th><th>IO req. imps</th><th>Margin %</th>
+            <th>Line item</th><th>IO</th><th>Advertiser</th>
+            <th>Bill CPM</th><th>Cost CPM</th><th>Margin 7d</th><th>CVR 7d</th>
+            <th>Daily min</th><th>Daily max</th>
+            <th>IO daily req</th><th>IO KPI CVR</th><th>IO KPI CPA</th>
           </tr></thead>
           <tbody id="loaded-tbody"></tbody>
         </table>
       </div>
     </div>
-    <div id="fetch-progress-area" style="display:none;margin-top:16px;">
-      <div class="prog-bg"><div class="prog-fill" id="fetch-fill"></div></div>
-      <div class="prog-lbl" id="fetch-lbl">Fetching line item names from DV360...</div>
-    </div>
-    <div class="btn-row" style="margin-top:16px;">
-      <button class="btn btn-primary" id="fetch-names-btn" onclick="fetchNamesFromDV360()">Fetch names from DV360 →</button>
-      <button class="btn" onclick="skipFetchAndSolve()">Skip & go to solver →</button>
+    <div class="br" style="margin-top:16px;">
+      <button class="btn bp" onclick="goToSolve()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        Run LP solver
+      </button>
     </div>
   </div>
 </div>
 
-<!-- ══ 3. SOLVE ═════════════════════════════════════════════════════════ -->
+<!-- ══ 3. SOLVE (progress) ════════════════════════════════════ -->
 <div class="screen" id="screen-2">
-  <div class="page-title">IO delivery <strong>requirements</strong></div>
-  <div class="page-sub">Review and adjust required impressions per IO before running the solver. Pre-filled from your CSV.</div>
-  <div id="io-req-list"></div>
-  <div class="btn-row" style="margin-top:24px;">
-    <button class="btn btn-primary" onclick="runOptimizer()">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-      Run LP solver
-    </button>
+  <div class="pt">Running <strong>LP solver</strong></div>
+  <div class="ps">Solving each IO sequentially — maximising margin subject to delivery and CVR constraints.</div>
+  <div class="card" style="max-width:600px;">
+    <div class="ct">Solver progress</div>
+    <div class="pb-bg"><div class="pb-fill" id="solve-fill"></div></div>
+    <div class="pb-lbl" id="solve-lbl">Initialising...</div>
+    <div id="solve-log" style="margin-top:16px;font-family:var(--mono);font-size:11px;color:var(--text3);line-height:2;max-height:280px;overflow-y:auto;"></div>
   </div>
 </div>
 
-<!-- ══ 4. REVIEW ════════════════════════════════════════════════════════ -->
+<!-- ══ 4. REVIEW ══════════════════════════════════════════════ -->
 <div class="screen" id="screen-3">
-  <div class="page-title">Review <strong>proposed changes</strong></div>
-  <div class="page-sub">Old vs new impressions, cost, revenue, margin and conversions per IO and line item. Edit impression allocations inline before proceeding.</div>
+  <div class="pt">Review <strong>proposed changes</strong></div>
+  <div class="ps">Each IO shows solver status, KPI performance vs target, and per-LI impression allocations. Use the checkbox at the bottom of each IO card to include or exclude it from the DV360 push.</div>
   <div class="mrow" id="review-metrics"></div>
-  <div id="review-alerts"></div>
-  <div class="sec-head">Results by insertion order</div>
-  <div id="review-io-groups"></div>
-  <div class="btn-row" style="margin-top:24px;">
+  <div class="sh">Results by insertion order</div>
+  <div id="review-io-cards"></div>
+  <div class="br" style="margin-top:24px;">
     <button class="btn" onclick="exportAuditCSV()">Export audit CSV</button>
-    <button class="btn btn-primary" onclick="goToSavings()">View savings summary →</button>
+    <button class="btn bp" onclick="goToSavings()">View savings summary →</button>
   </div>
 </div>
 
-<!-- ══ 5. SAVINGS ═══════════════════════════════════════════════════════ -->
+<!-- ══ 5. SAVINGS ═════════════════════════════════════════════ -->
 <div class="screen" id="screen-4">
-  <div class="page-title"><strong>Savings</strong> summary</div>
-  <div class="page-sub">Total value unlocked by implementing the optimized allocation across all IOs.</div>
+  <div class="pt"><strong>Savings</strong> summary</div>
+  <div class="ps">Accepted IOs only. Rejected and fully infeasible IOs are excluded.</div>
   <div class="sav-hero">
     <div class="shl">Total cost saved</div>
     <div class="shv" id="sh-saved">—</div>
     <div class="shs" id="sh-sub"></div>
   </div>
   <div class="mrow" id="sav-metrics"></div>
-  <div class="sec-head">Per-IO breakdown</div>
+  <div class="sh">Per-IO breakdown (accepted IOs)</div>
   <div class="card" style="padding:0;">
     <div class="tw">
       <table>
         <thead><tr>
-          <th>Insertion order</th>
+          <th>Insertion order</th><th>Status</th>
           <th>Old cost</th><th>New cost</th><th>Cost saved</th>
-          <th>Old rev</th><th>New rev</th>
-          <th>Old margin</th><th>New margin</th><th>Margin lift</th>
-          <th>Old convs</th><th>New convs</th><th>Conv delta</th>
+          <th>Old margin</th><th>New margin</th><th>Margin Δ</th>
+          <th>Target CVR</th><th>Achieved CVR</th><th>CVR vs target</th>
+          <th>Target CPA</th><th>Achieved CPA</th>
           <th>Delivery</th>
         </tr></thead>
         <tbody id="sav-tbody"></tbody>
       </table>
     </div>
   </div>
-  <div class="btn-row" style="margin-top:24px;">
+  <div class="br" style="margin-top:24px;">
     <button class="btn" onclick="exportAuditCSV()">Export full audit CSV</button>
-    <button class="btn btn-confirm" onclick="goToPush()">Push to DV360 →</button>
+    <button class="btn bc" onclick="goToPush()">Push accepted IOs to DV360 →</button>
   </div>
 </div>
 
-<!-- ══ 6. PUSH ══════════════════════════════════════════════════════════ -->
+<!-- ══ 6. PUSH ════════════════════════════════════════════════ -->
 <div class="screen" id="screen-5">
-  <div class="page-title">Push <strong>changes</strong> to DV360</div>
-  <div class="page-sub">Sending bulk budget updates via the DV360 API in batches of 100 per advertiser.</div>
+  <div class="pt">Push <strong>changes</strong> to DV360</div>
+  <div class="ps">Only accepted IOs are pushed. Rejected and infeasible IOs are skipped entirely.</div>
   <div class="card">
-    <div class="card-title">Push summary</div>
+    <div class="ct">Push summary</div>
     <div id="push-summary" style="font-size:13px;color:var(--text2);margin-bottom:20px;line-height:1.8;"></div>
     <div style="display:none;" id="push-prog">
-      <div class="prog-bg"><div class="prog-fill" id="prog-fill"></div></div>
-      <div class="prog-lbl" id="prog-lbl" style="margin-top:6px;"></div>
+      <div class="pb-bg"><div class="pb-fill" id="prog-fill"></div></div>
+      <div class="pb-lbl" id="prog-lbl" style="margin-top:6px;"></div>
     </div>
-    <div class="btn-row" style="margin-top:16px;">
-      <button class="btn btn-confirm" id="push-btn" onclick="executePush()">Confirm &amp; push changes</button>
-      <button class="btn" onclick="goToScreen(4)">← Back to savings</button>
+    <div class="br" style="margin-top:16px;">
+      <button class="btn bc" id="push-btn" onclick="executePush()">Confirm &amp; push</button>
+      <button class="btn" onclick="goToScreen(4)">← Back</button>
     </div>
   </div>
   <div style="display:none;" id="push-log-wrap">
-    <div class="sec-head">Push log</div>
+    <div class="sh">Push log</div>
     <div class="push-log" id="push-log"></div>
   </div>
   <div style="display:none;" id="push-done">
-    <div class="alert al-ok" style="margin-top:16px;">All changes pushed successfully.</div>
-    <div class="btn-row" style="margin-top:10px;">
-      <button class="btn btn-primary" onclick="exportAuditCSV()">Download audit CSV</button>
+    <div style="margin-top:16px;padding:14px 16px;border-radius:var(--r);background:var(--green-dim);border:1px solid rgba(61,186,130,.3);color:var(--green);font-size:13px;">Push complete.</div>
+    <div class="br" style="margin-top:10px;">
+      <button class="btn bp" onclick="exportAuditCSV()">Download audit CSV</button>
       <button class="btn" onclick="resetAll()">Start new optimization</button>
     </div>
   </div>
 </div>
 
 </main>
-</div>
-
 <script>
-// ══════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════
 // STATE
-// ══════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════
 const S = {
   tok: null,
-  lineItems: [],   // [{lineItemId, advertiserId, ioId, ioName, liName, convRate, costCpm, revCpm, impMin, impMax, ioRequiredImps, currentBudget, currentImps}]
-  ioReqImps: {},   // ioId -> required impressions
-  results: [],     // parallel to lineItems
+  LIs: [],        // parsed line items
+  IOs: {},        // ioId -> IO-level metadata + solver result
+  accepted: {},   // ioId -> bool
 };
 
-// ══════════════════════════════════════════════════
+const STATUS = { OPTIMAL:'optimal', PERF:'perf_infeasible', FULL:'full_infeasible' };
+
+// ════════════════════════════════════════════════════════
 // NAV
-// ══════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════
 function goToScreen(n) {
-  document.querySelectorAll('.screen').forEach((s, i) => s.classList.toggle('active', i === n));
-  document.querySelectorAll('.step-item').forEach((el, i) => {
-    el.classList.remove('active', 'done');
-    if (i < n) el.classList.add('done');
-    if (i === n) el.classList.add('active');
+  document.querySelectorAll('.screen').forEach((s,i) => s.classList.toggle('active', i===n));
+  document.querySelectorAll('.si').forEach((el,i) => {
+    el.classList.remove('active','done');
+    if (i<n) el.classList.add('done');
+    if (i===n) el.classList.add('active');
   });
 }
-document.querySelectorAll('.step-item').forEach(el => {
-  el.addEventListener('click', () => { if (el.classList.contains('done')) goToScreen(+el.dataset.step); });
-});
+document.querySelectorAll('.si').forEach(el =>
+  el.addEventListener('click', () => { if (el.classList.contains('done')) goToScreen(+el.dataset.step); })
+);
 
-// ══════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════
 // AUTH
-// ══════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════
 function startAuth() {
   const cid = document.getElementById('client-id').value.trim();
   if (!cid) { alert('Enter your OAuth2 Client ID'); return; }
@@ -474,611 +381,800 @@ function startAuth() {
     redirect_uri: window.location.origin + window.location.pathname,
     response_type: 'token',
     scope: 'https://www.googleapis.com/auth/display-video',
-    include_granted_scopes: 'true',
-    state: 'tdopt'
+    include_granted_scopes: 'true', state: 'tdopt'
   });
   window.location.href = 'https://accounts.google.com/o/oauth2/v2/auth?' + p;
 }
-
 function handleCallback() {
-  const hash = window.location.hash.substring(1);
-  if (!hash) return;
-  const p = new URLSearchParams(hash);
-  const tok = p.get('access_token');
-  if (!tok) return;
+  const hash = window.location.hash.substring(1); if (!hash) return;
+  const tok = new URLSearchParams(hash).get('access_token'); if (!tok) return;
   S.tok = tok;
   window.history.replaceState({}, '', window.location.pathname);
-  setBadge('connected');
-  goToScreen(1);
+  setBadge('connected'); goToScreen(1);
 }
-
-function setBadge(txt) {
-  const el = document.getElementById('auth-badge');
-  el.textContent = txt;
-  el.className = 'auth-badge connected';
-}
-
+function setBadge(t) { const el=document.getElementById('auth-badge'); el.textContent=t; el.className='ab on'; }
 handleCallback();
+function useDemoData() { S.tok='DEMO'; setBadge('demo mode'); buildDemo(); goToScreen(1); }
 
-function useDemoData() {
-  S.tok = 'DEMO';
-  setBadge('demo mode');
-  buildDemo();
-  goToScreen(1);
-}
-
-// ══════════════════════════════════════════════════
-// DEMO
-// ══════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════
+// DEMO DATA  (mirrors real CSV schema)
+// ════════════════════════════════════════════════════════
 function buildDemo() {
-  const IOS = [
-    { ioId: 'IO-001', ioName: 'Q2 Brand — UK', advId: 'ADV-001', req: 14000000 },
-    { ioId: 'IO-002', ioName: 'Prospecting — UK Display', advId: 'ADV-001', req: 9500000 },
-    { ioId: 'IO-003', ioName: 'Retargeting — Checkout', advId: 'ADV-002', req: 6000000 },
-    { ioId: 'IO-004', ioName: 'Perf — App Installs EMEA', advId: 'ADV-002', req: 11000000 },
-    { ioId: 'IO-005', ioName: 'Brand — CTV Global', advId: 'ADV-003', req: 8000000 },
-    { ioId: 'IO-006', ioName: 'Prospecting — Finance', advId: 'ADV-003', req: 13000000 },
+  S.LIs = [
+    // IO: 1026495193 — Retargeting Display  billingRate=8.5  kpiCpa=0.5
+    {advId:'677109782',advName:'Bloomington',ioId:'1026495193',ioName:'2026_Q1_Spring Promo — Display Retargeting',liId:'23617254456',liName:'Display_Open_Platform — Past visitors',billing:8.5,cpm:1.176,cvr:0.0057,margin:0.862,impMin:1033,impMax:56250,ioReqDay:6451,kpiCpa:0.5,kpiCvr:8.5/(1000*0.5)},
+    {advId:'677109782',advName:'Bloomington',ioId:'1026495193',ioName:'2026_Q1_Spring Promo — Display Retargeting',liId:'23569356429',liName:'Display_Open_Lookalike RT LAL',billing:8.5,cpm:3.161,cvr:0.0183,margin:0.628,impMin:501,impMax:34640,ioReqDay:6451,kpiCpa:0.5,kpiCvr:8.5/(1000*0.5)},
+    {advId:'677109782',advName:'Bloomington',ioId:'1026495193',ioName:'2026_Q1_Spring Promo — Display Retargeting',liId:'23574650861',liName:'Display_Open_Retargeting — Site visitor',billing:8.5,cpm:4.180,cvr:0.0797,margin:0.508,impMin:582,impMax:5171,ioReqDay:6451,kpiCpa:0.5,kpiCvr:8.5/(1000*0.5)},
+    // IO: 1026497824 — Prospecting Display  billingRate=8  kpiCpa=5
+    {advId:'677109782',advName:'Bloomington',ioId:'1026497824',ioName:'2026_Q1_Spring Promo — Display Prospecting',liId:'23569360284',liName:'Platform | Roadtrip Intenders | Contextual | Display',billing:8.0,cpm:3.459,cvr:0.00089,margin:0.568,impMin:459,impMax:13090,ioReqDay:19956,kpiCpa:5.0,kpiCvr:8.0/(1000*5.0)},
+    {advId:'677109782',advName:'Bloomington',ioId:'1026497824',ioName:'2026_Q1_Spring Promo — Display Prospecting',liId:'23569361415',liName:'Platform | Display Couples | Demo | Age 55+',billing:8.0,cpm:1.982,cvr:0.00103,margin:0.752,impMin:1233,impMax:12525,ioReqDay:19956,kpiCpa:5.0,kpiCvr:8.0/(1000*5.0)},
+    {advId:'677109782',advName:'Bloomington',ioId:'1026497824',ioName:'2026_Q1_Spring Promo — Display Prospecting',liId:'23569361943',liName:'Platform | Together & Traveling | Affinity',billing:8.0,cpm:1.722,cvr:0.00076,margin:0.785,impMin:327,impMax:12685,ioReqDay:19956,kpiCpa:5.0,kpiCvr:8.0/(1000*5.0)},
+    {advId:'677109782',advName:'Bloomington',ioId:'1026497824',ioName:'2026_Q1_Spring Promo — Display Prospecting',liId:'23569364100',liName:'Third_Party | Together & Traveling | 3PD Mix',billing:8.0,cpm:3.127,cvr:0.00413,margin:0.609,impMin:83,impMax:6355,ioReqDay:19956,kpiCpa:5.0,kpiCvr:8.0/(1000*5.0)},
+    {advId:'677109782',advName:'Bloomington',ioId:'1026497824',ioName:'2026_Q1_Spring Promo — Display Prospecting',liId:'23574653918',liName:'Platform | Display Couples | Contextual',billing:8.0,cpm:2.348,cvr:0.00208,margin:0.707,impMin:228,impMax:11880,ioReqDay:19956,kpiCpa:5.0,kpiCvr:8.0/(1000*5.0)},
+    {advId:'677109782',advName:'Bloomington',ioId:'1026497824',ioName:'2026_Q1_Spring Promo — Display Prospecting',liId:'23574655340',liName:'Platform | Together & Traveling | Custom Audiences',billing:8.0,cpm:2.381,cvr:0.00142,margin:0.702,impMin:938,impMax:13860,ioReqDay:19956,kpiCpa:5.0,kpiCvr:8.0/(1000*5.0)},
+    {advId:'677109782',advName:'Bloomington',ioId:'1026497824',ioName:'2026_Q1_Spring Promo — Display Prospecting',liId:'23579258617',liName:'Platform | Together & Traveling | Demo | Age 35-55',billing:8.0,cpm:2.000,cvr:0.00440,margin:0.750,impMin:67,impMax:6525,ioReqDay:19956,kpiCpa:5.0,kpiCvr:8.0/(1000*5.0)},
+    {advId:'677109782',advName:'Bloomington',ioId:'1026497824',ioName:'2026_Q1_Spring Promo — Display Prospecting',liId:'23574654959',liName:'Platform | Travel Intent Bloomington | In Market',billing:8.0,cpm:2.229,cvr:0.00585,margin:0.721,impMin:29,impMax:5340,ioReqDay:19956,kpiCpa:5.0,kpiCvr:8.0/(1000*5.0)},
+    {advId:'677109782',advName:'Bloomington',ioId:'1026497824',ioName:'2026_Q1_Spring Promo — Display Prospecting',liId:'23574655883',liName:'Platform | Travel Intent Competitor | In Market',billing:8.0,cpm:2.158,cvr:0.00574,margin:0.730,impMin:141,impMax:3375,ioReqDay:19956,kpiCpa:5.0,kpiCvr:8.0/(1000*5.0)},
+    {advId:'677109782',advName:'Bloomington',ioId:'1026497824',ioName:'2026_Q1_Spring Promo — Display Prospecting',liId:'23579257843',liName:'Platform | Display Couples | Custom Audiences',billing:8.0,cpm:0.916,cvr:0.00227,margin:0.886,impMin:284,impMax:12490,ioReqDay:19956,kpiCpa:5.0,kpiCvr:8.0/(1000*5.0)},
+    {advId:'677109782',advName:'Bloomington',ioId:'1026497824',ioName:'2026_Q1_Spring Promo — Display Prospecting',liId:'23617229415',liName:'Platform | Trips | Family Theme Park | Display',billing:8.0,cpm:2.069,cvr:0.00119,margin:0.741,impMin:722,impMax:13855,ioReqDay:19956,kpiCpa:5.0,kpiCvr:8.0/(1000*5.0)},
+    // IO: 1026085049 — Prospecting Video  billingRate=15  kpiCpa=10
+    {advId:'677109782',advName:'Bloomington',ioId:'1026085049',ioName:'2026_Q1_Spring Promo — Video Prospecting',liId:'23569358829',liName:'Third_Party | Roadtrip Intenders | 3PD Mix | Video',billing:15.0,cpm:9.561,cvr:0.00426,margin:0.363,impMin:33,impMax:1160,ioReqDay:8659,kpiCpa:10.0,kpiCvr:15.0/(1000*10.0)},
+    {advId:'677109782',advName:'Bloomington',ioId:'1026085049',ioName:'2026_Q1_Spring Promo — Video Prospecting',liId:'23569359099',liName:'Platform | Together & Traveling | Custom Audiences | Video',billing:15.0,cpm:4.338,cvr:0.00453,margin:0.711,impMin:95,impMax:3645,ioReqDay:8659,kpiCpa:10.0,kpiCvr:15.0/(1000*10.0)},
+    {advId:'677109782',advName:'Bloomington',ioId:'1026085049',ioName:'2026_Q1_Spring Promo — Video Prospecting',liId:'23569359111',liName:'Platform | Travel Intent Competitor | In Market | Video',billing:15.0,cpm:4.607,cvr:0.00121,margin:0.693,impMin:105,impMax:3845,ioReqDay:8659,kpiCpa:10.0,kpiCvr:15.0/(1000*10.0)},
+    {advId:'677109782',advName:'Bloomington',ioId:'1026085049',ioName:'2026_Q1_Spring Promo — Video Prospecting',liId:'23569359582',liName:'Platform | Midwestern Empty Nesters | Demo | Age 55+ | Video',billing:15.0,cpm:3.618,cvr:0.00272,margin:0.759,impMin:140,impMax:3455,ioReqDay:8659,kpiCpa:10.0,kpiCvr:15.0/(1000*10.0)},
+    {advId:'677109782',advName:'Bloomington',ioId:'1026085049',ioName:'2026_Q1_Spring Promo — Video Prospecting',liId:'23574651809',liName:'Platform | Together & Traveling | Affinity | Video',billing:15.0,cpm:3.532,cvr:0.00177,margin:0.765,impMin:102,impMax:3880,ioReqDay:8659,kpiCpa:10.0,kpiCvr:15.0/(1000*10.0)},
+    {advId:'677109782',advName:'Bloomington',ioId:'1026085049',ioName:'2026_Q1_Spring Promo — Video Prospecting',liId:'23574653750',liName:'Platform | Travel Intent General | Affinity | Video',billing:15.0,cpm:4.226,cvr:0.00666,margin:0.718,impMin:27,impMax:2220,ioReqDay:8659,kpiCpa:10.0,kpiCvr:15.0/(1000*10.0)},
+    {advId:'677109782',advName:'Bloomington',ioId:'1026085049',ioName:'2026_Q1_Spring Promo — Video Prospecting',liId:'23579256952',liName:'Platform | Travel Intent Minnesota | In Market | Video',billing:15.0,cpm:6.697,cvr:0.00461,margin:0.554,impMin:159,impMax:4085,ioReqDay:8659,kpiCpa:10.0,kpiCvr:15.0/(1000*10.0)},
+    {advId:'677109782',advName:'Bloomington',ioId:'1026085049',ioName:'2026_Q1_Spring Promo — Video Prospecting',liId:'23574652994',liName:'Platform | Together & Traveling | Demo | Age 35-55 | Video',billing:15.0,cpm:4.096,cvr:0.0,margin:0.727,impMin:35,impMax:4090,ioReqDay:8659,kpiCpa:10.0,kpiCvr:15.0/(1000*10.0)},
+    {advId:'677109782',advName:'Bloomington',ioId:'1026085049',ioName:'2026_Q1_Spring Promo — Video Prospecting',liId:'23574653963',liName:'Third_Party | Together & Traveling | 3PD Mix | Video',billing:15.0,cpm:9.022,cvr:0.0,margin:0.399,impMin:116,impMax:3680,ioReqDay:8659,kpiCpa:10.0,kpiCvr:15.0/(1000*10.0)},
   ];
-  const TYPES = ['Brand', 'Prospecting', 'Retargeting', 'Performance', 'Video'];
-  const FMTS = ['Display', 'Video', 'Native', 'Audio', 'CTV'];
-  let id = 1000;
-  S.lineItems = [];
-  S.ioReqImps = {};
-  IOS.forEach(io => {
-    S.ioReqImps[io.ioId] = io.req;
-    const count = 4 + Math.floor(Math.random() * 4);
-    for (let i = 0; i < count; i++) {
-      const costCpm = +(3 + Math.random() * 10).toFixed(2);
-      const revCpm = +(costCpm * (1.15 + Math.random() * 0.55)).toFixed(2);
-      const convRate = +(0.001 + Math.random() * 0.012).toFixed(4);
-      const impMin = Math.round((150 + Math.random() * 400) * 1000);
-      const impMax = Math.round(impMin * (2.5 + Math.random() * 4));
-      const currentImps = Math.round(impMin + (impMax - impMin) * Math.random() * 0.5);
-      const type = TYPES[Math.floor(Math.random() * TYPES.length)];
-      const fmt = FMTS[Math.floor(Math.random() * FMTS.length)];
-      S.lineItems.push({
-        lineItemId: 'LI-' + (++id),
-        advertiserId: io.advId,
-        advertiserName: io.advId,
-        ioId: io.ioId, ioName: io.ioName,
-        liName: `${type} — ${fmt} ${String.fromCharCode(65 + i)}`,
-        lineItemType: type.toUpperCase(),
-        convRate, costCpm, revCpm, impMin, impMax,
-        ioRequiredImps: io.req,
-        currentBudget: currentImps * costCpm / 1000,
-        currentImps,
-      });
-    }
-  });
+  // set currentImps = impMin as baseline
+  S.LIs.forEach(li => { li.currentImps = li.impMin; li.currentBudget = li.impMin * li.cpm / 1000; });
   renderLoaded();
 }
 
-// ══════════════════════════════════════════════════
-// CSV UPLOAD
-// ══════════════════════════════════════════════════
-function handleDrop(e) {
-  const file = e.dataTransfer.files[0];
-  if (file) parseCSVFile(file);
-}
-function loadCSV(input) {
-  if (input.files[0]) parseCSVFile(input.files[0]);
-}
+// ════════════════════════════════════════════════════════
+// CSV PARSING
+// ════════════════════════════════════════════════════════
+function handleDrop(e) { const f=e.dataTransfer.files[0]; if(f) parseCSV(f); }
+function loadCSV(inp) { if(inp.files[0]) parseCSV(inp.files[0]); }
 
-function parseCSVFile(file) {
+function parseCSV(file) {
   const reader = new FileReader();
   reader.onload = e => {
     const lines = e.target.result.split('\n').filter(Boolean);
-    const hdrs = lines[0].split(',').map(h => h.trim().toLowerCase().replace(/[\s-]+/g, '_'));
-    const c = name => hdrs.findIndex(h => h.includes(name));
+    const raw = lines[0].split(',').map(h => h.trim());
+    const hdrs = raw.map(h => h.toLowerCase().replace(/\s+/g,'_'));
 
-    const advC  = c('advertiser');
-    const liC   = c('line_item_id') > -1 ? c('line_item_id') : c('line_item');
-    const ioC   = c('io_id') > -1 ? c('io_id') : c('insertion_order');
-    const cvrC  = c('conversion_rate') > -1 ? c('conversion_rate') : c('cvr');
-    const costC = c('cost_cpm');
-    const revC  = c('revenue_cpm');
-    const iminC = c('imp_min');
-    const imaxC = c('imp_max');
-    const ioReqC = c('io_required');
+    // Map header names to indices
+    const fi = name => hdrs.findIndex(h => h === name);
+    const fc = name => hdrs.findIndex(h => h.includes(name));
 
-    const missing = [];
-    if (liC === -1) missing.push('line_item_id');
-    if (ioC === -1) missing.push('io_id');
-    if (costC === -1) missing.push('cost_cpm');
-    if (revC === -1) missing.push('revenue_cpm');
-    if (cvrC === -1) missing.push('conversion_rate');
-    if (iminC === -1) missing.push('imp_min');
-    if (imaxC === -1) missing.push('imp_max');
-    if (ioReqC === -1) missing.push('io_required_impressions');
+    const IDX = {
+      advName:  fi('advertiser') > -1 ? fi('advertiser') : 0,
+      advId:    fi('advertiser_id'),
+      ioName:   fi('insertion_order'),
+      ioId:     fi('insertion_order_id'),
+      liName:   fi('line_item'),
+      liId:     fi('line_item_id'),
+      billing:  fi('product_billing_rate'),
+      cvr:      fi('conversion_rate_7d'),
+      margin:   fi('margin_7d'),
+      cpm:      fi('cpm_7d'),
+      impMax:   fi('impression_daily_upper_bound'),
+      impMin:   fi('impression_daily_lower_bound'),
+      ioReqDay: fi('io_impressions_needed_per_day'),
+      kpiRate:  fi('io_kpi_rate'),
+      kpiCvr:   fi('io_kpi_conversion_rate'),
+    };
 
-    if (missing.length) {
+    const needed = ['liId','ioId','billing','cvr','margin','cpm','impMax','impMin','ioReqDay','kpiRate','kpiCvr'];
+    const miss = needed.filter(k => IDX[k] === -1);
+    if (miss.length) {
       document.getElementById('upload-status').innerHTML =
-        `<span style="color:var(--salmon);">Missing required columns: ${missing.join(', ')}</span>`;
+        `<span style="color:var(--salmon);">Missing columns: ${miss.join(', ')}</span>`;
       return;
     }
 
-    S.lineItems = [];
-    S.ioReqImps = {};
+    S.LIs = [];
     let skipped = 0;
+    const gv = (row, key) => IDX[key] > -1 ? (row[IDX[key]] || '').trim().replace(/^"|"$/g,'') : '';
 
     lines.slice(1).forEach(line => {
-      const cols = line.split(',').map(c => c.trim().replace(/^"|"$/g, ''));
-      const liId = cols[liC];
-      if (!liId) { skipped++; return; }
+      if (!line.trim()) return;
+      const row = line.split(',');
+      const liId = gv(row,'liId'); if (!liId) { skipped++; return; }
 
-      const costCpm  = parseFloat(cols[costC]);
-      const revCpm   = parseFloat(cols[revC]);
-      const convRate = parseFloat(cols[cvrC]);
-      const impMin   = parseFloat(cols[iminC]);
-      const impMax   = parseFloat(cols[imaxC]);
-      const ioReq    = parseFloat(cols[ioReqC]);
-      const ioId     = cols[ioC];
-      const advId    = advC > -1 ? cols[advC] : 'UNKNOWN';
+      const billing = parseFloat(gv(row,'billing'));
+      const cpm     = parseFloat(gv(row,'cpm'));
+      const cvr     = parseFloat(gv(row,'cvr'));
+      const margin  = parseFloat(gv(row,'margin'));
+      const rawMax  = parseFloat(gv(row,'impMax'));
+      const rawMin  = parseFloat(gv(row,'impMin'));
+      const ioReqDay= parseFloat(gv(row,'ioReqDay'));
+      const kpiRate = parseFloat(gv(row,'kpiRate'));
+      const kpiCvr  = parseFloat(gv(row,'kpiCvr'));
 
-      if (isNaN(costCpm) || isNaN(revCpm) || isNaN(convRate) || isNaN(impMin) || isNaN(impMax)) {
-        skipped++; return;
-      }
+      if ([billing,cpm,cvr,margin,rawMax,rawMin,ioReqDay,kpiRate,kpiCvr].some(isNaN)) { skipped++; return; }
 
-      if (ioReq && !S.ioReqImps[ioId]) S.ioReqImps[ioId] = ioReq;
+      // Integer bounds: ceil lower, floor upper
+      const impMin = Math.ceil(rawMin);
+      const impMax = Math.floor(rawMax);
+      if (impMin > impMax) { skipped++; return; } // degenerate bounds
 
-      S.lineItems.push({
-        lineItemId: liId, advertiserId: advId, advertiserName: advId,
-        ioId, ioName: ioId,
-        liName: liId,
-        lineItemType: 'UNKNOWN',
-        convRate, costCpm, revCpm, impMin, impMax,
-        ioRequiredImps: ioReq || 0,
-        currentBudget: 0, currentImps: 0,
+      S.LIs.push({
+        advId:   gv(row,'advId'), advName: gv(row,'advName'),
+        ioId:    gv(row,'ioId'),  ioName:  gv(row,'ioName'),
+        liId, liName: gv(row,'liName'),
+        billing, cpm, cvr, margin,
+        impMin, impMax,
+        ioReqDay: Math.round(ioReqDay),
+        kpiRate, kpiCvr,
+        currentImps: impMin,
+        currentBudget: impMin * cpm / 1000,
       });
     });
 
-    const status = document.getElementById('upload-status');
-    if (!S.lineItems.length) {
-      status.innerHTML = '<span style="color:var(--salmon);">No valid rows found. Check your column names match the schema.</span>';
+    if (!S.LIs.length) {
+      document.getElementById('upload-status').innerHTML =
+        '<span style="color:var(--salmon);">No valid rows found. Check column names match the schema exactly.</span>';
       return;
     }
-    status.innerHTML = `<span style="color:var(--green);">✓ ${S.lineItems.length} line items parsed</span>` +
-      (skipped ? ` <span style="color:var(--amber);">— ${skipped} rows skipped (missing data)</span>` : '') +
-      `<br><span style="color:var(--text3);">${new Set(S.lineItems.map(li => li.advertiserId)).size} advertisers · ${new Set(S.lineItems.map(li => li.ioId)).size} IOs · ${Object.keys(S.ioReqImps).length} IOs with delivery requirements</span>`;
-
+    const ioCount = new Set(S.LIs.map(li=>li.ioId)).size;
+    document.getElementById('upload-status').innerHTML =
+      `<span style="color:var(--green);">✓ ${S.LIs.length} line items parsed across ${ioCount} IOs</span>` +
+      (skipped ? ` <span style="color:var(--amber);">— ${skipped} rows skipped</span>` : '');
     renderLoaded();
   };
   reader.readAsText(file);
 }
 
-function downloadTemplate() {
-  const h = 'advertiser_id,line_item_id,io_id,conversion_rate,cost_cpm,revenue_cpm,imp_min,imp_max,io_required_impressions';
-  const rows = [
-    'ADV-001,LI-1001,IO-001,0.0042,6.50,10.20,500000,4000000,12000000',
-    'ADV-001,LI-1002,IO-001,0.0018,4.80,8.10,300000,3000000,12000000',
-    'ADV-001,LI-1003,IO-002,0.0091,9.20,14.50,200000,2000000,8000000',
-  ];
-  const blob = new Blob([h + '\n' + rows.join('\n')], { type: 'text/csv' });
+function dlTemplate() {
+  const h = 'Advertiser,Advertiser_ID,Insertion_Order,Insertion_Order_ID,dcm_package_id,Line_Item,Line_Item_ID,Product_Billing_Rate,conversion_rate_7d,margin_7d,cpm_7d,impression_daily_upper_bound,impression_daily_lower_bound,days_remaining,io_impressions_remaining,io_impressions_needed_per_day,io_kpi_type,io_kpi_rate,io_kpi_conversion_rate';
+  const r = 'Acme,677109782,2026_Q1_IO_Name,1026495193,441392284,LI Name,23569356429,8.5,0.018,0.628,3.161,34640,500,22,141930,6451,CPA,0.5,0.017';
+  const blob = new Blob([h+'\n'+r], {type:'text/csv'});
   const url = URL.createObjectURL(blob);
-  const a = document.createElement('a'); a.href = url; a.download = 'dv360-lp-template.csv'; a.click();
+  const a = document.createElement('a'); a.href=url; a.download='dv360-lp-template.csv'; a.click();
   URL.revokeObjectURL(url);
 }
 
-// ══════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════
 // RENDER LOADED TABLE
-// ══════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════
 function renderLoaded() {
-  if (!S.lineItems.length) return;
+  if (!S.LIs.length) return;
   document.getElementById('loaded-summary').style.display = 'block';
-
-  const advCount = new Set(S.lineItems.map(li => li.advertiserId)).size;
-  const ioCount = new Set(S.lineItems.map(li => li.ioId)).size;
-  const iosWithReq = Object.keys(S.ioReqImps).length;
-  const avgMargin = S.lineItems.reduce((s, li) => s + (li.revCpm > 0 ? (li.revCpm - li.costCpm) / li.revCpm : 0), 0) / S.lineItems.length;
-
+  const advCount = new Set(S.LIs.map(li=>li.advId)).size;
+  const ioCount  = new Set(S.LIs.map(li=>li.ioId)).size;
   document.getElementById('load-metrics').innerHTML = `
-    <div class="metric"><div class="ml">Advertisers</div><div class="mv">${advCount}</div></div>
-    <div class="metric"><div class="ml">Insertion orders</div><div class="mv">${ioCount}</div></div>
-    <div class="metric"><div class="ml">Line items</div><div class="mv">${S.lineItems.length}</div></div>
-    <div class="metric"><div class="ml">IOs with req. imps</div><div class="mv">${iosWithReq}</div></div>
-    <div class="metric hi"><div class="ml">Avg margin</div><div class="mv">${fP(avgMargin)}</div></div>`;
+    <div class="met"><div class="ml">Advertisers</div><div class="mv">${advCount}</div></div>
+    <div class="met"><div class="ml">Insertion orders</div><div class="mv">${ioCount}</div></div>
+    <div class="met"><div class="ml">Line items</div><div class="mv">${S.LIs.length}</div></div>
+    <div class="met good"><div class="ml">Avg margin 7d</div><div class="mv">${fP(avg(S.LIs,'margin'))}</div></div>
+    <div class="met"><div class="ml">Avg CVR 7d</div><div class="mv">${(avg(S.LIs,'cvr')*100).toFixed(3)}%</div></div>`;
 
-  const tbody = document.getElementById('loaded-tbody');
-  tbody.innerHTML = '';
-  S.lineItems.slice(0, 300).forEach(li => {
-    const margin = li.revCpm > 0 ? (li.revCpm - li.costCpm) / li.revCpm : 0;
-    const tk = li.lineItemType.toLowerCase().slice(0, 4);
+  const tbody = document.getElementById('loaded-tbody'); tbody.innerHTML = '';
+  S.LIs.forEach(li => {
     const tr = document.createElement('tr');
     tr.innerHTML = `
-      <td class="pri">${li.liName}<br><span style="font-family:var(--mono);font-size:10px;color:var(--text3);">${li.lineItemId}</span></td>
-      <td class="mono">${li.advertiserId}</td>
-      <td style="font-size:11px;color:var(--text2);">${li.ioName || li.ioId}</td>
-      <td class="mono">$${li.costCpm.toFixed(2)}</td>
-      <td class="mono">$${li.revCpm.toFixed(2)}</td>
-      <td class="mono">${(li.convRate * 100).toFixed(3)}%</td>
+      <td class="pri">${li.liName}<br><span style="font-family:var(--mono);font-size:10px;color:var(--text3);">${li.liId}</span></td>
+      <td style="font-size:11px;color:var(--text2);">${li.ioName||li.ioId}</td>
+      <td style="font-size:11px;color:var(--text2);">${li.advName}</td>
+      <td class="mono">$${li.billing.toFixed(2)}</td>
+      <td class="mono">$${li.cpm.toFixed(3)}</td>
+      <td class="mono">${fP(li.margin)}</td>
+      <td class="mono">${(li.cvr*100).toFixed(4)}%</td>
       <td class="mono">${fI(li.impMin)}</td>
       <td class="mono">${fI(li.impMax)}</td>
-      <td class="mono">${li.ioRequiredImps ? fI(li.ioRequiredImps) : '<span style="color:var(--text3);">—</span>'}</td>
-      <td class="mono" style="color:var(--green)">${fP(margin)}</td>`;
+      <td class="mono">${fI(li.ioReqDay)}</td>
+      <td class="mono">${(li.kpiCvr*100).toFixed(4)}%</td>
+      <td class="mono">$${li.kpiRate.toFixed(2)}</td>`;
     tbody.appendChild(tr);
   });
-  if (S.lineItems.length > 300) {
-    const tr = document.createElement('tr');
-    tr.innerHTML = `<td colspan="10" style="text-align:center;color:var(--text3);font-family:var(--mono);font-size:11px;padding:14px;">... and ${S.lineItems.length - 300} more</td>`;
-    tbody.appendChild(tr);
-  }
 }
 
-// ══════════════════════════════════════════════════
-// FETCH NAMES FROM DV360
-// ══════════════════════════════════════════════════
-async function fetchNamesFromDV360() {
-  if (S.tok === 'DEMO') { skipFetchAndSolve(); return; }
-  document.getElementById('fetch-names-btn').disabled = true;
-  document.getElementById('fetch-progress-area').style.display = 'block';
-  const fill = document.getElementById('fetch-fill');
-  const lbl = document.getElementById('fetch-lbl');
-
-  // Group by advertiser
-  const byAdv = {};
-  S.lineItems.forEach(li => {
-    if (!byAdv[li.advertiserId]) byAdv[li.advertiserId] = [];
-    byAdv[li.advertiserId].push(li);
-  });
-
-  let done = 0;
-  const total = Object.keys(byAdv).length;
-
-  for (const [advId, lis] of Object.entries(byAdv)) {
-    lbl.textContent = `Fetching IO names for advertiser ${advId}...`;
-    try {
-      // Fetch IO names
-      const ioIds = [...new Set(lis.map(li => li.ioId))];
-      for (const ioId of ioIds) {
-        try {
-          const r = await apiGet(`advertisers/${advId}/insertionOrders/${ioId}`);
-          const name = r.displayName || ioId;
-          S.lineItems.filter(li => li.ioId === ioId).forEach(li => li.ioName = name);
-        } catch(e) {}
-      }
-      // Fetch LI names
-      const r = await apiGet(`advertisers/${advId}/lineItems?pageSize=200`);
-      const nameMap = {};
-      (r.lineItems || []).forEach(li => { nameMap[li.lineItemId] = li.displayName; });
-      lis.forEach(li => {
-        if (nameMap[li.lineItemId]) li.liName = nameMap[li.lineItemId];
-        if (!li.currentBudget && nameMap[li.lineItemId]) {
-          // try to grab budget from full fetch
-        }
-      });
-    } catch(e) {
-      lbl.textContent = `Warning: could not fetch names for ${advId}`;
-    }
-    done++;
-    fill.style.width = Math.round(done / total * 100) + '%';
-  }
-
-  lbl.textContent = '✓ Names loaded';
-  renderLoaded();
-  goToOptimize();
-}
-
-function skipFetchAndSolve() { goToOptimize(); }
-
-async function apiGet(path) {
-  const r = await fetch(`https://displayvideo.googleapis.com/v3/${path}`, { headers: { Authorization: `Bearer ${S.tok}` } });
-  if (!r.ok) throw new Error(`API ${r.status}`);
-  return r.json();
-}
-
-// ══════════════════════════════════════════════════
-// SOLVE SCREEN
-// ══════════════════════════════════════════════════
-function goToOptimize() {
-  buildIOReqList();
+// ════════════════════════════════════════════════════════
+// SOLVER
+// ════════════════════════════════════════════════════════
+function goToSolve() {
   goToScreen(2);
+  setTimeout(runAllSolvers, 80);
 }
 
-function buildIOReqList() {
-  const ios = byIO(S.lineItems);
-  const container = document.getElementById('io-req-list');
-  container.innerHTML = '';
-  Object.entries(ios).forEach(([ioId, lis]) => {
-    const req = S.ioReqImps[ioId] || 0;
-    const totalImpMin = lis.reduce((s, li) => s + li.impMin, 0);
-    const totalImpMax = lis.reduce((s, li) => s + li.impMax, 0);
-    const feasible = req >= totalImpMin && req <= totalImpMax;
-    const div = document.createElement('div');
-    div.style.cssText = 'display:flex;align-items:center;gap:16px;padding:12px 16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);margin-bottom:6px;flex-wrap:wrap;';
-    div.innerHTML = `
-      <div style="flex:1;min-width:200px;">
-        <div style="font-weight:500;font-size:13px;color:var(--text);">${lis[0].ioName || ioId}</div>
-        <div style="font-family:var(--mono);font-size:10px;color:var(--text3);margin-top:2px;">${ioId} · ${lis.length} line items · bounds: ${fI(totalImpMin)} – ${fI(totalImpMax)}</div>
-      </div>
-      <span class="stat ${feasible ? 'st-ok' : req > 0 ? 'st-wa' : 'st-ne'}">${feasible ? 'feasible' : req > totalImpMax ? 'exceeds caps' : req > 0 ? 'below min' : 'no req set'}</span>
-      <label style="display:flex;align-items:center;gap:8px;margin:0;font-size:12px;color:var(--text2);">
-        Required impressions:
-        <input type="number" id="ior-${ioId}" value="${Math.round(req)}" style="width:150px;margin:0;padding:7px 10px;" oninput="S.ioReqImps['${ioId}']=parseFloat(this.value)||0;rebuildIOReqList()">
-      </label>`;
-    container.appendChild(div);
-  });
-}
+async function runAllSolvers() {
+  const fill = document.getElementById('solve-fill');
+  const lbl  = document.getElementById('solve-lbl');
+  const log  = document.getElementById('solve-log');
+  S.IOs = {};
+  S.accepted = {};
 
-function rebuildIOReqList() { buildIOReqList(); }
+  const ioGroups = groupByIO(S.LIs);
+  const ioIds = Object.keys(ioGroups);
+  let done = 0;
 
-// ══════════════════════════════════════════════════
-// LP SOLVER
-// ══════════════════════════════════════════════════
-function runOptimizer() {
-  // Sync IO req imps from inputs
-  Object.keys(byIO(S.lineItems)).forEach(ioId => {
-    const el = document.getElementById('ior-' + ioId);
-    if (el) S.ioReqImps[ioId] = parseFloat(el.value) || 0;
-  });
+  for (const ioId of ioIds) {
+    const lis = ioGroups[ioId];
+    lbl.textContent = `Solving IO ${done+1}/${ioIds.length}: ${lis[0].ioName||ioId}`;
+    await sleep(10); // allow UI repaint
 
-  S.results = S.lineItems.map(() => ({}));
+    const result = solveIO(lis);
+    S.IOs[ioId] = result;
+    S.accepted[ioId] = result.status !== STATUS.FULL; // full infeasible defaults to not accepted
 
-  // Solve each IO independently, in order
-  Object.entries(byIO(S.lineItems)).forEach(([ioId, lis]) => {
-    const indices = lis.map(li => S.lineItems.indexOf(li));
-    const req = S.ioReqImps[ioId] || 0;
+    const icon = result.status===STATUS.OPTIMAL ? '✓' : result.status===STATUS.PERF ? '⚠' : '✗';
+    const col  = result.status===STATUS.OPTIMAL ? 'color:var(--green)' : result.status===STATUS.PERF ? 'color:var(--amber)' : 'color:var(--salmon)';
+    log.innerHTML += `<div style="${col}">${icon} ${lis[0].ioName||ioId} — ${result.status}</div>`;
+    log.scrollTop = log.scrollHeight;
 
-    // Score by margin per impression = (revCpm - costCpm) / 1000
-    const scored = lis.map((li, j) => ({
-      j, li,
-      mpi: (li.revCpm - li.costCpm) / 1000,
-    })).sort((a, b) => b.mpi - a.mpi);
+    done++;
+    fill.style.width = Math.round(done/ioIds.length*100)+'%';
+  }
 
-    // Start all at impMin
-    const allocs = lis.map(li => li.impMin);
-    let total = allocs.reduce((s, a) => s + a, 0);
-    let needed = Math.max(0, req - total);
-
-    // Fill highest-margin LIs first
-    for (const { j, li } of scored) {
-      if (needed <= 0) break;
-      const room = li.impMax - allocs[j];
-      const add = Math.min(room, needed);
-      allocs[j] += add;
-      total += add;
-      needed -= add;
-    }
-
-    // Compute results
-    indices.forEach((idx, j) => {
-      const li = lis[j];
-      const oldImps = li.currentImps || li.impMin;
-      const newImps = allocs[j];
-      const calc = imps => ({
-        cost:   imps * li.costCpm / 1000,
-        rev:    imps * li.revCpm / 1000,
-        convs:  imps * li.convRate,
-        margin: li.revCpm > 0 ? (li.revCpm - li.costCpm) / li.revCpm : 0,
-      });
-      const o = calc(oldImps), n = calc(newImps);
-      S.results[idx] = {
-        oldImps, newImps,
-        oldCost: o.cost, newCost: n.cost,
-        oldRev:  o.rev,  newRev:  n.rev,
-        oldConvs: o.convs, newConvs: n.convs,
-        oldMargin: o.margin, newMargin: n.margin,
-        newBudget: n.cost,
-      };
-    });
-  });
-
+  lbl.textContent = `Done — ${ioIds.length} IOs solved`;
+  await sleep(400);
   renderReview();
   goToScreen(3);
 }
 
-// ══════════════════════════════════════════════════
-// REVIEW
-// ══════════════════════════════════════════════════
+// ── Core IO Solver ──────────────────────────────────────
+function solveIO(lis) {
+  const reqDay  = lis[0].ioReqDay;          // integer daily delivery target
+  const kpiCvr  = lis[0].kpiCvr;            // weighted CVR target
+  const billing = lis[0].billing;           // consistent across IO
+
+  // ── Step 1: Try to maximize margin subject to delivery + CVR ──
+  const r1 = solve(lis, reqDay, { enforceCvr: true, enforceMargin: false, minMargin: 0 });
+  if (r1.feasible) {
+    return buildResult(lis, r1.allocs, STATUS.OPTIMAL, billing, kpiCvr);
+  }
+
+  // ── Step 2: CVR infeasible — relax CVR, enforce margin >= 50%, maximize CVR ──
+  const r2 = solve(lis, reqDay, { enforceCvr: false, enforceMargin: true, minMargin: 0.5 });
+  if (r2.feasible) {
+    return buildResult(lis, r2.allocs, STATUS.PERF, billing, kpiCvr);
+  }
+
+  // ── Step 3: Fully infeasible — allocate minimums, report ──
+  const minAllocs = lis.map(li => li.impMin);
+  // If min total > reqDay, scale down proportionally but stay >= 1
+  const minTotal = minAllocs.reduce((s,a)=>s+a,0);
+  let allocs;
+  if (minTotal <= reqDay) {
+    allocs = minAllocs;
+  } else {
+    // Scale to reqDay proportionally, floor, fix remainder
+    const scale = reqDay / minTotal;
+    allocs = minAllocs.map(a => Math.max(1, Math.floor(a * scale)));
+    fixRemainder(allocs, lis, reqDay);
+  }
+  return buildResult(lis, allocs, STATUS.FULL, billing, kpiCvr);
+}
+
+// ── Generic solver: greedy with Lagrangian multiplier ──
+function solve(lis, reqDay, opts) {
+  const n = lis.length;
+
+  // Check feasibility: can we hit reqDay within bounds?
+  const totalMin = lis.reduce((s,li)=>s+li.impMin,0);
+  const totalMax = lis.reduce((s,li)=>s+li.impMax,0);
+  if (reqDay < totalMin || reqDay > totalMax) return {feasible:false};
+
+  // If enforcing CVR: check if max achievable CVR >= kpiCvr
+  const kpiCvr = lis[0].kpiCvr;
+  if (opts.enforceCvr) {
+    // Max CVR achievable = allocate as many imps as possible to highest-CVR LIs
+    const maxAchievable = maxWeightedCVR(lis, reqDay);
+    if (maxAchievable < kpiCvr) return {feasible:false};
+  }
+
+  // If enforcing margin >= minMargin: check if feasible
+  if (opts.enforceMargin) {
+    // Can we achieve >= minMargin with valid allocation?
+    const maxMar = maxWeightedMargin(lis, reqDay);
+    if (maxMar < opts.minMargin) return {feasible:false};
+  }
+
+  // Composite score per LI
+  // For Step 1: score = margin (maximize margin, subject to CVR)
+  //   Use iterative: sort by margin desc, fill up, then check CVR;
+  //   if CVR fails, swap impressions from low-CVR to high-CVR LIs
+  // For Step 2: score = cvr (maximize CVR, subject to margin >= 0.5)
+
+  let allocs;
+  if (opts.enforceCvr) {
+    allocs = allocateMaxMarginWithCVR(lis, reqDay, kpiCvr);
+  } else {
+    allocs = allocateMaxCVRWithMargin(lis, reqDay, opts.minMargin);
+  }
+
+  if (!allocs) return {feasible:false};
+  return {feasible:true, allocs};
+}
+
+// Maximize margin while keeping weighted CVR >= kpiCvr
+function allocateMaxMarginWithCVR(lis, reqDay, kpiCvr) {
+  const n = lis.length;
+  // Start: allocate minimums
+  const allocs = lis.map(li => li.impMin);
+  let remaining = reqDay - allocs.reduce((s,a)=>s+a,0);
+
+  // Sort by margin desc for initial fill
+  const byMargin = [...Array(n).keys()].sort((a,b)=>lis[b].margin-lis[a].margin);
+  // Fill by margin
+  for (const i of byMargin) {
+    if (remaining <= 0) break;
+    const room = lis[i].impMax - allocs[i];
+    const add  = Math.min(room, remaining);
+    allocs[i] += add;
+    remaining  -= add;
+  }
+
+  // Check CVR
+  let wCVR = weightedCVR(lis, allocs);
+  if (wCVR >= kpiCvr) {
+    integerise(allocs, lis, reqDay);
+    return allocs;
+  }
+
+  // CVR not met: swap impressions from low-CVR LIs to high-CVR LIs
+  // Sort: sources = lowest CVR first, sinks = highest CVR first
+  const byCvrAsc  = [...Array(n).keys()].sort((a,b)=>lis[a].cvr-lis[b].cvr);
+  const byCvrDesc = [...Array(n).keys()].sort((a,b)=>lis[b].cvr-lis[a].cvr);
+
+  const MAX_ITER = 10000;
+  let iter = 0;
+  while (weightedCVR(lis, allocs) < kpiCvr && iter++ < MAX_ITER) {
+    let swapped = false;
+    outer:
+    for (const src of byCvrAsc) {
+      if (allocs[src] <= lis[src].impMin) continue;
+      for (const snk of byCvrDesc) {
+        if (snk === src) continue;
+        if (allocs[snk] >= lis[snk].impMax) continue;
+        if (lis[snk].cvr <= lis[src].cvr) break; // no benefit
+        // swap 1 impression
+        allocs[src]--;
+        allocs[snk]++;
+        swapped = true;
+        break outer;
+      }
+    }
+    if (!swapped) break;
+  }
+
+  if (weightedCVR(lis, allocs) < kpiCvr) return null; // infeasible
+  integerise(allocs, lis, reqDay);
+  return allocs;
+}
+
+// Maximize CVR while keeping weighted margin >= minMargin
+function allocateMaxCVRWithMargin(lis, reqDay, minMargin) {
+  const n = lis.length;
+  const allocs = lis.map(li => li.impMin);
+  let remaining = reqDay - allocs.reduce((s,a)=>s+a,0);
+
+  // Fill by CVR desc
+  const byCvr = [...Array(n).keys()].sort((a,b)=>lis[b].cvr-lis[a].cvr);
+  for (const i of byCvr) {
+    if (remaining <= 0) break;
+    const room = lis[i].impMax - allocs[i];
+    const add  = Math.min(room, remaining);
+    allocs[i] += add;
+    remaining  -= add;
+  }
+
+  // Check margin
+  let wMar = weightedMargin(lis, allocs);
+  if (wMar >= minMargin) {
+    integerise(allocs, lis, reqDay);
+    return allocs;
+  }
+
+  // Margin not met: swap from low-margin to high-margin LIs
+  const byMarAsc  = [...Array(n).keys()].sort((a,b)=>lis[a].margin-lis[b].margin);
+  const byMarDesc = [...Array(n).keys()].sort((a,b)=>lis[b].margin-lis[a].margin);
+
+  const MAX_ITER = 10000;
+  let iter = 0;
+  while (weightedMargin(lis, allocs) < minMargin && iter++ < MAX_ITER) {
+    let swapped = false;
+    outer:
+    for (const src of byMarAsc) {
+      if (allocs[src] <= lis[src].impMin) continue;
+      for (const snk of byMarDesc) {
+        if (snk === src) continue;
+        if (allocs[snk] >= lis[snk].impMax) continue;
+        if (lis[snk].margin <= lis[src].margin) break;
+        allocs[src]--;
+        allocs[snk]++;
+        swapped = true;
+        break outer;
+      }
+    }
+    if (!swapped) break;
+  }
+
+  if (weightedMargin(lis, allocs) < minMargin) return null;
+  integerise(allocs, lis, reqDay);
+  return allocs;
+}
+
+// ── Max achievable CVR (used for feasibility check) ──
+function maxWeightedCVR(lis, reqDay) {
+  const n = lis.length;
+  const allocs = lis.map(li => li.impMin);
+  let rem = reqDay - allocs.reduce((s,a)=>s+a,0);
+  const order = [...Array(n).keys()].sort((a,b)=>lis[b].cvr-lis[a].cvr);
+  for (const i of order) {
+    if (rem <= 0) break;
+    const add = Math.min(lis[i].impMax - allocs[i], rem);
+    allocs[i] += add; rem -= add;
+  }
+  return weightedCVR(lis, allocs);
+}
+
+// ── Max achievable margin ──
+function maxWeightedMargin(lis, reqDay) {
+  const n = lis.length;
+  const allocs = lis.map(li => li.impMin);
+  let rem = reqDay - allocs.reduce((s,a)=>s+a,0);
+  const order = [...Array(n).keys()].sort((a,b)=>lis[b].margin-lis[a].margin);
+  for (const i of order) {
+    if (rem <= 0) break;
+    const add = Math.min(lis[i].impMax - allocs[i], rem);
+    allocs[i] += add; rem -= add;
+  }
+  return weightedMargin(lis, allocs);
+}
+
+function weightedCVR(lis, allocs) {
+  const totalImps = allocs.reduce((s,a)=>s+a,0);
+  if (totalImps === 0) return 0;
+  return allocs.reduce((s,a,i)=>s+a*lis[i].cvr,0) / totalImps;
+}
+function weightedMargin(lis, allocs) {
+  const totalImps = allocs.reduce((s,a)=>s+a,0);
+  if (totalImps === 0) return 0;
+  return allocs.reduce((s,a,i)=>s+a*lis[i].margin,0) / totalImps;
+}
+
+// ── Integerise: floor all, fix remainder by priority ──
+function integerise(allocs, lis, reqDay) {
+  // allocs already integer from the swap loop (increments of 1)
+  // but do a final clean pass to ensure integers and exact sum
+  for (let i=0;i<allocs.length;i++) allocs[i] = Math.round(allocs[i]);
+  fixRemainder(allocs, lis, reqDay);
+}
+
+function fixRemainder(allocs, lis, reqDay) {
+  let total = allocs.reduce((s,a)=>s+a,0);
+  let diff = reqDay - total;
+  if (diff === 0) return;
+  // Add: give to highest-margin LIs with room
+  if (diff > 0) {
+    const order = [...Array(lis.length).keys()].sort((a,b)=>lis[b].margin-lis[a].margin);
+    for (const i of order) {
+      if (diff <= 0) break;
+      const room = lis[i].impMax - allocs[i];
+      const add = Math.min(room, diff);
+      allocs[i] += add; diff -= add;
+    }
+  }
+  // Remove: take from lowest-margin LIs with slack above min
+  if (diff < 0) {
+    const order = [...Array(lis.length).keys()].sort((a,b)=>lis[a].margin-lis[b].margin);
+    for (const i of order) {
+      if (diff >= 0) break;
+      const slack = allocs[i] - lis[i].impMin;
+      const rem = Math.min(slack, -diff);
+      allocs[i] -= rem; diff += rem;
+    }
+  }
+}
+
+function buildResult(lis, allocs, status, billing, kpiCvr) {
+  const totalImps = allocs.reduce((s,a)=>s+a,0);
+  const wCVR    = weightedCVR(lis, allocs);
+  const wMargin = weightedMargin(lis, allocs);
+  const achCPA  = wCVR > 0 ? billing / (1000 * wCVR) : Infinity;
+  const newCost = allocs.reduce((s,a,i)=>s+a*lis[i].cpm/1000,0);
+  const newRev  = totalImps * billing / 1000;
+  // Old (current) metrics
+  const oldImps   = lis.reduce((s,li)=>s+li.currentImps,0);
+  const oldWCVR   = lis.reduce((s,li)=>s+li.currentImps*li.cvr,0) / (oldImps||1);
+  const oldMargin = lis.reduce((s,li)=>s+li.currentImps*li.margin,0) / (oldImps||1);
+  const oldCost   = lis.reduce((s,li)=>s+li.currentImps*li.cpm/1000,0);
+  const oldRev    = oldImps * billing / 1000;
+  const oldCPA    = oldWCVR > 0 ? billing / (1000 * oldWCVR) : Infinity;
+
+  return {
+    status, allocs, lis,
+    totalImps, wCVR, wMargin, achCPA, newCost, newRev,
+    oldImps, oldWCVR, oldMargin, oldCost, oldRev, oldCPA,
+    kpiCvr, kpiCpa: lis[0].kpiRate, billing,
+    cvrMet: wCVR >= kpiCvr,
+    marginMet: wMargin >= 0.5,
+  };
+}
+
+// ════════════════════════════════════════════════════════
+// REVIEW SCREEN
+// ════════════════════════════════════════════════════════
 function renderReview() {
-  const tOC = sm('oldCost'), tNC = sm('newCost');
-  const tOR = sm('oldRev'),  tNR = sm('newRev');
-  const tOI = sm('oldImps'), tNI = sm('newImps');
-  const oM = tOR > 0 ? (tOR - tOC) / tOR : 0;
-  const nM = tNR > 0 ? (tNR - tNC) / tNR : 0;
-  const changed = S.results.filter(r => Math.abs((r.newImps || 0) - (r.oldImps || 0)) > 100).length;
+  const ioIds = Object.keys(S.IOs);
+  const accepted = ioIds.filter(id => S.accepted[id]);
+
+  // Top-level metrics (all IOs)
+  const optCount  = ioIds.filter(id=>S.IOs[id].status===STATUS.OPTIMAL).length;
+  const perfCount = ioIds.filter(id=>S.IOs[id].status===STATUS.PERF).length;
+  const fullCount = ioIds.filter(id=>S.IOs[id].status===STATUS.FULL).length;
+  const totalSaved = ioIds.reduce((s,id)=>{const r=S.IOs[id];return s+(r.oldCost-r.newCost);},0);
 
   document.getElementById('review-metrics').innerHTML = `
-    <div class="metric"><div class="ml">IOs solved</div><div class="mv">${Object.keys(byIO(S.lineItems)).length}</div></div>
-    <div class="metric"><div class="ml">LIs changed</div><div class="mv">${changed}</div><div class="ms">of ${S.lineItems.length}</div></div>
-    <div class="metric"><div class="ml">New total cost</div><div class="mv">${fM(tNC)}</div><div class="ms ${tNC < tOC ? 'dup' : 'ddn'}">was ${fM(tOC)}</div></div>
-    <div class="metric"><div class="ml">New impressions</div><div class="mv">${fI(tNI)}</div><div class="ms">was ${fI(tOI)}</div></div>
-    <div class="metric hi"><div class="ml">New margin</div><div class="mv">${fP(nM)}</div><div class="ms">was ${fP(oM)}</div></div>`;
+    <div class="met good"><div class="ml">IOs optimal</div><div class="mv">${optCount}</div><div class="ms">of ${ioIds.length} total</div></div>
+    <div class="met warn"><div class="ml">CVR infeasible</div><div class="mv">${perfCount}</div><div class="ms">margin-first fallback</div></div>
+    <div class="met hi"><div class="ml">Fully infeasible</div><div class="mv">${fullCount}</div><div class="ms">manual review needed</div></div>
+    <div class="met good"><div class="ml">Total cost saved</div><div class="mv">${fM(totalSaved)}</div><div class="ms">across all IOs</div></div>
+    <div class="met"><div class="ml">Accepted IOs</div><div class="mv">${accepted.length}</div><div class="ms">will push to DV360</div></div>`;
 
-  const alerts = document.getElementById('review-alerts'); alerts.innerHTML = '';
-  Object.entries(byIO(S.lineItems)).forEach(([ioId, lis]) => {
-    const indices = lis.map(li => S.lineItems.indexOf(li));
-    const newI = indices.reduce((s, i) => s + (S.results[i]?.newImps || 0), 0);
-    const req = S.ioReqImps[ioId] || 0;
-    if (req > 0 && newI < req * 0.98) {
-      alerts.innerHTML += `<div class="alert al-wa">${lis[0].ioName || ioId}: delivered ${fI(newI)} vs required ${fI(req)} (${Math.round(newI/req*100)}%). LI impression caps may be too low to satisfy delivery.</div>`;
-    }
-  });
+  const container = document.getElementById('review-io-cards'); container.innerHTML='';
 
-  const container = document.getElementById('review-io-groups'); container.innerHTML = '';
-  Object.entries(byIO(S.lineItems)).forEach(([ioId, lis]) => {
-    const indices = lis.map(li => S.lineItems.indexOf(li));
-    const oCI = indices.reduce((s, i) => s + (S.results[i]?.oldCost || 0), 0);
-    const nCI = indices.reduce((s, i) => s + (S.results[i]?.newCost || 0), 0);
-    const nII = indices.reduce((s, i) => s + (S.results[i]?.newImps || 0), 0);
-    const req = S.ioReqImps[ioId] || 0;
-    const dlv = req > 0 ? Math.round(nII / req * 100) + '%' : '—';
-    const div = document.createElement('div'); div.className = 'io-group';
-    div.innerHTML = `
-      <div class="io-hd open" onclick="tIO(this)">
-        <span class="io-cv">›</span>
-        <span class="ion">${lis[0].ioName || ioId}</span>
-        <span class="ioi">${ioId}</span>
+  ioIds.forEach(ioId => {
+    const r   = S.IOs[ioId];
+    const lis = r.lis;
+    const stClass = r.status===STATUS.OPTIMAL?'st-optimal':r.status===STATUS.PERF?'st-perf':'st-full';
+    const stTag   = r.status===STATUS.OPTIMAL
+      ? '<span class="tag t-ok">Optimal</span>'
+      : r.status===STATUS.PERF
+      ? '<span class="tag t-wa">CVR infeasible — margin ≥50% fallback</span>'
+      : '<span class="tag t-er">Fully infeasible — manual review required</span>';
+
+    const cvrClass  = r.cvrMet ? 'ok' : r.status===STATUS.FULL ? 'er' : 'wa';
+    const cpaAch    = r.achCPA < Infinity ? '$'+r.achCPA.toFixed(2) : '—';
+    const oldCPAstr = r.oldCPA < Infinity ? '$'+r.oldCPA.toFixed(2) : '—';
+
+    const card = document.createElement('div');
+    card.className = `io-card ${stClass}`;
+    card.innerHTML = `
+      <div class="io-hd open" onclick="toggleIO(this,'iob-${ioId}')">
+        <span class="iocv">›</span>
+        <span class="ion">${lis[0].ioName||ioId}</span>
+        <span class="ioid" style="font-family:var(--mono);font-size:10px;color:var(--text3);">${ioId}</span>
+        ${stTag}
         <span class="iom">${lis.length} LIs</span>
-        <span class="iom">Cost: ${fM(oCI)} → <strong style="color:var(--text)">${fM(nCI)}</strong></span>
-        <span class="iom">Delivery: ${fI(nII)} <span style="color:var(--text3);">(${dlv} of req)</span></span>
+        <span class="iom">Cost: ${fM(r.oldCost)} → ${fM(r.newCost)}</span>
       </div>
-      <div class="io-bd open" id="iob-${ioId}">
-        <div class="tw"><table>
-          <thead><tr>
-            <th><input type="checkbox" checked onchange="tIOSel('${ioId}',this.checked)"></th>
-            <th>Line item</th>
-            <th>Old imps</th><th>New imps</th><th>Δ imps</th>
-            <th>Old cost</th><th>New cost</th><th>Δ cost</th>
-            <th>Old rev</th><th>New rev</th>
-            <th>Old margin</th><th>New margin</th>
-            <th>Old convs</th><th>New convs</th>
-            <th>Status</th>
-          </tr></thead>
-          <tbody id="rtb-${ioId}"></tbody>
-        </table></div>
+      <div class="io-body open" id="iob-${ioId}">
+        ${r.status !== STATUS.OPTIMAL ? `
+        <div class="banner ${r.status===STATUS.PERF?'warn':'err'}">
+          <span>⚠</span>
+          <span>${r.status===STATUS.PERF
+            ? `IO cannot meet the CVR target (${(r.kpiCvr*100).toFixed(4)}%) at any valid impression allocation. Solver has maximised weighted CVR subject to weighted margin ≥ 50%. Achieved CVR: ${(r.wCVR*100).toFixed(4)}% / CPA: ${cpaAch}. Accept to push this allocation or reject to keep current budgets.`
+            : `No valid impression allocation exists within line item bounds. All LIs allocated to daily minimums. Manual review in DV360 required — do not push.`
+          }</span>
+        </div>` : ''}
+        <!-- KPI strip -->
+        <div class="kpi-strip">
+          <div class="kpi-cell">
+            <div class="kl">Target CVR</div>
+            <div class="kv">${(r.kpiCvr*100).toFixed(4)}%</div>
+            <div class="kt">= billing / (1000 × CPA)</div>
+          </div>
+          <div class="kpi-cell">
+            <div class="kl">Achieved CVR</div>
+            <div class="kv ${cvrClass}">${(r.wCVR*100).toFixed(4)}%</div>
+            <div class="kt">was ${(r.oldWCVR*100).toFixed(4)}%</div>
+          </div>
+          <div class="kpi-cell">
+            <div class="kl">Target CPA</div>
+            <div class="kv">$${r.kpiCpa.toFixed(2)}</div>
+            <div class="kt">client billing basis</div>
+          </div>
+          <div class="kpi-cell">
+            <div class="kl">Achieved CPA</div>
+            <div class="kv ${cvrClass}">${cpaAch}</div>
+            <div class="kt">was ${oldCPAstr}</div>
+          </div>
+          <div class="kpi-cell">
+            <div class="kl">New margin</div>
+            <div class="kv ${r.wMargin>=0.5?'ok':'wa'}">${fP(r.wMargin)}</div>
+            <div class="kt">was ${fP(r.oldMargin)}</div>
+          </div>
+          <div class="kpi-cell">
+            <div class="kl">Delivery</div>
+            <div class="kv ok">${fI(r.totalImps)}</div>
+            <div class="kt">req ${fI(lis[0].ioReqDay)} / day</div>
+          </div>
+        </div>
+        <!-- LI table -->
+        <div class="tw">
+          <table>
+            <thead><tr>
+              <th>Line item</th>
+              <th>CVR 7d</th><th>Margin 7d</th>
+              <th>Old imps</th><th>New imps</th><th>Δ imps</th>
+              <th>Old cost</th><th>New cost</th><th>Δ cost</th>
+              <th>Old rev</th><th>New rev</th>
+            </tr></thead>
+            <tbody id="litb-${ioId}"></tbody>
+          </table>
+        </div>
+        <!-- IO accept checkbox -->
+        <div style="display:flex;align-items:center;gap:12px;padding:12px 18px;border-top:1px solid var(--border);background:var(--surface2);">
+          <input type="checkbox" id="acc-${ioId}"
+            ${S.accepted[ioId]?'checked':''}
+            ${r.status===STATUS.FULL?'disabled':''}
+            onchange="S.accepted['${ioId}']=this.checked;refreshReviewMetrics()">
+          <label for="acc-${ioId}" style="margin:0;font-size:13px;color:var(--text2);font-family:var(--sans);cursor:pointer;">
+            ${r.status===STATUS.FULL
+              ? '<span style="color:var(--salmon);">Fully infeasible — excluded from push. Manual DV360 review required.</span>'
+              : r.status===STATUS.PERF
+              ? 'Include this IO in the DV360 push (CVR target not met — performance-maximised at ≥50% margin)'
+              : 'Include this IO in the DV360 push'}
+          </label>
+        </div>
       </div>`;
-    container.appendChild(div);
+    container.appendChild(card);
 
-    const tbody = document.getElementById('rtb-' + ioId);
+    // Populate LI rows
+    const tbody = document.getElementById(`litb-${ioId}`);
     lis.forEach((li, j) => {
-      const idx = indices[j]; const r = S.results[idx] || {};
-      const dI = (r.newImps || 0) - (r.oldImps || 0);
-      const dC = (r.newCost || 0) - (r.oldCost || 0);
+      const newImps = r.allocs[j];
+      const oldImps = li.currentImps;
+      const dI = newImps - oldImps;
+      const oldCost = oldImps * li.cpm / 1000;
+      const newCost = newImps * li.cpm / 1000;
+      const dC = newCost - oldCost;
+      const oldRev = oldImps * li.billing / 1000;
+      const newRev = newImps * li.billing / 1000;
       const tr = document.createElement('tr');
       tr.innerHTML = `
-        <td><input type="checkbox" checked data-idx="${idx}" class="rsel"></td>
-        <td class="pri">${li.liName}<br><span style="font-family:var(--mono);font-size:10px;color:var(--text3);">${li.lineItemId}</span></td>
-        <td class="mono">${fI(r.oldImps || 0)}</td>
-        <td class="mono"><input class="ie" type="number" value="${Math.round(r.newImps || 0)}" data-idx="${idx}" onchange="updI(this)"></td>
-        <td class="mono ${dI > 0 ? 'dup' : dI < 0 ? 'ddn' : ''}">${dI >= 0 ? '+' : ''}${fI(dI)}</td>
-        <td class="mono do">${fM(r.oldCost || 0)}</td>
-        <td class="mono">${fM(r.newCost || 0)}</td>
-        <td class="mono ${dC < 0 ? 'dup' : dC > 0 ? 'ddn' : ''}">${dC >= 0 ? '+' : ''}${fM(dC)}</td>
-        <td class="mono">${fM(r.oldRev || 0)}</td>
-        <td class="mono">${fM(r.newRev || 0)}</td>
-        <td class="mono">${fP(r.oldMargin || 0)}</td>
-        <td class="mono" style="color:var(--green)">${fP(r.newMargin || 0)}</td>
-        <td class="mono">${Math.round(r.oldConvs || 0).toLocaleString()}</td>
-        <td class="mono">${Math.round(r.newConvs || 0).toLocaleString()}</td>
-        <td>${Math.abs(dI) < 100 ? '<span class="stat st-ne">unchanged</span>' : dC < 0 ? '<span class="stat st-ok">cost reduced</span>' : '<span class="stat st-wa">cost up</span>'}</td>`;
+        <td class="pri">${li.liName}<br><span style="font-family:var(--mono);font-size:10px;color:var(--text3);">${li.liId}</span></td>
+        <td class="mono">${(li.cvr*100).toFixed(4)}%</td>
+        <td class="mono">${fP(li.margin)}</td>
+        <td class="mono do">${fI(oldImps)}</td>
+        <td class="mono" style="color:var(--text);font-weight:500;">${fI(newImps)}</td>
+        <td class="mono ${dI>0?'dup':dI<0?'ddn':''}">${dI>=0?'+':''}${fI(dI)}</td>
+        <td class="mono do">${fM(oldCost)}</td>
+        <td class="mono">${fM(newCost)}</td>
+        <td class="mono ${dC<0?'dup':dC>0?'ddn':''}">${dC>=0?'+':''}${fM(dC)}</td>
+        <td class="mono">${fM(oldRev)}</td>
+        <td class="mono">${fM(newRev)}</td>`;
       tbody.appendChild(tr);
     });
   });
 }
 
-function updI(input) {
-  const idx = +input.dataset.idx; const li = S.lineItems[idx];
-  const ni = parseFloat(input.value) || 0;
-  S.results[idx].newImps  = ni;
-  S.results[idx].newCost  = ni * li.costCpm / 1000;
-  S.results[idx].newRev   = ni * li.revCpm / 1000;
-  S.results[idx].newConvs = ni * li.convRate;
-  S.results[idx].newBudget = S.results[idx].newCost;
-}
-function tIO(hd) {
+function toggleIO(hd, bodyId) {
   hd.classList.toggle('open');
-  const id = hd.querySelector('.ioi').textContent;
-  const bd = document.getElementById('iob-' + id); if (bd) bd.classList.toggle('open');
-}
-function tIOSel(ioId, ch) {
-  document.querySelectorAll(`#rtb-${ioId} .rsel`).forEach(cb => cb.checked = ch);
+  const bd = document.getElementById(bodyId);
+  if (bd) bd.classList.toggle('open');
 }
 
-// ══════════════════════════════════════════════════
+function refreshReviewMetrics() {
+  const accepted = Object.keys(S.IOs).filter(id=>S.accepted[id]);
+  document.querySelector('#review-metrics .met:last-child .mv').textContent = accepted.length;
+}
+
+// ════════════════════════════════════════════════════════
 // SAVINGS
-// ══════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════
 function goToSavings() {
-  const tOC = sm('oldCost'), tNC = sm('newCost');
-  const tOR = sm('oldRev'),  tNR = sm('newRev');
-  const tOCv = sm('oldConvs'), tNCv = sm('newConvs');
-  const saved = tOC - tNC;
-  const oM = tOR > 0 ? (tOR - tOC) / tOR : 0;
-  const nM = tNR > 0 ? (tNR - tNC) / tNR : 0;
+  const accIds = Object.keys(S.IOs).filter(id=>S.accepted[id]);
+  if (!accIds.length) { alert('No IOs accepted. Use the checkboxes in the review step to accept at least one IO.'); return; }
+
+  const totOldCost = accIds.reduce((s,id)=>s+S.IOs[id].oldCost,0);
+  const totNewCost = accIds.reduce((s,id)=>s+S.IOs[id].newCost,0);
+  const totOldRev  = accIds.reduce((s,id)=>s+S.IOs[id].oldRev,0);
+  const totNewRev  = accIds.reduce((s,id)=>s+S.IOs[id].newRev,0);
+  const saved = totOldCost - totNewCost;
+  const oldM  = totOldRev>0?(totOldRev-totOldCost)/totOldRev:0;
+  const newM  = totNewRev>0?(totNewRev-totNewCost)/totNewRev:0;
 
   document.getElementById('sh-saved').textContent = fM(saved);
   document.getElementById('sh-sub').textContent = saved >= 0
-    ? `${fP(Math.abs(tOC > 0 ? saved / tOC : 0))} cost reduction vs current allocation at equivalent impression volume`
-    : `Cost increases by ${fM(Math.abs(saved))} — impression caps may be too restrictive`;
+    ? `${fP(totOldCost>0?saved/totOldCost:0)} cost reduction across ${accIds.length} accepted IOs`
+    : `Net cost increase of ${fM(Math.abs(saved))} across accepted IOs`;
 
   document.getElementById('sav-metrics').innerHTML = `
-    <div class="metric"><div class="ml">Old total cost</div><div class="mv">${fM(tOC)}</div></div>
-    <div class="metric good"><div class="ml">New total cost</div><div class="mv">${fM(tNC)}</div></div>
-    <div class="metric"><div class="ml">Old margin</div><div class="mv">${fP(oM)}</div></div>
-    <div class="metric hi"><div class="ml">New margin</div><div class="mv">${fP(nM)}</div></div>
-    <div class="metric hi"><div class="ml">Margin lift</div><div class="mv">${nM >= oM ? '+' : ''}${((nM - oM) * 100).toFixed(1)}pp</div></div>`;
+    <div class="met"><div class="ml">Old total cost</div><div class="mv">${fM(totOldCost)}</div></div>
+    <div class="met good"><div class="ml">New total cost</div><div class="mv">${fM(totNewCost)}</div></div>
+    <div class="met"><div class="ml">Old avg margin</div><div class="mv">${fP(oldM)}</div></div>
+    <div class="met hi"><div class="ml">New avg margin</div><div class="mv">${fP(newM)}</div></div>
+    <div class="met hi"><div class="ml">Margin lift</div><div class="mv">${newM>=oldM?'+':''}${((newM-oldM)*100).toFixed(1)}pp</div></div>`;
 
-  const tbody = document.getElementById('sav-tbody'); tbody.innerHTML = '';
-  Object.entries(byIO(S.lineItems)).forEach(([ioId, lis]) => {
-    const indices = lis.map(li => S.lineItems.indexOf(li));
-    const oC  = indices.reduce((s, i) => s + (S.results[i]?.oldCost  || 0), 0);
-    const nC  = indices.reduce((s, i) => s + (S.results[i]?.newCost  || 0), 0);
-    const oR  = indices.reduce((s, i) => s + (S.results[i]?.oldRev   || 0), 0);
-    const nR  = indices.reduce((s, i) => s + (S.results[i]?.newRev   || 0), 0);
-    const oCv = indices.reduce((s, i) => s + (S.results[i]?.oldConvs || 0), 0);
-    const nCv = indices.reduce((s, i) => s + (S.results[i]?.newConvs || 0), 0);
-    const nI  = indices.reduce((s, i) => s + (S.results[i]?.newImps  || 0), 0);
-    const req = S.ioReqImps[ioId] || 0;
-    const ioM = oR > 0 ? (oR - oC) / oR : 0;
-    const inM = nR > 0 ? (nR - nC) / nR : 0;
-    const sv = oC - nC;
-    const dlv = req > 0 ? Math.round(nI / req * 100) + '%' : '—';
+  const tbody = document.getElementById('sav-tbody'); tbody.innerHTML='';
+  accIds.forEach(ioId => {
+    const r = S.IOs[ioId];
+    const sv = r.oldCost - r.newCost;
+    const oM = r.oldRev>0?(r.oldRev-r.oldCost)/r.oldRev:0;
+    const nM = r.newRev>0?(r.newRev-r.newCost)/r.newRev:0;
+    const stTag = r.status===STATUS.OPTIMAL
+      ? '<span class="tag t-ok">Optimal</span>'
+      : '<span class="tag t-wa">CVR inf.</span>';
+    const dlvPct = r.lis[0].ioReqDay>0 ? Math.round(r.totalImps/r.lis[0].ioReqDay*100)+'%' : '—';
+    const cpaAch = r.achCPA<Infinity ? '$'+r.achCPA.toFixed(2) : '—';
+
     const tr = document.createElement('tr');
     tr.innerHTML = `
-      <td class="pri">${lis[0].ioName || ioId}<br><span style="font-family:var(--mono);font-size:10px;color:var(--text3);">${ioId}</span></td>
-      <td class="mono">${fM(oC)}</td><td class="mono">${fM(nC)}</td>
-      <td class="mono ${sv > 0 ? 'dup' : sv < 0 ? 'ddn' : ''}">${sv >= 0 ? '+' : ''}${fM(sv)}</td>
-      <td class="mono">${fM(oR)}</td><td class="mono">${fM(nR)}</td>
-      <td class="mono">${fP(ioM)}</td>
-      <td class="mono" style="color:var(--green)">${fP(inM)}</td>
-      <td class="mono ${inM > ioM ? 'dup' : inM < ioM ? 'ddn' : ''}">${inM >= ioM ? '+' : ''}${((inM - ioM) * 100).toFixed(1)}pp</td>
-      <td class="mono">${Math.round(oCv).toLocaleString()}</td>
-      <td class="mono">${Math.round(nCv).toLocaleString()}</td>
-      <td class="mono ${nCv > oCv ? 'dup' : nCv < oCv ? 'ddn' : ''}">${nCv >= oCv ? '+' : ''}${Math.round(nCv - oCv).toLocaleString()}</td>
-      <td class="mono">${dlv}</td>`;
+      <td class="pri">${r.lis[0].ioName||ioId}<br><span style="font-family:var(--mono);font-size:10px;color:var(--text3);">${ioId}</span></td>
+      <td>${stTag}</td>
+      <td class="mono">${fM(r.oldCost)}</td>
+      <td class="mono">${fM(r.newCost)}</td>
+      <td class="mono ${sv>0?'dup':sv<0?'ddn':''}">${sv>=0?'+':''}${fM(sv)}</td>
+      <td class="mono">${fP(oM)}</td>
+      <td class="mono" style="color:var(--green)">${fP(nM)}</td>
+      <td class="mono ${nM>=oM?'dup':'ddn'}">${nM>=oM?'+':''}${((nM-oM)*100).toFixed(1)}pp</td>
+      <td class="mono">${(r.kpiCvr*100).toFixed(4)}%</td>
+      <td class="mono ${r.cvrMet?'dup':'wa'}">${(r.wCVR*100).toFixed(4)}%</td>
+      <td class="mono ${r.cvrMet?'dup':'wa'}">${r.cvrMet?'✓':((r.wCVR/r.kpiCvr)*100).toFixed(1)+'% of target'}</td>
+      <td class="mono">$${r.kpiCpa.toFixed(2)}</td>
+      <td class="mono ${r.cvrMet?'dup':'wa'}">${cpaAch}</td>
+      <td class="mono">${dlvPct}</td>`;
     tbody.appendChild(tr);
   });
 
   goToScreen(4);
 }
 
-// ══════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════
 // PUSH
-// ══════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════
 function goToPush() {
-  const sel = document.querySelectorAll('.rsel:checked');
-  const n = Array.from(sel).filter(cb => Math.abs((S.results[+cb.dataset.idx]?.newBudget || 0) - (S.lineItems[+cb.dataset.idx].currentBudget || 0)) > 0.5).length;
-  document.getElementById('push-summary').innerHTML = `
-    Ready to push <strong>${n}</strong> line item budget changes to DV360.<br>
-    Budgets are derived from optimized impression allocations × cost CPM, grouped by advertiser and sent via <span style="font-family:var(--mono);font-size:11px;background:var(--surface2);padding:1px 6px;border-radius:3px;">lineItems.bulkUpdate</span> in batches of 100.<br><br>
-    <span style="color:var(--amber);">This cannot be undone. Download the audit CSV to keep a full record.</span>`;
+  const accIds = Object.keys(S.IOs).filter(id=>S.accepted[id]);
+  const liCount = accIds.reduce((s,id)=>s+S.IOs[id].lis.length,0);
+  document.getElementById('push-summary').innerHTML =
+    `Pushing budget changes for <strong>${liCount} line items</strong> across <strong>${accIds.length} accepted IOs</strong>.<br>
+     Budgets are derived from optimized daily impression allocations × cpm_7d, sent via <span style="font-family:var(--mono);font-size:11px;background:var(--surface2);padding:1px 6px;border-radius:3px;">lineItems.bulkUpdate</span> in batches of 100 per advertiser.<br><br>
+     <span style="color:var(--amber);">This cannot be undone. Download the audit CSV for a full record.</span>`;
   goToScreen(5);
 }
 
 async function executePush() {
-  const btn = document.getElementById('push-btn'); btn.disabled = true;
-  const sel = Array.from(document.querySelectorAll('.rsel:checked'));
-  const toUp = sel.map(cb => +cb.dataset.idx)
-    .filter(idx => Math.abs((S.results[idx]?.newBudget || 0) - (S.lineItems[idx].currentBudget || 0)) > 0.5)
-    .map(idx => ({ idx, li: S.lineItems[idx], newBudget: S.results[idx].newBudget }));
-
-  document.getElementById('push-prog').style.display = 'block';
-  document.getElementById('push-log-wrap').style.display = 'block';
+  const btn = document.getElementById('push-btn'); btn.disabled=true;
+  document.getElementById('push-prog').style.display='block';
+  document.getElementById('push-log-wrap').style.display='block';
   const logEl = document.getElementById('push-log');
-  const fill = document.getElementById('prog-fill');
-  const lbl = document.getElementById('prog-lbl');
+  const fill  = document.getElementById('prog-fill');
+  const lbl   = document.getElementById('prog-lbl');
+
+  // Build update list from accepted IOs only
+  const updates = [];
+  Object.keys(S.IOs).filter(id=>S.accepted[id]).forEach(ioId => {
+    const r = S.IOs[ioId];
+    r.lis.forEach((li,j) => {
+      const newBudget = r.allocs[j] * li.cpm / 1000;
+      updates.push({ li, newBudget, newImps: r.allocs[j] });
+    });
+  });
+
   let done = 0;
-  logEl.innerHTML = `<div class="lin">▶ Pushing ${toUp.length} line item updates</div>`;
+  logEl.innerHTML = `<div style="color:var(--blue);">▶ Pushing ${updates.length} line item updates</div>`;
 
   if (S.tok === 'DEMO') {
-    for (const batch of chunks(toUp, 100)) {
+    for (const batch of chk(updates, 100)) {
       await sl(500);
-      batch.forEach(({ li, newBudget }) => {
-        logEl.innerHTML += `<div class="lok">✓ ${li.lineItemId} — ${li.liName} → ${fM(newBudget)}</div>`;
+      batch.forEach(({li, newBudget}) => {
+        logEl.innerHTML += `<div class="lok">✓ ${li.liId} — ${li.liName} → ${fM(newBudget)}</div>`;
         li.currentBudget = newBudget; done++;
       });
-      fill.style.width = Math.round(done / toUp.length * 100) + '%';
-      lbl.textContent = `${done} / ${toUp.length} updated`;
+      fill.style.width = Math.round(done/updates.length*100)+'%';
+      lbl.textContent = `${done} / ${updates.length} updated`;
       logEl.scrollTop = logEl.scrollHeight;
     }
   } else {
-    const byA = {};
-    toUp.forEach(it => { const a = it.li.advertiserId; if (!byA[a]) byA[a] = []; byA[a].push(it); });
-    for (const [advId, items] of Object.entries(byA)) {
-      logEl.innerHTML += `<div class="lin">▶ Advertiser ${advId} — ${items.length} updates</div>`;
-      for (const batch of chunks(items, 100)) {
+    // Group by advertiser
+    const byAdv = {};
+    updates.forEach(u => { const a=u.li.advId; if(!byAdv[a])byAdv[a]=[]; byAdv[a].push(u); });
+    for (const [advId, items] of Object.entries(byAdv)) {
+      logEl.innerHTML += `<div style="color:var(--blue);">▶ Advertiser ${advId} — ${items.length} LIs</div>`;
+      for (const batch of chk(items, 100)) {
         try {
-          const reqs = batch.map(({ li, newBudget }) => ({
-            lineItem: { name: `advertisers/${advId}/lineItems/${li.lineItemId}`, budget: { maxAmount: Math.round(newBudget * 1e6).toString() } },
+          const reqs = batch.map(({li, newBudget}) => ({
+            lineItem: {
+              name: `advertisers/${advId}/lineItems/${li.liId}`,
+              budget: { maxAmount: Math.round(newBudget * 1e6).toString() }
+            },
             updateMask: 'budget.maxAmount'
           }));
           const res = await fetch(`https://displayvideo.googleapis.com/v3/advertisers/${advId}/lineItems:bulkUpdate`, {
@@ -1088,96 +1184,95 @@ async function executePush() {
           });
           if (!res.ok) throw new Error(`API ${res.status}: ${await res.text()}`);
           const data = await res.json();
-          batch.forEach(({ li, newBudget }) => {
-            logEl.innerHTML += `<div class="lok">✓ ${li.lineItemId} → ${fM(newBudget)}</div>`;
+          batch.forEach(({li, newBudget}) => {
+            logEl.innerHTML += `<div class="lok">✓ ${li.liId} → ${fM(newBudget)}</div>`;
             li.currentBudget = newBudget; done++;
           });
           if (data.errors?.length) data.errors.forEach(e => logEl.innerHTML += `<div class="ler">✗ ${JSON.stringify(e)}</div>`);
-        } catch (e) { logEl.innerHTML += `<div class="ler">✗ ${e.message}</div>`; }
-        fill.style.width = Math.round(done / toUp.length * 100) + '%';
-        lbl.textContent = `${done} / ${toUp.length}`;
+        } catch(e) { logEl.innerHTML += `<div class="ler">✗ ${e.message}</div>`; }
+        fill.style.width = Math.round(done/updates.length*100)+'%';
+        lbl.textContent = `${done} / ${updates.length}`;
         logEl.scrollTop = logEl.scrollHeight;
-        await sl(200);
+        await sl(150);
       }
     }
   }
-  logEl.innerHTML += `<div class="lin">■ Complete. ${done}/${toUp.length} updated.</div>`;
-  document.getElementById('push-done').style.display = 'block';
+
+  logEl.innerHTML += `<div style="color:var(--blue);">■ Complete. ${done}/${updates.length} updated.</div>`;
+  document.getElementById('push-done').style.display='block';
 }
 
-// ══════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════
 // AUDIT CSV
-// ══════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════
 function exportAuditCSV() {
-  const rows = [['advertiser_id','io_id','io_name','line_item_id','line_item_name',
-    'cost_cpm','revenue_cpm','conversion_rate',
-    'old_imps','new_imps','imp_delta',
+  const rows = [[
+    'advertiser_id','advertiser_name','io_id','io_name',
+    'line_item_id','line_item_name',
+    'billing_cpm','cost_cpm_7d','margin_7d','cvr_7d',
+    'daily_imp_min','daily_imp_max',
+    'old_daily_imps','new_daily_imps','imp_delta',
     'old_cost','new_cost','cost_delta','cost_saved',
     'old_revenue','new_revenue',
     'old_margin_pct','new_margin_pct','margin_lift_pp',
-    'old_convs','new_convs','conv_delta',
-    'old_budget','new_budget','io_required_imps','delivery_pct','status']];
+    'io_target_cvr','io_achieved_cvr','io_cvr_met',
+    'io_target_cpa','io_achieved_cpa',
+    'io_req_imps_per_day','io_delivery_pct',
+    'io_solver_status','io_accepted'
+  ]];
 
-  const ioNewImps = {};
-  S.lineItems.forEach((li, i) => {
-    const r = S.results[i] || {};
-    if (!ioNewImps[li.ioId]) ioNewImps[li.ioId] = 0;
-    ioNewImps[li.ioId] += r.newImps || 0;
+  const ioGroups = groupByIO(S.LIs);
+  Object.keys(ioGroups).forEach(ioId => {
+    const r = S.IOs[ioId];
+    if (!r) return;
+    const dlvPct = r.lis[0].ioReqDay>0 ? (r.totalImps/r.lis[0].ioReqDay*100).toFixed(1)+'%' : '—';
+    const cpaAch = r.achCPA<Infinity ? r.achCPA.toFixed(4) : 'inf';
+
+    r.lis.forEach((li,j) => {
+      const newImps = r.allocs[j];
+      const oldImps = li.currentImps;
+      const newCost = newImps * li.cpm / 1000;
+      const oldCost = oldImps * li.cpm / 1000;
+      const newRev  = newImps * li.billing / 1000;
+      const oldRev  = oldImps * li.billing / 1000;
+      const oM = oldRev>0?(oldRev-oldCost)/oldRev:0;
+      const nM = newRev>0?(newRev-newCost)/newRev:0;
+      rows.push([
+        li.advId, li.advName, li.ioId, li.ioName,
+        li.liId, li.liName,
+        li.billing.toFixed(4), li.cpm.toFixed(4), li.margin.toFixed(4), li.cvr.toFixed(6),
+        li.impMin, li.impMax,
+        oldImps, newImps, newImps-oldImps,
+        oldCost.toFixed(4), newCost.toFixed(4), (newCost-oldCost).toFixed(4), (oldCost-newCost).toFixed(4),
+        oldRev.toFixed(4), newRev.toFixed(4),
+        (oM*100).toFixed(2)+'%', (nM*100).toFixed(2)+'%', ((nM-oM)*100).toFixed(2)+'pp',
+        (r.kpiCvr*100).toFixed(6)+'%', (r.wCVR*100).toFixed(6)+'%', r.cvrMet?'yes':'no',
+        '$'+r.kpiCpa.toFixed(2), '$'+cpaAch,
+        li.ioReqDay, dlvPct,
+        r.status, S.accepted[ioId]?'yes':'no'
+      ]);
+    });
   });
 
-  S.lineItems.forEach((li, i) => {
-    const r = S.results[i] || {};
-    const oM = r.oldMargin || 0, nM = r.newMargin || 0;
-    const req = S.ioReqImps[li.ioId] || 0;
-    const dlv = req > 0 ? (ioNewImps[li.ioId] / req * 100).toFixed(1) + '%' : '—';
-    const status = Math.abs((r.newImps || 0) - (r.oldImps || 0)) < 100 ? 'unchanged' : r.newCost < r.oldCost ? 'cost_reduced' : 'cost_increased';
-    rows.push([
-      li.advertiserId, li.ioId, li.ioName, li.lineItemId, li.liName,
-      li.costCpm.toFixed(2), li.revCpm.toFixed(2), li.convRate.toFixed(4),
-      Math.round(r.oldImps || 0), Math.round(r.newImps || 0), Math.round((r.newImps || 0) - (r.oldImps || 0)),
-      (r.oldCost || 0).toFixed(2), (r.newCost || 0).toFixed(2),
-      ((r.newCost || 0) - (r.oldCost || 0)).toFixed(2),
-      ((r.oldCost || 0) - (r.newCost || 0)).toFixed(2),
-      (r.oldRev || 0).toFixed(2), (r.newRev || 0).toFixed(2),
-      (oM * 100).toFixed(2) + '%', (nM * 100).toFixed(2) + '%', ((nM - oM) * 100).toFixed(2) + 'pp',
-      Math.round(r.oldConvs || 0), Math.round(r.newConvs || 0), Math.round((r.newConvs || 0) - (r.oldConvs || 0)),
-      (li.currentBudget || 0).toFixed(2), (r.newBudget || 0).toFixed(2),
-      Math.round(req), dlv, status
-    ]);
-  });
-
-  const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(',')).join('\n');
-  const blob = new Blob([csv], { type: 'text/csv' });
+  const csv = rows.map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const blob = new Blob([csv],{type:'text/csv'});
   const url = URL.createObjectURL(blob);
-  const a = document.createElement('a'); a.href = url;
-  a.download = `traveldesk-dv360-audit-${new Date().toISOString().slice(0, 10)}.csv`;
+  const a = document.createElement('a'); a.href=url;
+  a.download=`traveldesk-dv360-audit-${new Date().toISOString().slice(0,10)}.csv`;
   a.click(); URL.revokeObjectURL(url);
 }
 
-// ══════════════════════════════════════════════════
-// UTILS
-// ══════════════════════════════════════════════════
-function fM(n) {
-  if (n == null || isNaN(n)) return '—';
-  const a = Math.abs(n), s = n < 0 ? '-' : '';
-  if (a >= 1e6) return s + '$' + (a / 1e6).toFixed(2) + 'M';
-  if (a >= 1e3) return s + '$' + Math.round(a / 1e3) + 'k';
-  return s + '$' + Math.round(a);
-}
-function fI(n) {
-  if (n == null || isNaN(n)) return '—';
-  const a = Math.abs(n), s = n < 0 ? '-' : '';
-  if (a >= 1e9) return s + (a / 1e9).toFixed(2) + 'B';
-  if (a >= 1e6) return s + (a / 1e6).toFixed(1) + 'M';
-  if (a >= 1e3) return s + Math.round(a / 1e3) + 'k';
-  return s + Math.round(a).toString();
-}
-function fP(n) { return n != null ? (Math.round(n * 1000) / 10).toFixed(1) + '%' : '—'; }
-function byIO(lis) { return lis.reduce((a, li) => { const k = li.ioId; if (!a[k]) a[k] = []; a[k].push(li); return a; }, {}); }
-function sm(key) { return S.results.reduce((s, r) => s + (r[key] || 0), 0); }
-function chunks(arr, n) { const o = []; for (let i = 0; i < arr.length; i += n) o.push(arr.slice(i, i + n)); return o; }
-function sl(ms) { return new Promise(r => setTimeout(r, ms)); }
-function resetAll() { S.tok = null; S.lineItems = []; S.results = []; S.ioReqImps = {}; goToScreen(0); }
+// ════════════════════════════════════════════════════════
+// UTILITIES
+// ════════════════════════════════════════════════════════
+function fM(n){if(n==null||isNaN(n))return'—';const a=Math.abs(n),s=n<0?'-':'';if(a>=1e6)return s+'$'+(a/1e6).toFixed(2)+'M';if(a>=1e3)return s+'$'+Math.round(a/1e3)+'k';return s+'$'+n.toFixed(2);}
+function fI(n){if(n==null||isNaN(n))return'—';const a=Math.abs(n),s=n<0?'-':'';if(a>=1e9)return s+(a/1e9).toFixed(2)+'B';if(a>=1e6)return s+(a/1e6).toFixed(2)+'M';if(a>=1e3)return s+(a/1e3).toFixed(1)+'k';return s+Math.round(a).toLocaleString();}
+function fP(n){return n!=null?(n*100).toFixed(1)+'%':'—';}
+function avg(arr,key){return arr.reduce((s,o)=>s+(o[key]||0),0)/(arr.length||1);}
+function groupByIO(lis){return lis.reduce((a,li)=>{if(!a[li.ioId])a[li.ioId]=[];a[li.ioId].push(li);return a;},{});}
+function chk(arr,n){const o=[];for(let i=0;i<arr.length;i+=n)o.push(arr.slice(i,i+n));return o;}
+function sl(ms){return new Promise(r=>setTimeout(r,ms));}
+function resetAll(){S.tok=null;S.LIs=[];S.IOs={};S.accepted={};goToScreen(0);}
 </script>
 </body>
 </html>
