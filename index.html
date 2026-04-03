@@ -13,6 +13,7 @@
   --text:#f0efed;--text2:#9a9590;--text3:#5a5550;
   --green:#3dba82;--green-dim:rgba(61,186,130,0.10);
   --amber:#e8a23a;--amber-dim:rgba(232,162,58,0.10);
+  --blue:#5b8fff;
   --mono:'DM Mono',monospace;--sans:'DM Sans',sans-serif;
   --r:6px;--rl:10px;
 }
@@ -42,6 +43,11 @@ input[type=text]{width:100%;background:var(--surface2);border:1px solid var(--bo
 .btn{display:inline-flex;align-items:center;gap:8px;padding:9px 18px;border-radius:var(--r);font-family:var(--mono);font-size:12px;font-weight:500;cursor:pointer;border:1px solid var(--border2);background:transparent;color:var(--text);transition:all .15s;}
 .btn:hover{border-color:var(--salmon);color:var(--salmon);}
 .bp{background:var(--salmon);border-color:var(--salmon);color:#fff;}
+.bc{background:var(--green);border-color:var(--green);color:var(--black);}
+.mrow{display:grid;grid-template-columns:repeat(5, 1fr);gap:12px;margin-bottom:28px;}
+.met{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:16px 18px;}
+.met .ml{font-family:var(--mono);font-size:10px;color:var(--text3);text-transform:uppercase;}
+.met .mv{font-family:var(--mono);font-size:22px;font-weight:500;color:var(--text);}
 .io-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);margin-bottom:20px;overflow:hidden;}
 .io-hd{padding:16px 20px;background:var(--surface2);display:flex;justify-content:space-between;align-items:center;}
 .comp-grid{display:grid;grid-template-columns:repeat(4, 1fr);gap:1px;background:var(--border);margin:15px 0;}
@@ -52,11 +58,14 @@ input[type=text]{width:100%;background:var(--surface2);border:1px solid var(--bo
 .tag{font-family:var(--mono);font-size:10px;padding:3px 9px;border-radius:20px;}
 .t-ok{background:var(--green-dim);color:var(--green);}
 .t-er{background:var(--salmon-dim);color:var(--salmon);}
+.sav-hero{background:var(--surface);border:1px solid var(--salmon);border-radius:var(--rl);padding:36px;text-align:center;margin-bottom:24px;}
+.sav-hero .shv{font-family:var(--mono);font-size:52px;font-weight:500;color:var(--salmon);}
 table{width:100%;border-collapse:collapse;font-size:11px;margin-top:10px;}
 thead th{font-family:var(--mono);font-size:9px;color:var(--text3);text-align:left;padding:8px 0;border-bottom:1px solid var(--border);}
 tbody td{padding:8px 0;color:var(--text2);border-bottom:1px solid var(--border);}
 .pb-bg{height:4px;background:var(--surface3);border-radius:2px;overflow:hidden;margin:20px 0;}
 .pb-fill{height:100%;background:var(--salmon);width:0%;transition:width .3s;}
+.push-log{background:var(--black);border:1px solid var(--border);border-radius:var(--r);padding:14px;font-family:var(--mono);font-size:11px;color:var(--text2);max-height:200px;overflow-y:auto;}
 </style>
 </head>
 <body>
@@ -71,6 +80,8 @@ tbody td{padding:8px 0;color:var(--text2);border-bottom:1px solid var(--border);
     <div class="si" data-step="1"><div class="snum">2</div><span>Upload</span></div>
     <div class="si" data-step="2"><div class="snum">3</div><span>Solve</span></div>
     <div class="si" data-step="3"><div class="snum">4</div><span>Review</span></div>
+    <div class="si" data-step="4"><div class="snum">5</div><span>Savings</span></div>
+    <div class="si" data-step="5"><div class="snum">6</div><span>Push</span></div>
   </div>
   <div class="ab" id="auth-badge">not connected</div>
 </header>
@@ -78,7 +89,7 @@ tbody td{padding:8px 0;color:var(--text2);border-bottom:1px solid var(--border);
 <main>
   <div class="screen active" id="screen-0">
     <div class="pt">Connect to <strong>DV360</strong></div>
-    <div class="ps">Authenticate with Google to enable optimization.</div>
+    <div class="ps">Authenticate with Google to enable optimization and push.</div>
     <div class="card" style="max-width:480px;">
       <label>Google OAuth2 Client ID</label>
       <input type="text" id="client-id" placeholder="xxxxxxxx.apps.googleusercontent.com">
@@ -89,10 +100,10 @@ tbody td{padding:8px 0;color:var(--text2);border-bottom:1px solid var(--border);
 
   <div class="screen" id="screen-1">
     <div class="pt">Upload <strong>Input File</strong></div>
-    <div class="ps">Upload your CSV with performance and impression bounds.</div>
+    <div class="ps">Upload the LP CSV. Header names must be exact.</div>
     <div class="card">
       <input type="file" id="csv-in" accept=".csv" onchange="loadCSV(this)">
-      <div id="upload-status" style="margin-top:10px; font-family:var(--mono); color:var(--salmon);"></div>
+      <div id="upload-status" style="margin-top:10px; font-family:var(--mono); font-size:11px; color:var(--salmon);"></div>
     </div>
     <div id="loaded-summary" style="display:none;">
       <button class="btn bp" onclick="runOptimizer()">Run LP Solver</button>
@@ -108,15 +119,38 @@ tbody td{padding:8px 0;color:var(--text2);border-bottom:1px solid var(--border);
   </div>
 
   <div class="screen" id="screen-3">
-    <div class="pt">Optimization <strong>Review</strong></div>
-    <div class="ps">Review the performance shift and download the audit file.</div>
+    <div class="pt">Review <strong>Optimization</strong></div>
+    <div class="ps">Review performance shift per IO. Toggle inclusion using the checkboxes.</div>
     <div id="review-io-cards"></div>
-    <div id="review-actions" style="margin-top:30px; display:flex; gap:15px; padding-bottom:50px;"></div>
+    <div style="margin-top:30px; display:flex; gap:15px; padding-bottom:50px;">
+      <button class="btn bp" onclick="goToScreen(4)">View Savings Summary →</button>
+    </div>
+  </div>
+
+  <div class="screen" id="screen-4">
+    <div class="pt"><strong>Savings</strong> Summary</div>
+    <div class="ps">Accepted IOs only. Rejected IOs are excluded from these totals.</div>
+    <div class="sav-hero">
+      <div style="font-family:var(--mono); font-size:10px; color:var(--text3); text-transform:uppercase;">Total Cost Saved</div>
+      <div class="shv" id="sh-saved">$0.00</div>
+    </div>
+    <div class="mrow" id="sav-metrics"></div>
+    <button class="btn bc" onclick="goToScreen(5)">Push Changes to DV360 →</button>
+  </div>
+
+  <div class="screen" id="screen-5">
+    <div class="pt">Push to <strong>DV360</strong></div>
+    <div class="ps">Final confirmation before updating live budgets.</div>
+    <div class="card">
+      <div id="push-summary" style="margin-bottom:20px;"></div>
+      <button class="btn bc" id="push-btn" onclick="executePush()">Confirm & Push Updates</button>
+    </div>
+    <div class="push-log" id="push-log" style="display:none;"></div>
   </div>
 </main>
 
 <script>
-const S = { tok: null, LIs: [], IOs: {} };
+const S = { tok: null, LIs: [], IOs: {}, accepted: {} };
 
 function goToScreen(n) {
   document.querySelectorAll('.screen').forEach((s,i) => s.classList.toggle('active', i===n));
@@ -124,6 +158,8 @@ function goToScreen(n) {
     el.classList.toggle('active', i===n);
     el.classList.toggle('done', i<n);
   });
+  if(n === 4) calculateSavings();
+  if(n === 5) renderPushSummary();
 }
 
 function startAuth() {
@@ -139,16 +175,6 @@ function startAuth() {
   window.location.href = 'https://accounts.google.com/o/oauth2/v2/auth?' + p;
 }
 
-function useDemoData() {
-  S.tok = "DEMO";
-  S.LIs = [
-    { id: "LI_High_Perf", ioId: "IO_Spring_Promo", billing: 10, cpm: 4.5, cvr: 0.025, margin: 0.55, min: 500, max: 10000, target: 12000, kpi: 0.015 },
-    { id: "LI_Low_Perf", ioId: "IO_Spring_Promo", billing: 10, cpm: 2.1, cvr: 0.005, margin: 0.79, min: 500, max: 10000, target: 12000, kpi: 0.015 }
-  ];
-  goToScreen(1);
-  document.getElementById('loaded-summary').style.display = 'block';
-}
-
 window.onload = () => {
   const params = new URLSearchParams(window.location.hash.substring(1));
   if(params.has('access_token')) {
@@ -159,26 +185,38 @@ window.onload = () => {
   }
 };
 
+function parseCSVLine(line) {
+  const result = []; let current = ''; let inQuotes = false;
+  for (let i = 0; i < line.length; i++) {
+    const char = line[i];
+    if (char === '"') { inQuotes = !inQuotes; }
+    else if (char === ',' && !inQuotes) { result.push(current.trim()); current = ''; }
+    else { current += char; }
+  }
+  result.push(current.trim());
+  return result;
+}
+
 function loadCSV(input) {
   const reader = new FileReader();
   reader.onload = e => {
     const lines = e.target.result.split('\n').filter(l => l.trim());
-    const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
+    const headers = parseCSVLine(lines[0]).map(h => h.toLowerCase().replace(/\s/g, '_'));
     S.LIs = lines.slice(1).map(line => {
-      const cols = line.split(',');
-      const obj = {};
-      headers.forEach((h, i) => obj[h] = cols[i]?.trim());
+      const cols = parseCSVLine(line);
+      const obj = {}; headers.forEach((h, i) => obj[h] = cols[i]);
       return {
+        advId: obj.advertiser_id,
         id: obj.line_item_id,
         ioId: obj.insertion_order_id,
-        billing: parseFloat(obj.product_billing_rate),
-        cpm: parseFloat(obj.cpm_7d),
-        cvr: parseFloat(obj.conversion_rate_7d),
-        margin: parseFloat(obj.margin_7d),
-        min: parseInt(obj.impression_daily_lower_bound),
-        max: parseInt(obj.impression_daily_upper_bound),
-        target: parseInt(obj.io_impressions_needed_per_day),
-        kpi: parseFloat(obj.io_kpi_conversion_rate)
+        billing: parseFloat(obj.product_billing_rate) || 0,
+        cpm: parseFloat(obj.cpm_7d) || 0,
+        cvr: Math.min(1, parseFloat(obj.conversion_rate_7d) || 0),
+        margin: parseFloat(obj.margin_7d) || 0,
+        min: Math.max(0, parseInt(obj.impression_daily_lower_bound) || 0),
+        max: Math.max(0, parseInt(obj.impression_daily_upper_bound) || 0),
+        target: Math.max(0, parseInt(obj.io_impressions_needed_per_day) || 0),
+        kpi: parseFloat(obj.io_kpi_conversion_rate) || 0
       };
     });
     document.getElementById('loaded-summary').style.display = 'block';
@@ -194,43 +232,39 @@ async function runOptimizer() {
   for(let i=0; i<ios.length; i++) {
     const ioId = ios[i];
     const lis = S.LIs.filter(li => li.ioId === ioId);
-    log.innerHTML += `Optimizing ${ioId}...<br>`;
+    log.innerHTML += `Solving ${ioId}...<br>`;
     
     const target = lis[0].target;
-    const billing = lis[0].billing;
-    
-    // Baseline (Old) Metrics
-    const oldImps = lis.reduce((s, li) => s + li.min, 0); // Assuming min was current for demo
-    const oldMargin = lis.reduce((s, li) => s + (li.min * li.margin), 0) / oldImps;
-    const oldCvr = lis.reduce((s, li) => s + (li.min * li.cvr), 0) / oldImps;
+    const minSum = lis.reduce((s, li) => s + li.min, 0);
+    const oldCost = lis.reduce((s, li) => s + (li.min * li.cpm / 1000), 0);
+    const oldCvr = lis.reduce((s, li) => s + (li.min * li.cvr), 0) / (minSum || 1);
+    const oldMargin = lis.reduce((s, li) => s + (li.min * li.margin), 0) / (minSum || 1);
 
-    // Optimized (New) Logic
     let allocs = lis.map(li => ({ ...li, current: li.min }));
-    let remaining = target - oldImps;
+    let rem = Math.max(0, target - minSum);
 
     lis.sort((a,b) => b.margin - a.margin);
     for(let li of lis) {
-      if(remaining <= 0) break;
-      let add = Math.min(li.max - li.min, remaining);
+      if(rem <= 0) break;
+      let add = Math.min(Math.max(0, li.max - li.min), rem);
       let idx = allocs.findIndex(a => a.id === li.id);
       allocs[idx].current += add;
-      remaining -= add;
+      rem -= add;
     }
 
-    const newMargin = allocs.reduce((s, a) => s + (a.current * a.margin), 0) / target;
-    const newCvr = allocs.reduce((s, a) => s + (a.current * a.cvr), 0) / target;
+    const totalImps = allocs.reduce((s, a) => s + a.current, 0);
+    const newCost = allocs.reduce((s, a) => s + (a.current * a.cpm / 1000), 0);
+    const newCvr = allocs.reduce((s, a) => s + (a.current * a.cvr), 0) / (totalImps || 1);
+    const newMargin = allocs.reduce((s, a) => s + (a.current * a.margin), 0) / (totalImps || 1);
 
     S.IOs[ioId] = { 
-      allocs, 
-      oldMargin, newMargin, 
-      oldCvr, newCvr,
-      kpi: lis[0].kpi,
-      billing,
-      status: newCvr >= lis[0].kpi ? 'Optimal' : 'KPI Miss'
+      allocs, oldCost, newCost, oldCvr, newCvr, oldMargin, newMargin,
+      kpi: lis[0].kpi, billing: lis[0].billing, status: newCvr >= lis[0].kpi ? 'Optimal' : 'KPI Miss'
     };
+    S.accepted[ioId] = true;
     
     document.getElementById('solve-fill').style.width = `${((i+1)/ios.length)*100}%`;
-    await new Promise(r => setTimeout(r, 100));
+    await new Promise(r => setTimeout(r, 50));
   }
   renderReview();
   goToScreen(3);
@@ -242,47 +276,69 @@ function renderReview() {
   Object.entries(S.IOs).forEach(([id, d]) => {
     container.innerHTML += `
       <div class="io-card">
-        <div class="io-hd">
-          <span>IO: <strong>${id}</strong></span>
-          <span class="tag ${d.status==='Optimal'?'t-ok':'t-er'}">${d.status}</span>
-        </div>
+        <div class="io-hd"><span>IO ID: <strong>${id}</strong></span><span class="tag ${d.status==='Optimal'?'t-ok':'t-er'}">${d.status}</span></div>
         <div class="comp-grid">
           <div class="comp-cell"><div class="clabel">Margin</div><div class="cval" style="color:var(--green)">${(d.newMargin*100).toFixed(1)}%</div><div class="cold">was ${(d.oldMargin*100).toFixed(1)}%</div></div>
           <div class="comp-cell"><div class="clabel">CVR</div><div class="cval">${(d.newCvr*100).toFixed(3)}%</div><div class="cold">was ${(d.oldCvr*100).toFixed(3)}%</div></div>
-          <div class="comp-cell"><div class="clabel">CPA (Est)</div><div class="cval">$${(d.billing/(1000*d.newCvr)).toFixed(2)}</div><div class="cold">Target: $${(d.billing/(1000*d.kpi)).toFixed(2)}</div></div>
-          <div class="comp-cell"><div class="clabel">KPI Status</div><div class="cval" style="color:${d.newCvr >= d.kpi ? 'var(--green)' : 'var(--salmon)'}">${d.newCvr >= d.kpi ? 'MET' : 'MISS'}</div><div class="cold">Target: ${(d.kpi*100).toFixed(3)}%</div></div>
+          <div class="comp-cell"><div class="clabel">Daily Cost</div><div class="cval">$${d.newCost.toFixed(2)}</div><div class="cold">was $${d.oldCost.toFixed(2)}</div></div>
+          <div class="comp-cell"><div class="clabel">Include</div><div class="cval"><input type="checkbox" checked onchange="S.accepted['${id}']=this.checked"></div></div>
         </div>
         <div style="padding:0 20px 20px;">
           <table>
-            <thead><tr><th>LINE ITEM</th><th>OLD IMPS</th><th>NEW IMPS</th><th>MARGIN</th><th>CVR</th></tr></thead>
-            <tbody>
-              ${d.allocs.map(a => `<tr>
-                <td style="font-family:var(--mono);">${a.id}</td>
-                <td>${a.min.toLocaleString()}</td>
-                <td style="color:var(--green); font-weight:500;">${a.current.toLocaleString()}</td>
-                <td>${(a.margin*100).toFixed(1)}%</td>
-                <td>${(a.cvr*100).toFixed(3)}%</td>
-              </tr>`).join('')}
-            </tbody>
+            <thead><tr><th>LINE ITEM ID</th><th>OLD IMPS</th><th>NEW IMPS</th><th>CVR</th></tr></thead>
+            <tbody>${d.allocs.map(a => `<tr><td>${a.id}</td><td>${a.min.toLocaleString()}</td><td style="color:var(--green)">${a.current.toLocaleString()}</td><td>${(a.cvr*100).toFixed(3)}%</td></tr>`).join('')}</tbody>
           </table>
         </div>
       </div>`;
   });
-  document.getElementById('review-actions').innerHTML = `<button class="btn bp" onclick="exportCSV()">Download Audit CSV</button>`;
 }
 
-function exportCSV() {
-  let csv = "IO_ID,Line_Item_ID,Old_Imps,New_Imps,Margin,CVR\\n";
-  Object.entries(S.IOs).forEach(([io, d]) => {
-    d.allocs.forEach(a => {
-      csv += `${io},${a.id},${a.min},${a.current},${a.margin},${a.cvr}\\n`;
-    });
-  });
-  const blob = new Blob([csv], { type: 'text/csv' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'dv360_audit_report.csv';
-  a.click();
+function calculateSavings() {
+  const acc = Object.entries(S.IOs).filter(([id]) => S.accepted[id]);
+  const totalOldCost = acc.reduce((s, [id, d]) => s + d.oldCost, 0);
+  const totalNewCost = acc.reduce((s, [id, d]) => s + d.newCost, 0);
+  const saved = totalOldCost - totalNewCost;
+
+  document.getElementById('sh-saved').textContent = `$${saved.toLocaleString(undefined, {minimumFractionDigits:2})}`;
+  document.getElementById('sav-metrics').innerHTML = `
+    <div class="met"><div class="ml">Old Cost</div><div class="mv">$${totalOldCost.toFixed(2)}</div></div>
+    <div class="met"><div class="ml">New Cost</div><div class="mv">$${totalNewCost.toFixed(2)}</div></div>
+    <div class="met"><div class="ml">IOs Accepted</div><div class="mv">${acc.length}</div></div>
+  `;
+}
+
+function renderPushSummary() {
+  const acc = Object.entries(S.IOs).filter(([id]) => S.accepted[id]);
+  const liCount = acc.reduce((s, [id, d]) => s + d.allocs.length, 0);
+  document.getElementById('push-summary').innerHTML = `Ready to push <strong>${liCount} line item updates</strong> across <strong>${acc.length} IOs</strong>.`;
+}
+
+async function executePush() {
+  const log = document.getElementById('push-log');
+  log.style.display = 'block'; log.innerHTML = 'Starting push...<br>';
+  const acc = Object.entries(S.IOs).filter(([id]) => S.accepted[id]);
+  
+  for(const [ioId, d] of acc) {
+    const advId = d.allocs[0].advId;
+    const reqs = d.allocs.map(a => ({
+      lineItem: { name: `advertisers/${advId}/lineItems/${a.id}`, budget: { maxAmount: Math.round(a.current * a.cpm / 1000 * 1e6).toString() } },
+      updateMask: 'budget.maxAmount'
+    }));
+    
+    log.innerHTML += `Updating IO ${ioId}... `;
+    if(S.tok === 'DEMO') {
+      log.innerHTML += '<span style="color:var(--green)">Success (Demo)</span><br>';
+    } else {
+      try {
+        const res = await fetch(`https://displayvideo.googleapis.com/v3/advertisers/${advId}/lineItems:bulkUpdate`, {
+          method: 'POST', headers: { Authorization: `Bearer ${S.tok}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ requests: reqs })
+        });
+        log.innerHTML += res.ok ? '<span style="color:var(--green)">Success</span><br>' : '<span style="color:var(--salmon)">Failed</span><br>';
+      } catch(e) { log.innerHTML += `<span style="color:var(--salmon)">Error: ${e.message}</span><br>`; }
+    }
+    await new Promise(r => setTimeout(r, 200));
+  }
 }
 </script>
 </body>
