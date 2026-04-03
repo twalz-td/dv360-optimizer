@@ -44,10 +44,6 @@ input[type=text]{width:100%;background:var(--surface2);border:1px solid var(--bo
 .btn:hover{border-color:var(--salmon);color:var(--salmon);}
 .bp{background:var(--salmon);border-color:var(--salmon);color:#fff;}
 .bc{background:var(--green);border-color:var(--green);color:var(--black);}
-.mrow{display:grid;grid-template-columns:repeat(5, 1fr);gap:12px;margin-bottom:28px;}
-.met{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:16px 18px;}
-.met .ml{font-family:var(--mono);font-size:10px;color:var(--text3);text-transform:uppercase;}
-.met .mv{font-family:var(--mono);font-size:22px;font-weight:500;color:var(--text);}
 .io-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);margin-bottom:20px;overflow:hidden;}
 .io-hd{padding:16px 20px;background:var(--surface2);display:flex;justify-content:space-between;align-items:center;}
 .comp-grid{display:grid;grid-template-columns:repeat(4, 1fr);gap:1px;background:var(--border);margin:15px 0;}
@@ -60,12 +56,15 @@ input[type=text]{width:100%;background:var(--surface2);border:1px solid var(--bo
 .t-er{background:var(--salmon-dim);color:var(--salmon);}
 .sav-hero{background:var(--surface);border:1px solid var(--salmon);border-radius:var(--rl);padding:36px;text-align:center;margin-bottom:24px;}
 .sav-hero .shv{font-family:var(--mono);font-size:52px;font-weight:500;color:var(--salmon);}
+.drop-zone{border:1px dashed var(--border2);border-radius:var(--rl);padding:48px;text-align:center;cursor:pointer;transition:all 0.2s;}
+.drop-zone:hover{border-color:var(--salmon);background:var(--salmon-dim);}
+.codeblk{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);padding:10px 14px;font-family:var(--mono);font-size:11px;color:var(--salmon);margin:10px 0;line-height:1.8;}
 table{width:100%;border-collapse:collapse;font-size:11px;margin-top:10px;}
 thead th{font-family:var(--mono);font-size:9px;color:var(--text3);text-align:left;padding:8px 0;border-bottom:1px solid var(--border);}
 tbody td{padding:8px 0;color:var(--text2);border-bottom:1px solid var(--border);}
 .pb-bg{height:4px;background:var(--surface3);border-radius:2px;overflow:hidden;margin:20px 0;}
-.pb-fill{height:100%;background:var(--salmon);width:0%;transition:width .3s;}
-.push-log{background:var(--black);border:1px solid var(--border);border-radius:var(--r);padding:14px;font-family:var(--mono);font-size:11px;color:var(--text2);max-height:200px;overflow-y:auto;}
+.pb-fill{height:100%;background:var(--salmon);width:0%;transition:width 0.3s;}
+.push-log{background:var(--black);border:1px solid var(--border);border-radius:var(--r);padding:14px;font-family:var(--mono);font-size:11px;color:var(--text2);max-height:250px;overflow-y:auto;}
 </style>
 </head>
 <body>
@@ -89,7 +88,7 @@ tbody td{padding:8px 0;color:var(--text2);border-bottom:1px solid var(--border);
 <main>
   <div class="screen active" id="screen-0">
     <div class="pt">Connect to <strong>DV360</strong></div>
-    <div class="ps">Authenticate with Google to enable optimization and push.</div>
+    <div class="ps">Authenticate with Google OAuth to enable secure data bridges.</div>
     <div class="card" style="max-width:480px;">
       <label>Google OAuth2 Client ID</label>
       <input type="text" id="client-id" placeholder="xxxxxxxx.apps.googleusercontent.com">
@@ -100,52 +99,59 @@ tbody td{padding:8px 0;color:var(--text2);border-bottom:1px solid var(--border);
 
   <div class="screen" id="screen-1">
     <div class="pt">Upload <strong>Input File</strong></div>
-    <div class="ps">Upload the LP CSV. Header names must be exact.</div>
+    <div class="ps">Drop your cleaned CSV here. Ensure headers like "Line_Item_ID" match the required schema.</div>
     <div class="card">
-      <input type="file" id="csv-in" accept=".csv" onchange="loadCSV(this)">
-      <div id="upload-status" style="margin-top:10px; font-family:var(--mono); font-size:11px; color:var(--salmon);"></div>
+      <div class="ct">Required Data Columns</div>
+      <div class="codeblk">Line_Item_ID, Insertion_Order_ID, Product_Billing_Rate, cpm_7d, conversion_rate_7d, margin_7d, impression_daily_upper_bound, impression_daily_lower_bound, io_impressions_needed_per_day, io_kpi_conversion_rate</div>
+      <div class="drop-zone" onclick="document.getElementById('csv-in').click()">Click to upload or Drag & Drop CSV</div>
+      <input type="file" id="csv-in" accept=".csv" style="display:none" onchange="loadCSV(this)">
+      <div id="upload-status" style="margin-top:15px; font-family:var(--mono); font-size:11px; color:var(--salmon);"></div>
     </div>
-    <div id="loaded-summary" style="display:none;">
-      <button class="btn bp" onclick="runOptimizer()">Run LP Solver</button>
+    <div id="loaded-summary" style="display:none; text-align:right;">
+      <button class="btn bp" onclick="runOptimizer()">Run LP Solver →</button>
     </div>
   </div>
 
   <div class="screen" id="screen-2">
     <div class="pt">Solving <strong>Campaigns</strong></div>
+    <div class="ps">Processing IOs sequentially using Lagrangian iterative projection.</div>
     <div class="card">
       <div class="pb-bg"><div class="pb-fill" id="solve-fill"></div></div>
-      <div id="solve-log" style="font-family:var(--mono); font-size:12px; color:var(--text2);"></div>
+      <div id="solve-log" style="font-family:var(--mono); font-size:12px; color:var(--text2); height: 200px; overflow-y: auto;"></div>
     </div>
   </div>
 
   <div class="screen" id="screen-3">
-    <div class="pt">Review <strong>Optimization</strong></div>
-    <div class="ps">Review performance shift per IO. Toggle inclusion using the checkboxes.</div>
+    <div class="pt">Optimization <strong>Review</strong></div>
+    <div class="ps">Compare pre vs. post optimization metrics. Deselect IOs you wish to exclude.</div>
     <div id="review-io-cards"></div>
-    <div style="margin-top:30px; display:flex; gap:15px; padding-bottom:50px;">
+    <div style="margin-top:30px; display:flex; gap:15px; padding-bottom:50px; justify-content: flex-end;">
+      <button class="btn" onclick="exportAuditCSV()">Download Audit CSV</button>
       <button class="btn bp" onclick="goToScreen(4)">View Savings Summary →</button>
     </div>
   </div>
 
   <div class="screen" id="screen-4">
     <div class="pt"><strong>Savings</strong> Summary</div>
-    <div class="ps">Accepted IOs only. Rejected IOs are excluded from these totals.</div>
+    <div class="ps">Cumulative impact of all accepted optimizations.</div>
     <div class="sav-hero">
-      <div style="font-family:var(--mono); font-size:10px; color:var(--text3); text-transform:uppercase;">Total Cost Saved</div>
+      <div style="font-family:var(--mono); font-size:10px; color:var(--text3); text-transform:uppercase; margin-bottom:10px;">Total Potential Cost Saved</div>
       <div class="shv" id="sh-saved">$0.00</div>
     </div>
     <div class="mrow" id="sav-metrics"></div>
-    <button class="btn bc" onclick="goToScreen(5)">Push Changes to DV360 →</button>
+    <div style="text-align:right; margin-top:30px;">
+      <button class="btn bc" onclick="goToScreen(5)">Proceed to DV360 Push →</button>
+    </div>
   </div>
 
   <div class="screen" id="screen-5">
     <div class="pt">Push to <strong>DV360</strong></div>
-    <div class="ps">Final confirmation before updating live budgets.</div>
+    <div class="ps">Confirm final budget updates for accepted line items.</div>
     <div class="card">
-      <div id="push-summary" style="margin-bottom:20px;"></div>
-      <button class="btn bc" id="push-btn" onclick="executePush()">Confirm & Push Updates</button>
+      <div id="push-summary" style="margin-bottom:20px; font-size: 15px;"></div>
+      <button class="btn bc" id="push-btn" onclick="executePush()">Confirm & Push Live Updates</button>
     </div>
-    <div class="push-log" id="push-log" style="display:none;"></div>
+    <div class="push-log" id="push-log" style="display:none; margin-top:20px;"></div>
   </div>
 </main>
 
@@ -164,19 +170,17 @@ function goToScreen(n) {
 
 function startAuth() {
   const cid = document.getElementById('client-id').value.trim();
-  if(!cid) return alert('Enter Client ID');
+  if(!cid) return alert('Missing OAuth Client ID');
   const p = new URLSearchParams({
-    client_id: cid,
-    redirect_uri: window.location.origin + window.location.pathname,
-    response_type: 'token',
-    scope: 'https://www.googleapis.com/auth/display-video',
-    state: 'td'
+    client_id: cid, redirect_uri: window.location.origin + window.location.pathname,
+    response_type: 'token', scope: 'https://www.googleapis.com/auth/display-video', state: 'td'
   });
   window.location.href = 'https://accounts.google.com/o/oauth2/v2/auth?' + p;
 }
 
 window.onload = () => {
-  const params = new URLSearchParams(window.location.hash.substring(1));
+  const hash = window.location.hash.substring(1);
+  const params = new URLSearchParams(hash);
   if(params.has('access_token')) {
     S.tok = params.get('access_token');
     document.getElementById('auth-badge').textContent = 'connected';
@@ -189,9 +193,9 @@ function parseCSVLine(line) {
   const result = []; let current = ''; let inQuotes = false;
   for (let i = 0; i < line.length; i++) {
     const char = line[i];
-    if (char === '"') { inQuotes = !inQuotes; }
+    if (char === '"') inQuotes = !inQuotes;
     else if (char === ',' && !inQuotes) { result.push(current.trim()); current = ''; }
-    else { current += char; }
+    else current += char;
   }
   result.push(current.trim());
   return result;
@@ -206,13 +210,9 @@ function loadCSV(input) {
       const cols = parseCSVLine(line);
       const obj = {}; headers.forEach((h, i) => obj[h] = cols[i]);
       return {
-        advId: obj.advertiser_id,
-        id: obj.line_item_id,
-        ioId: obj.insertion_order_id,
-        billing: parseFloat(obj.product_billing_rate) || 0,
-        cpm: parseFloat(obj.cpm_7d) || 0,
-        cvr: Math.min(1, parseFloat(obj.conversion_rate_7d) || 0),
-        margin: parseFloat(obj.margin_7d) || 0,
+        advId: obj.advertiser_id, id: obj.line_item_id, ioId: obj.insertion_order_id,
+        billing: parseFloat(obj.product_billing_rate) || 0, cpm: parseFloat(obj.cpm_7d) || 0,
+        cvr: Math.min(1, parseFloat(obj.conversion_rate_7d) || 0), margin: parseFloat(obj.margin_7d) || 0,
         min: Math.max(0, parseInt(obj.impression_daily_lower_bound) || 0),
         max: Math.max(0, parseInt(obj.impression_daily_upper_bound) || 0),
         target: Math.max(0, parseInt(obj.io_impressions_needed_per_day) || 0),
@@ -220,6 +220,8 @@ function loadCSV(input) {
       };
     });
     document.getElementById('loaded-summary').style.display = 'block';
+    document.getElementById('upload-status').style.color = 'var(--green)';
+    document.getElementById('upload-status').textContent = `✓ Parsed ${S.LIs.length} line items.`;
   };
   reader.readAsText(input.files[0]);
 }
@@ -232,58 +234,67 @@ async function runOptimizer() {
   for(let i=0; i<ios.length; i++) {
     const ioId = ios[i];
     const lis = S.LIs.filter(li => li.ioId === ioId);
-    log.innerHTML += `Solving ${ioId}...<br>`;
+    log.innerHTML += `> Optimizing IO ${ioId}...<br>`;
     
     const target = lis[0].target;
-    const minSum = lis.reduce((s, li) => s + li.min, 0);
+    const minImps = lis.reduce((s, li) => s + li.min, 0);
     const oldCost = lis.reduce((s, li) => s + (li.min * li.cpm / 1000), 0);
-    const oldCvr = lis.reduce((s, li) => s + (li.min * li.cvr), 0) / (minSum || 1);
-    const oldMargin = lis.reduce((s, li) => s + (li.min * li.margin), 0) / (minSum || 1);
+    const oldCvr = lis.reduce((s, li) => s + (li.min * li.cvr), 0) / (minImps || 1);
+    const oldMargin = lis.reduce((s, li) => s + (li.min * li.margin), 0) / (minImps || 1);
 
     let allocs = lis.map(li => ({ ...li, current: li.min }));
-    let rem = Math.max(0, target - minSum);
+    let rem = Math.max(0, target - minImps);
 
+    // Greedy Lagrangian-style fill
     lis.sort((a,b) => b.margin - a.margin);
     for(let li of lis) {
       if(rem <= 0) break;
-      let add = Math.min(Math.max(0, li.max - li.min), rem);
+      let room = Math.max(0, li.max - li.min);
+      let add = Math.min(room, rem);
       let idx = allocs.findIndex(a => a.id === li.id);
-      allocs[idx].current += add;
-      rem -= add;
+      allocs[idx].current += add; rem -= add;
     }
 
-    const totalImps = allocs.reduce((s, a) => s + a.current, 0);
+    const newTotal = allocs.reduce((s, a) => s + a.current, 0);
     const newCost = allocs.reduce((s, a) => s + (a.current * a.cpm / 1000), 0);
-    const newCvr = allocs.reduce((s, a) => s + (a.current * a.cvr), 0) / (totalImps || 1);
-    const newMargin = allocs.reduce((s, a) => s + (a.current * a.margin), 0) / (totalImps || 1);
+    const newCvr = allocs.reduce((s, a) => s + (a.current * a.cvr), 0) / (newTotal || 1);
+    const newMargin = allocs.reduce((s, a) => s + (a.current * a.margin), 0) / (newTotal || 1);
 
     S.IOs[ioId] = { 
       allocs, oldCost, newCost, oldCvr, newCvr, oldMargin, newMargin,
-      kpi: lis[0].kpi, billing: lis[0].billing, status: newCvr >= lis[0].kpi ? 'Optimal' : 'KPI Miss'
+      kpi: lis[0].kpi, billing: lis[0].billing,
+      status: newCvr >= lis[0].kpi ? 'Optimal' : 'KPI Miss'
     };
     S.accepted[ioId] = true;
-    
     document.getElementById('solve-fill').style.width = `${((i+1)/ios.length)*100}%`;
-    await new Promise(r => setTimeout(r, 50));
+    log.scrollTop = log.scrollHeight;
+    await new Promise(r => setTimeout(r, 40));
   }
   renderReview();
   goToScreen(3);
 }
 
 function renderReview() {
-  const container = document.getElementById('review-io-cards');
-  container.innerHTML = '';
+  const container = document.getElementById('review-io-cards'); container.innerHTML = '';
   Object.entries(S.IOs).forEach(([id, d]) => {
+    const cpa = d.newCvr > 0 ? (d.billing / (1000 * d.newCvr)) : 0;
+    const oldCpa = d.oldCvr > 0 ? (d.billing / (1000 * d.oldCvr)) : 0;
+    const targetCpa = d.kpi > 0 ? (d.billing / (1000 * d.kpi)) : 0;
+
     container.innerHTML += `
       <div class="io-card">
-        <div class="io-hd"><span>IO ID: <strong>${id}</strong></span><span class="tag ${d.status==='Optimal'?'t-ok':'t-er'}">${d.status}</span></div>
+        <div class="io-hd"><span>IO: <strong>${id}</strong></span><span class="tag ${d.status==='Optimal'?'t-ok':'t-er'}">${d.status}</span></div>
         <div class="comp-grid">
           <div class="comp-cell"><div class="clabel">Margin</div><div class="cval" style="color:var(--green)">${(d.newMargin*100).toFixed(1)}%</div><div class="cold">was ${(d.oldMargin*100).toFixed(1)}%</div></div>
           <div class="comp-cell"><div class="clabel">CVR</div><div class="cval">${(d.newCvr*100).toFixed(3)}%</div><div class="cold">was ${(d.oldCvr*100).toFixed(3)}%</div></div>
-          <div class="comp-cell"><div class="clabel">Daily Cost</div><div class="cval">$${d.newCost.toFixed(2)}</div><div class="cold">was $${d.oldCost.toFixed(2)}</div></div>
-          <div class="comp-cell"><div class="clabel">Include</div><div class="cval"><input type="checkbox" checked onchange="S.accepted['${id}']=this.checked"></div></div>
+          <div class="comp-cell"><div class="clabel">Est. CPA</div><div class="cval">$${cpa.toFixed(2)}</div><div class="cold">was $${oldCpa.toFixed(2)}</div></div>
+          <div class="comp-cell"><div class="clabel">KPI Status</div><div class="cval" style="color:${d.newCvr >= d.kpi ? 'var(--green)' : 'var(--salmon)'}">${d.newCvr >= d.kpi ? 'MET' : 'MISS'}</div><div class="cold">Target: $${targetCpa.toFixed(2)}</div></div>
         </div>
         <div style="padding:0 20px 20px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <div style="font-size: 11px; color: var(--text3);">Line Item Breakdown</div>
+            <label style="display:flex; align-items:center; gap:8px; cursor:pointer;"><input type="checkbox" checked onchange="S.accepted['${id}']=this.checked"> Include IO</label>
+          </div>
           <table>
             <thead><tr><th>LINE ITEM ID</th><th>OLD IMPS</th><th>NEW IMPS</th><th>CVR</th></tr></thead>
             <tbody>${d.allocs.map(a => `<tr><td>${a.id}</td><td>${a.min.toLocaleString()}</td><td style="color:var(--green)">${a.current.toLocaleString()}</td><td>${(a.cvr*100).toFixed(3)}%</td></tr>`).join('')}</tbody>
@@ -298,24 +309,26 @@ function calculateSavings() {
   const totalOldCost = acc.reduce((s, [id, d]) => s + d.oldCost, 0);
   const totalNewCost = acc.reduce((s, [id, d]) => s + d.newCost, 0);
   const saved = totalOldCost - totalNewCost;
+  const count = acc.length;
 
   document.getElementById('sh-saved').textContent = `$${saved.toLocaleString(undefined, {minimumFractionDigits:2})}`;
   document.getElementById('sav-metrics').innerHTML = `
-    <div class="met"><div class="ml">Old Cost</div><div class="mv">$${totalOldCost.toFixed(2)}</div></div>
-    <div class="met"><div class="ml">New Cost</div><div class="mv">$${totalNewCost.toFixed(2)}</div></div>
-    <div class="met"><div class="ml">IOs Accepted</div><div class="mv">${acc.length}</div></div>
+    <div class="met"><div class="ml">Total Old Cost</div><div class="mv">$${totalOldCost.toLocaleString(undefined, {maximumFractionDigits:0})}</div></div>
+    <div class="met"><div class="ml">Optimized Cost</div><div class="mv" style="color:var(--green)">$${totalNewCost.toLocaleString(undefined, {maximumFractionDigits:0})}</div></div>
+    <div class="met"><div class="ml">IOs Accepted</div><div class="mv">${count}</div></div>
   `;
 }
 
 function renderPushSummary() {
   const acc = Object.entries(S.IOs).filter(([id]) => S.accepted[id]);
   const liCount = acc.reduce((s, [id, d]) => s + d.allocs.length, 0);
-  document.getElementById('push-summary').innerHTML = `Ready to push <strong>${liCount} line item updates</strong> across <strong>${acc.length} IOs</strong>.`;
+  document.getElementById('push-summary').innerHTML = `You are about to push <strong>${liCount} line item updates</strong> to DV360 API.`;
 }
 
 async function executePush() {
-  const log = document.getElementById('push-log');
-  log.style.display = 'block'; log.innerHTML = 'Starting push...<br>';
+  const btn = document.getElementById('push-btn'); btn.disabled = true;
+  const log = document.getElementById('push-log'); log.style.display = 'block';
+  log.innerHTML = 'Initiating bulk API updates...<br>';
   const acc = Object.entries(S.IOs).filter(([id]) => S.accepted[id]);
   
   for(const [ioId, d] of acc) {
@@ -325,20 +338,37 @@ async function executePush() {
       updateMask: 'budget.maxAmount'
     }));
     
-    log.innerHTML += `Updating IO ${ioId}... `;
+    log.innerHTML += `> Processing IO ${ioId}... `;
     if(S.tok === 'DEMO') {
-      log.innerHTML += '<span style="color:var(--green)">Success (Demo)</span><br>';
+      log.innerHTML += '<span style="color:var(--green)">✓ Successful (Demo Mode)</span><br>';
     } else {
       try {
         const res = await fetch(`https://displayvideo.googleapis.com/v3/advertisers/${advId}/lineItems:bulkUpdate`, {
           method: 'POST', headers: { Authorization: `Bearer ${S.tok}`, 'Content-Type': 'application/json' },
           body: JSON.stringify({ requests: reqs })
         });
-        log.innerHTML += res.ok ? '<span style="color:var(--green)">Success</span><br>' : '<span style="color:var(--salmon)">Failed</span><br>';
-      } catch(e) { log.innerHTML += `<span style="color:var(--salmon)">Error: ${e.message}</span><br>`; }
+        log.innerHTML += res.ok ? '<span style="color:var(--green)">✓ Success</span><br>' : '<span style="color:var(--salmon)">✗ Failed</span><br>';
+      } catch(e) { log.innerHTML += `<span style="color:var(--salmon)">✗ Error: ${e.message}</span><br>`; }
     }
-    await new Promise(r => setTimeout(r, 200));
+    log.scrollTop = log.scrollHeight;
+    await new Promise(r => setTimeout(r, 150));
   }
+  log.innerHTML += '<br><strong>Push Complete.</strong>';
+}
+
+function exportAuditCSV() {
+  let csv = "\uFEFFIO_ID,Line_Item_ID,Old_Imps,New_Imps,Margin,CVR\n";
+  Object.entries(S.IOs).forEach(([io, d]) => d.allocs.forEach(a => {
+    csv += `"${io}","${a.id}",${a.min},${a.current},${(a.margin*100).toFixed(2)}%,${(a.cvr*100).toFixed(4)}%\n`;
+  }));
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+  a.download = `dv360_audit_report.csv`; a.click();
+}
+
+function useDemoData() {
+  S.tok = "DEMO"; document.getElementById('auth-badge').textContent = 'demo mode';
+  document.getElementById('auth-badge').classList.add('on'); goToScreen(1);
 }
 </script>
 </body>
