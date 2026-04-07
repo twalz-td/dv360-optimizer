@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1235,112 +1234,46 @@ async function executePush() {
 
   for(const [ioId, d] of acc) {
     const advId = d.advId || d.allocs[0]?.advId;
-    const reqs = d.allocs.map(a => ({
-      lineItem: {
-        name: `advertisers/${advId}/lineItems/${a.id}`,
-        budget: {
-          budgetUnit: 'BUDGET_UNIT_IMPRESSIONS',
-          maxAmount: Math.round(a.current).toString()
-        }
-      },
-      updateMask: 'budget.maxAmount,budget.budgetUnit'
-    }));
+    log.innerHTML += `> IO ${ioId} (${d.allocs.length} LIs)<br>`;
+    log.scrollTop = log.scrollHeight;
 
-    // Map LI id → sent imps for quick lookup
-    const sentMap = {};
-    d.allocs.forEach(a => { sentMap[a.id] = {sent: Math.round(a.current), liName: a.liName||''}; });
-
-    // Batch to 100
-    for(let b=0; b<reqs.length; b+=100) {
-      const batch = reqs.slice(b, b+100);
-      log.innerHTML += `> IO ${ioId} (${batch.length} LIs)... `;
+    for(const a of d.allocs) {
+      const sentImps = Math.round(a.current);
+      const liName = a.liName || '';
 
       if(S.tok === 'DEMO') {
-        await new Promise(r => setTimeout(r, 120));
-        log.innerHTML += '<span class="pl-ok">✓ Demo OK</span><br>';
-        // Simulate confirmed = sent for demo
-        batch.forEach(r => {
-          const liId = r.lineItem.name.split('/').pop();
-          receiptRows.push({
-            ioId, ioName: d.ioName,
-            liId, liName: sentMap[liId]?.liName||'',
-            sentImps: sentMap[liId]?.sent||0,
-            confirmedImps: sentMap[liId]?.sent||0,
-            status: 'OK', error: ''
-          });
-        });
+        await new Promise(r => setTimeout(r, 60));
+        log.innerHTML += `&nbsp;&nbsp;${a.id} → ${sentImps.toLocaleString()} imps <span class="pl-ok">✓</span><br>`;
+        receiptRows.push({ ioId, ioName: d.ioName, liId: a.id, liName, sentImps, confirmedImps: sentImps, status: 'OK', error: '' });
       } else {
         try {
-          const res = await fetch(`https://displayvideo.googleapis.com/v3/advertisers/${advId}/lineItems:bulkUpdate`, {
-            method: 'POST',
-            headers: { Authorization: `Bearer ${S.tok}`, 'Content-Type': 'application/json' },
-            body: JSON.stringify({ lineItems: batch })
-          });
+          const res = await fetch(
+            `https://displayvideo.googleapis.com/v4/advertisers/${advId}/lineItems/${a.id}?updateMask=budget.maxAmount,budget.budgetAllocationType`,
+            {
+              method: 'PATCH',
+              headers: { Authorization: `Bearer ${S.tok}`, 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                budget: {
+                  budgetAllocationType: 'LINE_ITEM_BUDGET_ALLOCATION_TYPE_FIXED',
+                  maxAmount: sentImps.toString()
+                }
+              })
+            }
+          );
           const data = await res.json();
-
           if(res.ok) {
-            // Parse updatedLineItems from response
-            const updated = data.updatedLineItems || [];
-            const errors  = data.errors || [];
-
-            // Build a map of confirmed values from response
-            const confirmedMap = {};
-            updated.forEach(li => {
-              const liId = li.name.split('/').pop();
-              confirmedMap[liId] = parseInt(li.budget?.maxAmount || '0');
-            });
-            errors.forEach(err => {
-              const liId = (err.lineItemId || err.request?.lineItem?.name?.split('/').pop() || '');
-              if(liId) confirmedMap[liId] = null; // null = errored
-            });
-
-            batch.forEach(r => {
-              const liId = r.lineItem.name.split('/').pop();
-              const confirmed = confirmedMap[liId];
-              const sent = sentMap[liId]?.sent || 0;
-              const hasError = errors.find(e => (e.lineItemId||'') === liId || (e.request?.lineItem?.name||'').endsWith('/'+liId));
-              receiptRows.push({
-                ioId, ioName: d.ioName,
-                liId, liName: sentMap[liId]?.liName||'',
-                sentImps: sent,
-                confirmedImps: confirmed !== undefined ? confirmed : sent,
-                status: hasError ? 'ERROR' : (confirmed === sent ? 'OK' : 'MISMATCH'),
-                error: hasError ? (hasError.message || JSON.stringify(hasError)) : ''
-              });
-            });
-
-            const errCount = errors.length;
-            const okCount  = batch.length - errCount;
-            log.innerHTML += errCount === 0
-              ? `<span class="pl-ok">✓ ${okCount} updated</span><br>`
-              : `<span class="pl-err">⚠ ${okCount} OK, ${errCount} errors</span><br>`;
+            const confirmed = parseInt(data.budget?.maxAmount || '0');
+            const status = confirmed === sentImps ? 'OK' : 'MISMATCH';
+            log.innerHTML += `&nbsp;&nbsp;${a.id} → ${sentImps.toLocaleString()} imps <span class="pl-ok">✓</span><br>`;
+            receiptRows.push({ ioId, ioName: d.ioName, liId: a.id, liName, sentImps, confirmedImps: confirmed, status, error: '' });
           } else {
-            // HTTP-level failure — mark all LIs in batch as failed
             const errMsg = data.error?.message || `${res.status} ${res.statusText}`;
-            batch.forEach(r => {
-              const liId = r.lineItem.name.split('/').pop();
-              receiptRows.push({
-                ioId, ioName: d.ioName,
-                liId, liName: sentMap[liId]?.liName||'',
-                sentImps: sentMap[liId]?.sent||0,
-                confirmedImps: null,
-                status: 'ERROR', error: errMsg
-              });
-            });
-            log.innerHTML += `<span class="pl-err">✗ ${res.status}: ${errMsg}</span><br>`;
+            log.innerHTML += `&nbsp;&nbsp;${a.id} <span class="pl-err">✗ ${errMsg}</span><br>`;
+            receiptRows.push({ ioId, ioName: d.ioName, liId: a.id, liName, sentImps, confirmedImps: null, status: 'ERROR', error: errMsg });
           }
         } catch(e) {
-          batch.forEach(r => {
-            const liId = r.lineItem.name.split('/').pop();
-            receiptRows.push({
-              ioId, ioName: d.ioName,
-              liId, liName: sentMap[liId]?.liName||'',
-              sentImps: sentMap[liId]?.sent||0,
-              confirmedImps: null,
-              status: 'ERROR', error: e.message
-            });
-          });
-          log.innerHTML += `<span class="pl-err">✗ ${e.message}</span><br>`;
+          log.innerHTML += `&nbsp;&nbsp;${a.id} <span class="pl-err">✗ ${e.message}</span><br>`;
+          receiptRows.push({ ioId, ioName: d.ioName, liId: a.id, liName, sentImps, confirmedImps: null, status: 'ERROR', error: e.message });
         }
       }
       log.scrollTop = log.scrollHeight;
