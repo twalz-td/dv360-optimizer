@@ -1274,7 +1274,7 @@ async function executePush() {
           const res = await fetch(`https://displayvideo.googleapis.com/v3/advertisers/${advId}/lineItems:bulkUpdate`, {
             method: 'POST',
             headers: { Authorization: `Bearer ${S.tok}`, 'Content-Type': 'application/json' },
-            body: JSON.stringify({ requests: batch })
+            body: JSON.stringify({ lineItems: batch })
           });
           const data = await res.json();
 
