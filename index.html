@@ -357,10 +357,7 @@ input[type=text]:focus{border-color:var(--salmon);box-shadow:0 0 0 3px var(--sal
     <div class="ps">Inspect each IO's before/after metrics. Deselect any IOs to exclude from the push.</div>
     <div id="review-io-cards"></div>
     <div class="row-actions">
-      <button class="btn" onclick="exportAuditCSV()">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        Download Audit CSV
-      </button>
+
       <button class="btn bp" onclick="goToScreen(4)">
         View Savings Summary
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
@@ -465,12 +462,52 @@ input[type=text]:focus{border-color:var(--salmon);box-shadow:0 0 0 3px var(--sal
       </button>
     </div>
     <div class="push-log" id="push-log" style="display:none;margin-top:16px;"></div>
+
+    <div id="push-receipt" style="display:none;margin-top:24px;">
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+          <div class="ct" style="margin-bottom:0;">Push Receipt</div>
+          <div id="receipt-timestamp" style="font-family:var(--mono);font-size:10px;color:var(--text3);"></div>
+        </div>
+        <div id="receipt-summary" style="display:flex;gap:20px;margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--border);"></div>
+        <div style="overflow-x:auto;">
+          <table class="push-review-table" id="receipt-table">
+            <thead>
+              <tr>
+                <th>IO / Line Item</th>
+                <th>Sent Imps</th>
+                <th>DV360 Confirmed</th>
+                <th>Status</th>
+                <th>Error</th>
+              </tr>
+            </thead>
+            <tbody id="receipt-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   </div>
 
 </main>
 
 <script>
 const S = { tok: null, LIs: [], IOs: {}, accepted: {} };
+
+function downloadCSV(filename, csvContent) {
+  const w = window.open('', '_blank');
+  if(w) {
+    w.document.write('<pre>' + csvContent.replace(/</g,'&lt;') + '</pre>');
+    w.document.title = filename;
+    w.focus();
+  } else {
+    // Fallback: copy to clipboard
+    navigator.clipboard.writeText(csvContent).then(() => {
+      alert('Download blocked — CSV copied to clipboard instead. Paste into a .csv file.');
+    }).catch(() => {
+      alert('Could not download or copy. Check popup blocker settings.');
+    });
+  }
+}
 
 function goToScreen(n) {
   document.querySelectorAll('.screen').forEach((s,i) => s.classList.toggle('active', i===n));
@@ -743,7 +780,7 @@ async function runOptimizer() {
     // If IO CVR is > 105% of KPI, we have headroom to swap impressions FROM
     // high-CVR/low-margin LIs TOWARD high-margin LIs, as long as wCVR stays >= kpiCvr.
     // This maximises margin while still meeting the performance target.
-    if(status === 'Optimal') {
+    if(status === 'Optimal' && lis[0].solverMode !== 'Improving Performance') {
       const kpiCvr2 = lis[0].kpi;
       const overPerf = () => {
         const t = allocs.reduce((s,a) => s+a.current, 0);
@@ -1192,16 +1229,26 @@ async function executePush() {
   log.innerHTML = 'Initiating bulk API updates...<br>';
 
   const acc = Object.entries(S.IOs).filter(([id]) => S.accepted[id]);
+  const pushTime = new Date();
+  // Receipt data: keyed by LI id
+  const receiptRows = []; // {ioId, ioName, liId, liName, sentImps, confirmedImps, status, error}
 
   for(const [ioId, d] of acc) {
     const advId = d.advId || d.allocs[0]?.advId;
     const reqs = d.allocs.map(a => ({
       lineItem: {
         name: `advertisers/${advId}/lineItems/${a.id}`,
-        budget: { maxAmount: Math.round(a.current * a.cpm / 1000 * 1e6).toString() }
+        budget: {
+          budgetUnit: 'BUDGET_UNIT_IMPRESSIONS',
+          maxAmount: Math.round(a.current).toString()
+        }
       },
-      updateMask: 'budget.maxAmount'
+      updateMask: 'budget.maxAmount,budget.budgetUnit'
     }));
+
+    // Map LI id → sent imps for quick lookup
+    const sentMap = {};
+    d.allocs.forEach(a => { sentMap[a.id] = {sent: Math.round(a.current), liName: a.liName||''}; });
 
     // Batch to 100
     for(let b=0; b<reqs.length; b+=100) {
@@ -1211,6 +1258,17 @@ async function executePush() {
       if(S.tok === 'DEMO') {
         await new Promise(r => setTimeout(r, 120));
         log.innerHTML += '<span class="pl-ok">✓ Demo OK</span><br>';
+        // Simulate confirmed = sent for demo
+        batch.forEach(r => {
+          const liId = r.lineItem.name.split('/').pop();
+          receiptRows.push({
+            ioId, ioName: d.ioName,
+            liId, liName: sentMap[liId]?.liName||'',
+            sentImps: sentMap[liId]?.sent||0,
+            confirmedImps: sentMap[liId]?.sent||0,
+            status: 'OK', error: ''
+          });
+        });
       } else {
         try {
           const res = await fetch(`https://displayvideo.googleapis.com/v3/advertisers/${advId}/lineItems:bulkUpdate`, {
@@ -1218,37 +1276,164 @@ async function executePush() {
             headers: { Authorization: `Bearer ${S.tok}`, 'Content-Type': 'application/json' },
             body: JSON.stringify({ requests: batch })
           });
-          log.innerHTML += res.ok
-            ? '<span class="pl-ok">✓ Success</span><br>'
-            : `<span class="pl-err">✗ ${res.status} ${res.statusText}</span><br>`;
+          const data = await res.json();
+
+          if(res.ok) {
+            // Parse updatedLineItems from response
+            const updated = data.updatedLineItems || [];
+            const errors  = data.errors || [];
+
+            // Build a map of confirmed values from response
+            const confirmedMap = {};
+            updated.forEach(li => {
+              const liId = li.name.split('/').pop();
+              confirmedMap[liId] = parseInt(li.budget?.maxAmount || '0');
+            });
+            errors.forEach(err => {
+              const liId = (err.lineItemId || err.request?.lineItem?.name?.split('/').pop() || '');
+              if(liId) confirmedMap[liId] = null; // null = errored
+            });
+
+            batch.forEach(r => {
+              const liId = r.lineItem.name.split('/').pop();
+              const confirmed = confirmedMap[liId];
+              const sent = sentMap[liId]?.sent || 0;
+              const hasError = errors.find(e => (e.lineItemId||'') === liId || (e.request?.lineItem?.name||'').endsWith('/'+liId));
+              receiptRows.push({
+                ioId, ioName: d.ioName,
+                liId, liName: sentMap[liId]?.liName||'',
+                sentImps: sent,
+                confirmedImps: confirmed !== undefined ? confirmed : sent,
+                status: hasError ? 'ERROR' : (confirmed === sent ? 'OK' : 'MISMATCH'),
+                error: hasError ? (hasError.message || JSON.stringify(hasError)) : ''
+              });
+            });
+
+            const errCount = errors.length;
+            const okCount  = batch.length - errCount;
+            log.innerHTML += errCount === 0
+              ? `<span class="pl-ok">✓ ${okCount} updated</span><br>`
+              : `<span class="pl-err">⚠ ${okCount} OK, ${errCount} errors</span><br>`;
+          } else {
+            // HTTP-level failure — mark all LIs in batch as failed
+            const errMsg = data.error?.message || `${res.status} ${res.statusText}`;
+            batch.forEach(r => {
+              const liId = r.lineItem.name.split('/').pop();
+              receiptRows.push({
+                ioId, ioName: d.ioName,
+                liId, liName: sentMap[liId]?.liName||'',
+                sentImps: sentMap[liId]?.sent||0,
+                confirmedImps: null,
+                status: 'ERROR', error: errMsg
+              });
+            });
+            log.innerHTML += `<span class="pl-err">✗ ${res.status}: ${errMsg}</span><br>`;
+          }
         } catch(e) {
+          batch.forEach(r => {
+            const liId = r.lineItem.name.split('/').pop();
+            receiptRows.push({
+              ioId, ioName: d.ioName,
+              liId, liName: sentMap[liId]?.liName||'',
+              sentImps: sentMap[liId]?.sent||0,
+              confirmedImps: null,
+              status: 'ERROR', error: e.message
+            });
+          });
           log.innerHTML += `<span class="pl-err">✗ ${e.message}</span><br>`;
         }
       }
       log.scrollTop = log.scrollHeight;
     }
   }
+
   log.innerHTML += '<br><strong>Push complete.</strong>';
+
+  // Store receipt for download and render
+  S.pushReceipt = { rows: receiptRows, time: pushTime };
+  renderPushReceipt(receiptRows, pushTime);
+}
+
+function renderPushReceipt(rows, time) {
+  const el = document.getElementById('push-receipt');
+  el.style.display = 'block';
+
+  // Timestamp
+  document.getElementById('receipt-timestamp').textContent =
+    time.toLocaleDateString() + ' ' + time.toLocaleTimeString();
+
+  // Summary counts
+  const ok       = rows.filter(r => r.status === 'OK').length;
+  const mismatch = rows.filter(r => r.status === 'MISMATCH').length;
+  const errors   = rows.filter(r => r.status === 'ERROR').length;
+  document.getElementById('receipt-summary').innerHTML = `
+    <div class="sav-met" style="flex:1;">
+      <div class="sm-label">Successfully Updated</div>
+      <div class="sm-val" style="color:var(--green);font-size:24px;">${ok}</div>
+      <div class="sm-sub">line items confirmed</div>
+    </div>
+    <div class="sav-met" style="flex:1;">
+      <div class="sm-label">Mismatches</div>
+      <div class="sm-val" style="color:${mismatch>0?'var(--amber)':'var(--text3)'};font-size:24px;">${mismatch}</div>
+      <div class="sm-sub">sent ≠ confirmed</div>
+    </div>
+    <div class="sav-met" style="flex:1;">
+      <div class="sm-label">Errors</div>
+      <div class="sm-val" style="color:${errors>0?'var(--salmon)':'var(--text3)'};font-size:24px;">${errors}</div>
+      <div class="sm-sub">failed to update</div>
+    </div>`;
+
+  // Table rows
+  let lastIo = null;
+  document.getElementById('receipt-tbody').innerHTML = rows.map(r => {
+    let ioHeader = '';
+    if(r.ioId !== lastIo) {
+      lastIo = r.ioId;
+      ioHeader = `<tr class="io-group-row"><td colspan="5">IO: ${r.ioName} &nbsp;<span style="color:var(--text3)">${r.ioId}</span></td></tr>`;
+    }
+    const statusTag = r.status === 'OK'
+      ? '<span class="tag t-ok">✓ Confirmed</span>'
+      : r.status === 'MISMATCH'
+      ? '<span class="tag t-warn">⚠ Mismatch</span>'
+      : '<span class="tag t-er">✗ Error</span>';
+    const confirmedCell = r.confirmedImps !== null
+      ? `<span style="color:${r.confirmedImps===r.sentImps?'var(--green)':'var(--amber)'}">${r.confirmedImps.toLocaleString()}</span>`
+      : '<span style="color:var(--salmon)">—</span>';
+    return ioHeader + `<tr>
+      <td style="padding-left:28px;color:var(--text2);">${r.liId}${r.liName?'<br><span style="color:var(--text3);font-size:9px;">'+r.liName+'</span>':''}</td>
+      <td style="font-family:var(--mono);">${r.sentImps.toLocaleString()}</td>
+      <td style="font-family:var(--mono);">${confirmedCell}</td>
+      <td>${statusTag}</td>
+      <td style="font-family:var(--mono);font-size:10px;color:var(--salmon);">${r.error||''}</td>
+    </tr>`;
+  }).join('');
+}
+
+function downloadPushReceipt() {
+  if(!S.pushReceipt) return;
+  const { rows, time } = S.pushReceipt;
+  const ts = time.toISOString().replace(/[:.]/g,'-').slice(0,19);
+  const headers = 'Push_Timestamp,IO_ID,IO_Name,LI_ID,LI_Name,Sent_Imps,Confirmed_Imps,Status,Error\n';
+  const csv = rows.map(r =>
+    `"${time.toISOString()}","${r.ioId}","${r.ioName}","${r.liId}","${r.liName}",${r.sentImps},${r.confirmedImps!==null?r.confirmedImps:''},"${r.status}","${r.error.replace(/"/g,"'")}"`
+  ).join('\n');
+  downloadCSV(`dv360_push_receipt_${ts}.csv`, headers+csv);
 }
 
 // AUDIT CSV
 function exportAuditCSV() {
-  const BOM = '\uFEFF';
-  const headers = 'IO_ID,IO_Name,LI_ID,LI_Name,Advertiser_ID,Billing_CPM,Cost_CPM,Margin,CVR,Min_Imps,Max_Imps,Old_Imps,New_Imps,Delta_Imps,Old_Cost,New_Cost,Cost_Saved,IO_Target_CVR,IO_Achieved_CVR,IO_CVR_Met,IO_Target_CPA,IO_Achieved_CPA,IO_Target_Imps,IO_Fill_Pct,IO_Status\n';
+  const headers = 'IO_ID,IO_Name,IO_Solver_Mode,LI_ID,LI_Name,Advertiser_ID,Billing_CPM,Cost_CPM,Margin,CVR,Min_Imps,Max_Imps,Yesterday_Imps,New_Imps,Delta_Imps,IO_Target_CVR,IO_Achieved_CVR,IO_CVR_Met,IO_Target_CPA,IO_Achieved_CPA,IO_Target_Imps,IO_Fill_Pct,IO_Status\n';
   let rows = '';
   Object.entries(S.IOs).forEach(([ioId, d]) => {
-    const targetCpa = d.kpi > 0 ? (d.billing/(1000*d.kpi)).toFixed(2) : '';
+    const isPerfMode = d.solverMode === 'Improving Performance';
+    const targetCpa = !isPerfMode && d.kpi > 0 ? (d.billing/(1000*d.kpi)).toFixed(2) : '';
     const achievedCpa = d.newCvr > 0 ? (d.billing/(1000*d.newCvr)).toFixed(2) : '';
     const fillPct = d.target > 0 ? (d.newTotal/d.target*100).toFixed(1)+'%' : '';
     d.allocs.forEach(a => {
-      rows += `"${ioId}","${d.ioName}","${a.id}","${a.liName||''}","${a.advId||''}",${a.billing},${a.cpm},${(a.margin*100).toFixed(2)}%,${(a.cvr*100).toFixed(4)}%,${a.min},${a.max},${a.oldImps},${a.current},${a.current-a.oldImps},${(a.oldImps*a.cpm/1000).toFixed(4)},${(a.current*a.cpm/1000).toFixed(4)},${((a.oldImps-a.current)*a.cpm/1000).toFixed(4)},${(d.kpi*100).toFixed(4)}%,${(d.newCvr*100).toFixed(4)}%,${d.newCvr>=d.kpi},"${targetCpa}","${achievedCpa}",${d.target},${fillPct},${d.status}\n`;
+      rows += `"${ioId}","${d.ioName}","${d.solverMode||''}","${a.id}","${a.liName||''}","${a.advId||''}",${a.billing},${a.cpm},${(a.margin*100).toFixed(2)}%,${(a.cvr*100).toFixed(4)}%,${Math.ceil(a.min)},${Math.floor(a.max)},${a.oldImps},${a.current},${a.current-a.oldImps},${(d.kpi*100).toFixed(4)}%,${(d.newCvr*100).toFixed(4)}%,${d.newCvr>=d.kpi},"${targetCpa}","${achievedCpa}",${d.target},${fillPct},${d.status}\n`;
     });
   });
-  const blob = new Blob([BOM+headers+rows], { type:'text/csv;charset=utf-8;' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = `dv360_audit_${new Date().toISOString().split('T')[0]}.csv`;
-  a.click();
+  downloadCSV(`dv360_audit_${new Date().toISOString().split('T')[0]}.csv`, headers+rows);
 }
 </script>
 </body>
