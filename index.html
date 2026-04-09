@@ -1388,21 +1388,20 @@ async function executePush() {
       } else {
         try {
           const res = await fetch(
-            `https://displayvideo.googleapis.com/v4/advertisers/${advId}/lineItems/${a.id}?updateMask=budget.maxAmount,budget.budgetAllocationType`,
+            `https://displayvideo.googleapis.com/v4/advertisers/${advId}/lineItems/${a.id}?updateMask=pacing.dailyMaxImpressions`,
             {
               method: 'PATCH',
               headers: { Authorization: `Bearer ${S.tok}`, 'Content-Type': 'application/json' },
               body: JSON.stringify({
-                budget: {
-                  budgetAllocationType: 'LINE_ITEM_BUDGET_ALLOCATION_TYPE_FIXED',
-                  maxAmount: sentImps.toString()
+                pacing: {
+                  dailyMaxImpressions: sentImps.toString()
                 }
               })
             }
           );
           const data = await res.json();
           if(res.ok) {
-            const confirmed = parseInt(data.budget?.maxAmount || '0');
+            const confirmed = parseInt(data.pacing?.dailyMaxImpressions || '0');
             const status = confirmed === sentImps ? 'OK' : 'MISMATCH';
             log.innerHTML += `&nbsp;&nbsp;${a.id} → ${sentImps.toLocaleString()} imps <span class="pl-ok">✓</span><br>`;
             receiptRows.push({ ioId, ioName: d.ioName, liId: a.id, liName, sentImps, confirmedImps: confirmed, status, error: '' });
