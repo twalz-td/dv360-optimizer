@@ -361,11 +361,22 @@ input[type=text]::placeholder{color:var(--ink4);}
 
   <!-- SCREEN 3: REVIEW -->
   <div class="screen" id="screen-3">
-    <div class="pt">Optimization <strong>Review</strong></div>
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px;">
+      <div class="pt">Optimization <strong>Review</strong></div>
+      <div style="display:flex;gap:10px;padding-top:6px;">
+        <button class="btn" onclick="toggleAll(true)">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+          Select All
+        </button>
+        <button class="btn" onclick="toggleAll(false)">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          Deselect All
+        </button>
+      </div>
+    </div>
     <div class="ps">Inspect each IO's before/after metrics. Deselect any IOs to exclude from the push.</div>
     <div id="review-io-cards"></div>
     <div class="row-actions">
-
       <button class="btn bp" onclick="goToScreen(4)">
         View Savings Summary
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
@@ -798,7 +809,7 @@ async function runOptimizer() {
     // If IO CVR is > 105% of KPI, we have headroom to swap impressions FROM
     // high-CVR/low-margin LIs TOWARD high-margin LIs, as long as wCVR stays >= kpiCvr.
     // This maximises margin while still meeting the performance target.
-    if(status === 'Optimal' && lis[0].solverMode !== 'Improving Performance') {
+    if(status === 'Optimal') {
       const kpiCvr2 = lis[0].kpi;
       const overPerf = () => {
         const t = allocs.reduce((s,a) => s+a.current, 0);
@@ -1039,6 +1050,14 @@ function toggleIO(ioId, label) {
   S.accepted[ioId] = !S.accepted[ioId];
   const tog = document.getElementById('toggle-'+ioId);
   if(tog) tog.classList.toggle('on', S.accepted[ioId]);
+}
+
+function toggleAll(state) {
+  Object.keys(S.IOs).forEach(ioId => {
+    S.accepted[ioId] = state;
+    const tog = document.getElementById('toggle-'+ioId);
+    if(tog) tog.classList.toggle('on', state);
+  });
 }
 
 // SAVINGS
@@ -1372,54 +1391,84 @@ async function executePush() {
   // Receipt data: keyed by LI id
   const receiptRows = []; // {ioId, ioName, liId, liName, sentImps, confirmedImps, status, error}
 
+  // Build full list of all LI patch tasks across all accepted IOs
+  const allTasks = [];
   for(const [ioId, d] of acc) {
     const advId = d.advId || d.allocs[0]?.advId;
-    log.innerHTML += `> IO ${ioId} (${d.allocs.length} LIs)<br>`;
-    log.scrollTop = log.scrollHeight;
-
     for(const a of d.allocs) {
-      const sentImps = Math.round(a.current);
-      const liName = a.liName || '';
-
-      if(S.tok === 'DEMO') {
-        await new Promise(r => setTimeout(r, 60));
-        log.innerHTML += `&nbsp;&nbsp;${a.id} → ${sentImps.toLocaleString()} imps <span class="pl-ok">✓</span><br>`;
-        receiptRows.push({ ioId, ioName: d.ioName, liId: a.id, liName, sentImps, confirmedImps: sentImps, status: 'OK', error: '' });
-      } else {
-        try {
-          const res = await fetch(
-            `https://displayvideo.googleapis.com/v4/advertisers/${advId}/lineItems/${a.id}?updateMask=pacing.dailyMaxImpressions`,
-            {
-              method: 'PATCH',
-              headers: { Authorization: `Bearer ${S.tok}`, 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                pacing: {
-                  dailyMaxImpressions: sentImps.toString()
-                }
-              })
-            }
-          );
-          const data = await res.json();
-          if(res.ok) {
-            const confirmed = parseInt(data.pacing?.dailyMaxImpressions || '0');
-            const status = confirmed === sentImps ? 'OK' : 'MISMATCH';
-            log.innerHTML += `&nbsp;&nbsp;${a.id} → ${sentImps.toLocaleString()} imps <span class="pl-ok">✓</span><br>`;
-            receiptRows.push({ ioId, ioName: d.ioName, liId: a.id, liName, sentImps, confirmedImps: confirmed, status, error: '' });
-          } else {
-            const errMsg = data.error?.message || `${res.status} ${res.statusText}`;
-            log.innerHTML += `&nbsp;&nbsp;${a.id} <span class="pl-err">✗ ${errMsg}</span><br>`;
-            receiptRows.push({ ioId, ioName: d.ioName, liId: a.id, liName, sentImps, confirmedImps: null, status: 'ERROR', error: errMsg });
-          }
-        } catch(e) {
-          log.innerHTML += `&nbsp;&nbsp;${a.id} <span class="pl-err">✗ ${e.message}</span><br>`;
-          receiptRows.push({ ioId, ioName: d.ioName, liId: a.id, liName, sentImps, confirmedImps: null, status: 'ERROR', error: e.message });
-        }
-      }
-      log.scrollTop = log.scrollHeight;
+      allTasks.push({ ioId, ioName: d.ioName, advId, a });
     }
   }
 
-  log.innerHTML += '<br><strong>Push complete.</strong>';
+  log.innerHTML += `Pushing ${allTasks.length} line items with up to 10 concurrent requests...<br>`;
+  log.scrollTop = log.scrollHeight;
+
+  // Concurrency-limited executor — runs up to 10 PATCH calls simultaneously
+  const CONCURRENCY = 10;
+  let completed = 0;
+
+  async function patchLI({ ioId, ioName, advId, a }) {
+    const sentImps = Math.round(a.current);
+    const liName = a.liName || '';
+
+    if(S.tok === 'DEMO') {
+      await new Promise(r => setTimeout(r, 60));
+      receiptRows.push({ ioId, ioName, liId: a.id, liName, sentImps, confirmedImps: sentImps, status: 'OK', error: '' });
+      return { ok: true, id: a.id, sentImps };
+    }
+
+    try {
+      const res = await fetch(
+        `https://displayvideo.googleapis.com/v4/advertisers/${advId}/lineItems/${a.id}?updateMask=pacing.dailyMaxImpressions`,
+        {
+          method: 'PATCH',
+          headers: { Authorization: `Bearer ${S.tok}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ pacing: { dailyMaxImpressions: sentImps.toString() } })
+        }
+      );
+      const data = await res.json();
+      if(res.ok) {
+        const confirmed = parseInt(data.pacing?.dailyMaxImpressions || '0');
+        const status = confirmed === sentImps ? 'OK' : 'MISMATCH';
+        receiptRows.push({ ioId, ioName, liId: a.id, liName, sentImps, confirmedImps: confirmed, status, error: '' });
+        return { ok: true, id: a.id, sentImps };
+      } else {
+        const errMsg = data.error?.message || `${res.status} ${res.statusText}`;
+        receiptRows.push({ ioId, ioName, liId: a.id, liName, sentImps, confirmedImps: null, status: 'ERROR', error: errMsg });
+        return { ok: false, id: a.id, errMsg };
+      }
+    } catch(e) {
+      receiptRows.push({ ioId, ioName, liId: a.id, liName, sentImps, confirmedImps: null, status: 'ERROR', error: e.message });
+      return { ok: false, id: a.id, errMsg: e.message };
+    }
+  }
+
+  // Run all tasks with concurrency limit of 10
+  async function runWithConcurrency(tasks, limit) {
+    const results = [];
+    let idx = 0;
+    async function worker() {
+      while(idx < tasks.length) {
+        const task = tasks[idx++];
+        const result = await patchLI(task);
+        results.push(result);
+        completed++;
+        const pct = Math.round(completed / allTasks.length * 100);
+        log.innerHTML = log.innerHTML.replace(/Pushing.*?requests\.\.\.<br>/, 
+          'Pushing ' + allTasks.length + ' line items — ' + completed + ' done (' + pct + '%)...<br>');
+        log.scrollTop = log.scrollHeight;
+      }
+    }
+    const workers = Array.from({length: Math.min(limit, tasks.length)}, worker);
+    await Promise.all(workers);
+    return results;
+  }
+
+  await runWithConcurrency(allTasks, CONCURRENCY);
+
+  const okCount  = receiptRows.filter(r => r.status === 'OK').length;
+  const errCount = receiptRows.filter(r => r.status === 'ERROR').length;
+  log.innerHTML += '<br><strong>Push complete — ' + okCount + ' updated' + (errCount > 0 ? ', ' + errCount + ' errors' : '') + '.</strong>';
 
   // Store receipt for download and render
   S.pushReceipt = { rows: receiptRows, time: pushTime };
