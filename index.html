@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TravelDesk — DV360 Performance and Margin Solver</title>
+<title>TravelDesk — DV360 LP Optimizer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <style>
@@ -248,6 +248,7 @@ input[type=text]::placeholder{color:var(--ink4);}
 .row-actions{display:flex;gap:12px;align-items:center;padding:20px 0;justify-content:flex-end;}
 
 /* SCROLLBAR */
+.adv-filter-item:hover{background:var(--paper2);}
 ::-webkit-scrollbar{width:5px;height:5px;}
 ::-webkit-scrollbar-track{background:var(--paper3);}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
@@ -269,7 +270,7 @@ input[type=text]::placeholder{color:var(--ink4);}
     <img id="header-logo" src="https://traveldeskglobal.com/wp-content/uploads/2024/03/TD-Logo-White.png" style="filter:invert(1) sepia(1) saturate(0) brightness(0.2)" alt="TravelDesk" onerror="this.style.display='none';document.getElementById('logo-fallback').style.display='block'">
     <div id="logo-fallback" style="display:none;" class="la-fallback">TravelDesk</div>
     <div class="ld"></div>
-    <span class="lapp">DV360 Performance and Margin Solver</span>
+    <span class="lapp">DV360 LP Optimizer</span>
   </div>
   <div class="snav">
     <div class="si active" data-step="0"><div class="snum">1</div><span>Connect</span></div>
@@ -363,7 +364,7 @@ input[type=text]::placeholder{color:var(--ink4);}
   <div class="screen" id="screen-3">
     <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px;">
       <div class="pt">Optimization <strong>Review</strong></div>
-      <div style="display:flex;gap:10px;padding-top:6px;">
+      <div style="display:flex;gap:10px;padding-top:6px;align-items:center;">
         <button class="btn" onclick="toggleAll(true)">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
           Select All
@@ -372,21 +373,60 @@ input[type=text]::placeholder{color:var(--ink4);}
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
           Deselect All
         </button>
+        <button class="btn" onclick="document.getElementById('review-bottom').scrollIntoView({behavior:'smooth'})">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          Bottom
+        </button>
+        <!-- Advertiser filter -->
+        <div style="position:relative;" id="adv-filter-wrap">
+          <button class="btn" onclick="toggleAdvFilter()" id="adv-filter-btn" style="gap:8px;min-width:180px;justify-content:space-between;">
+            <span id="adv-filter-label">All Advertisers</span>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div id="adv-filter-dropdown" style="display:none;position:absolute;top:calc(100% + 6px);right:0;min-width:280px;background:var(--white);border:1.5px solid var(--border2);border-radius:var(--rl);box-shadow:var(--shadow-lg);z-index:200;overflow:hidden;">
+            <div style="padding:10px 12px;border-bottom:1px solid var(--border);">
+              <input type="text" id="adv-search" placeholder="Search advertisers..." oninput="filterAdvList()" style="margin-bottom:0;font-size:11px;padding:7px 10px;">
+            </div>
+            <div style="display:flex;gap:0;border-bottom:1px solid var(--border);">
+              <button onclick="advSelectAll()" style="flex:1;padding:8px 12px;font-family:var(--mono);font-size:10px;color:var(--coral);background:none;border:none;cursor:pointer;font-weight:600;letter-spacing:.04em;">Select All</button>
+              <div style="width:1px;background:var(--border);"></div>
+              <button onclick="advDeselectAll()" style="flex:1;padding:8px 12px;font-family:var(--mono);font-size:10px;color:var(--ink3);background:none;border:none;cursor:pointer;font-weight:600;letter-spacing:.04em;">Deselect All</button>
+            </div>
+            <div id="adv-filter-list" style="max-height:260px;overflow-y:auto;padding:6px 0;"></div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="ps">Inspect each IO's before/after metrics. Deselect any IOs to exclude from the push.</div>
     <div id="review-io-cards"></div>
-    <div class="row-actions">
+    <div id="review-bottom" style="display:flex;justify-content:space-between;align-items:center;padding-top:16px;padding-bottom:32px;">
+      <button class="btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>
+        Scroll to Top
+      </button>
       <button class="btn bp" onclick="goToScreen(4)">
         View Savings Summary
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
       </button>
     </div>
+    <div id="review-top-anchor"></div>
   </div>
 
   <!-- SCREEN 4: SAVINGS -->
   <div class="screen" id="screen-4">
-    <div class="pt"><strong>Savings</strong> Summary</div>
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px;">
+      <div class="pt"><strong>Savings</strong> Summary</div>
+      <div style="display:flex;gap:10px;padding-top:6px;">
+        <button class="btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>
+          Top
+        </button>
+        <button class="btn" onclick="document.getElementById('sav-bottom').scrollIntoView({behavior:'smooth'})">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          Bottom
+        </button>
+      </div>
+    </div>
     <div class="ps">Total impact of accepted optimisations — cost efficiency, margin lift and performance.</div>
 
     <div class="sav-hero">
@@ -450,7 +490,11 @@ input[type=text]::placeholder{color:var(--ink4);}
       </div>
     </div>
 
-    <div class="row-actions" style="margin-top:20px;">
+    <div id="sav-bottom" class="row-actions" style="margin-top:20px;">
+      <button class="btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>
+        Scroll to Top
+      </button>
       <button class="btn bc" onclick="goToScreen(5)">
         Proceed to DV360 Push
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
@@ -460,7 +504,19 @@ input[type=text]::placeholder{color:var(--ink4);}
 
   <!-- SCREEN 5: PUSH -->
   <div class="screen" id="screen-5">
-    <div class="pt">Push to <strong>DV360</strong></div>
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px;">
+      <div class="pt">Push to <strong>DV360</strong></div>
+      <div style="display:flex;gap:10px;padding-top:6px;">
+        <button class="btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>
+          Top
+        </button>
+        <button class="btn" onclick="document.getElementById('push-bottom').scrollIntoView({behavior:'smooth'})">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          Bottom
+        </button>
+      </div>
+    </div>
     <div class="ps">Final review before committing budget updates to the DV360 API.</div>
 
     <div class="card" style="margin-bottom:20px;">
@@ -483,12 +539,18 @@ input[type=text]::placeholder{color:var(--ink4);}
       </div>
     </div>
 
-    <div class="card">
+    <div id="push-bottom" class="card">
       <div id="push-summary" style="margin-bottom:20px;font-size:14px;color:var(--ink2);font-family:var(--mono);"></div>
-      <button class="btn bc" id="push-btn" onclick="executePush()">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-        Confirm & Push Live Updates
-      </button>
+      <div style="display:flex;gap:12px;align-items:center;">
+        <button class="btn bc" id="push-btn" onclick="executePush()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          Confirm & Push Live Updates
+        </button>
+        <button class="btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>
+          Scroll to Top
+        </button>
+      </div>
     </div>
     <div class="push-log" id="push-log" style="display:none;margin-top:16px;"></div>
 
@@ -520,7 +582,7 @@ input[type=text]::placeholder{color:var(--ink4);}
 </main>
 
 <script>
-const S = { tok: null, LIs: [], IOs: {}, accepted: {} };
+const S = { tok: null, LIs: [], IOs: {}, accepted: {}, advFilter: null };
 
 function downloadCSV(filename, csvContent) {
   const w = window.open('', '_blank');
@@ -543,6 +605,7 @@ function goToScreen(n) {
   document.querySelectorAll('.si').forEach((el,i) => {
     el.classList.toggle('active', i===n);
     el.classList.toggle('done', i<n);
+    el.title = i < n ? 'Go back to ' + el.querySelector('span').textContent : '';
   });
   if(n===4) calculateSavings();
   if(n===5) renderPushScreen();
@@ -570,6 +633,17 @@ window.onload = () => {
     setBadge('connected', true);
     goToScreen(1);
   }
+
+  // Wire up step nav backward navigation
+  document.querySelectorAll('.si[data-step]').forEach(el => {
+    el.addEventListener('click', () => {
+      if(el.classList.contains('done')) {
+        goToScreen(parseInt(el.getAttribute('data-step')));
+      }
+    });
+    // Show pointer cursor hint on done steps
+    el.title = el.classList.contains('done') ? 'Click to go back to this step' : '';
+  });
 };
 
 function setBadge(text, on) {
@@ -899,15 +973,94 @@ async function runOptimizer() {
 }
 
 // REVIEW RENDER
+function toggleAdvFilter() {
+  const dd = document.getElementById('adv-filter-dropdown');
+  const isOpen = dd.style.display !== 'none';
+  dd.style.display = isOpen ? 'none' : 'block';
+  if(!isOpen) document.getElementById('adv-search').focus();
+}
+
+function toggleAdvFilter_item(cb, name) {
+  if(cb.checked) S.advFilter.add(name);
+  else S.advFilter.delete(name);
+  updateAdvFilterLabel();
+  renderReview();
+}
+
+function filterAdvList() {
+  const q = document.getElementById('adv-search').value.toLowerCase();
+  const all = [...new Set(Object.values(S.IOs).map(d => d.advName || '').filter(Boolean))].sort();
+  const filtered = q ? all.filter(n => n.toLowerCase().includes(q)) : all;
+  renderAdvList(filtered);
+}
+
+function advSelectAll() {
+  const all = [...new Set(Object.values(S.IOs).map(d => d.advName || '').filter(Boolean))];
+  all.forEach(n => S.advFilter.add(n));
+  filterAdvList();
+  updateAdvFilterLabel();
+  renderReview();
+}
+
+function advDeselectAll() {
+  S.advFilter.clear();
+  filterAdvList();
+  updateAdvFilterLabel();
+  renderReview();
+}
+
+function updateAdvFilterLabel() {
+  const total = new Set(Object.values(S.IOs).map(d => d.advName || '').filter(Boolean)).size;
+  const selected = S.advFilter ? S.advFilter.size : total;
+  const lbl = document.getElementById('adv-filter-label');
+  if(lbl) lbl.textContent = selected === total ? 'All Advertisers' : selected === 0 ? 'No Advertisers' : selected + ' of ' + total + ' Advertisers';
+}
+
+function initAdvFilter() {
+  const names = [...new Set(Object.values(S.IOs).map(d => d.advName || '').filter(Boolean))].sort();
+  S.advFilter = new Set(names);
+  renderAdvList(names);
+}
+
+function renderAdvList(names) {
+  const list = document.getElementById('adv-filter-list');
+  if(!list) return;
+  list.innerHTML = names.map(name => {
+    const checked = S.advFilter && S.advFilter.has(name);
+    const ioCount = Object.values(S.IOs).filter(d => d.advName === name).length;
+    const safeName = name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    return '<label class="adv-filter-item" style="display:flex;align-items:center;gap:10px;padding:8px 14px;cursor:pointer;">' +
+      '<input type="checkbox" ' + (checked ? 'checked' : '') + ' onchange="toggleAdvFilter_item(this,\'' + safeName + '\')" style="accent-color:var(--coral);width:13px;height:13px;cursor:pointer;">' +
+      '<span style="font-family:var(--mono);font-size:11px;color:var(--ink2);flex:1;">' + name + '</span>' +
+      '<span style="font-family:var(--mono);font-size:9px;color:var(--ink3);">' + ioCount + ' IO' + (ioCount!==1?'s':'') + '</span>' +
+      '</label>';
+  }).join('');
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click', function(e) {
+  const wrap = document.getElementById('adv-filter-wrap');
+  if(wrap && !wrap.contains(e.target)) {
+    const dd = document.getElementById('adv-filter-dropdown');
+    if(dd) dd.style.display = 'none';
+  }
+});
+
 function renderReview() {
   const container = document.getElementById('review-io-cards');
   container.innerHTML = '';
 
-  // Sort by advertiser name alphabetically, then IO name
-  const sortedIOs = Object.entries(S.IOs).sort(([,a],[,b]) => {
-    const advCmp = (a.advName||'').localeCompare(b.advName||'');
-    return advCmp !== 0 ? advCmp : (a.ioName||'').localeCompare(b.ioName||'');
-  });
+  // Init filter on first render
+  if(!S.advFilter) initAdvFilter();
+  updateAdvFilterLabel();
+
+  // Sort by advertiser name alphabetically, then IO name, filtered by advFilter
+  const sortedIOs = Object.entries(S.IOs)
+    .filter(([,d]) => !S.advFilter || S.advFilter.size === 0 || S.advFilter.has(d.advName||''))
+    .sort(([,a],[,b]) => {
+      const advCmp = (a.advName||'').localeCompare(b.advName||'');
+      return advCmp !== 0 ? advCmp : (a.ioName||'').localeCompare(b.ioName||'');
+    });
 
   // Group headers by advertiser
   let lastAdv = null;
@@ -974,6 +1127,7 @@ function renderReview() {
         <div class="io-hd-left">
           <span class="sdot sdot-${d.status==='Optimal'?'ok':d.status==='KPI Miss'?'warn':'err'}"></span>
           <div>
+            <div style="font-family:var(--mono);font-size:9px;color:var(--coral);text-transform:uppercase;letter-spacing:.1em;margin-bottom:3px;font-weight:600;">${d.advName||''}</div>
             <div class="io-name">${d.ioName}</div>
             <div class="io-id">${ioId}</div>
           </div>
@@ -1053,7 +1207,11 @@ function toggleIO(ioId, label) {
 }
 
 function toggleAll(state) {
-  Object.keys(S.IOs).forEach(ioId => {
+  // Only operate on currently visible (filtered) IOs
+  const visibleIOs = Object.entries(S.IOs)
+    .filter(([,d]) => !S.advFilter || S.advFilter.size === 0 || S.advFilter.has(d.advName||''))
+    .map(([id]) => id);
+  visibleIOs.forEach(ioId => {
     S.accepted[ioId] = state;
     const tog = document.getElementById('toggle-'+ioId);
     if(tog) tog.classList.toggle('on', state);
@@ -1239,10 +1397,21 @@ function calculateSavings() {
     // Build reason groups
     function reasonGroup(label, color, bgColor, items, reasonText) {
       if(items.length === 0) return '';
-      const rows = items.map(([id,d]) => {
-        return '<tr>' +
+      // Sort by advertiser then IO name
+      const sorted = [...items].sort(([,a],[,b]) => {
+        const ac = (a.advName||'').localeCompare(b.advName||'');
+        return ac !== 0 ? ac : (a.ioName||'').localeCompare(b.ioName||'');
+      });
+      let lastAdv = null;
+      const rows = sorted.map(([id,d]) => {
+        let advRow = '';
+        if(d.advName && d.advName !== lastAdv) {
+          lastAdv = d.advName;
+          advRow = '<tr><td colspan="5" style="padding:8px 16px 4px;font-family:var(--mono);font-size:9px;font-weight:600;color:var(--coral);text-transform:uppercase;letter-spacing:.1em;background:var(--paper3);border-top:1px solid var(--border2);">' +
+            '<span style="display:inline-block;width:3px;height:9px;background:var(--coral);border-radius:2px;margin-right:7px;vertical-align:middle;"></span>' + d.advName + '</td></tr>';
+        }
+        return advRow + '<tr>' +
           '<td style="padding:10px 16px;border-bottom:1px solid var(--border);font-family:var(--mono);font-size:11px;color:var(--ink2);">' +
-            '<div style="font-weight:600;color:var(--ink);">' + (d.advName||'') + '</div>' +
             '<div>' + (d.ioName||id) + '</div>' +
             '<div style="font-size:9px;color:var(--ink3);">' + id + '</div>' +
           '</td>' +
@@ -1294,26 +1463,42 @@ function calculateSavings() {
       reasonGroup('Manual Exclusion', 'var(--ink3)', 'var(--paper3)', manualOff, manualReason);
   }
 
-  // Per-IO impact table
-  document.getElementById('io-impact-count').textContent = `${acc.length} IO${acc.length!==1?'s':''} accepted`;
-  document.getElementById('io-impact-tbody').innerHTML = acc.map(([id,d]) => {
+  // Per-IO impact table — grouped by advertiser alphabetically
+  document.getElementById('io-impact-count').textContent = acc.length + ' IO' + (acc.length!==1?'s':'') + ' accepted';
+
+  // Sort by advertiser then IO name
+  const sortedAcc = [...acc].sort(([,a],[,b]) => {
+    const advCmp = (a.advName||'').localeCompare(b.advName||'');
+    return advCmp !== 0 ? advCmp : (a.ioName||'').localeCompare(b.ioName||'');
+  });
+
+  let lastAdvName = null;
+  document.getElementById('io-impact-tbody').innerHTML = sortedAcc.map(([id,d]) => {
     const lift    = (d.newMargin - d.oldMargin)*100;
     const cvrLift = (d.newCvr - d.oldCvr)*100;
     const isPerfMode = d.solverMode === 'Improving Performance';
     const perfTag = isPerfMode
-      ? `<span class="tag ${d.newCvr>=d.oldCvr?'t-ok':'t-warn'}">${d.newCvr>=d.oldCvr?'CVR ↑':'CVR ↓'}</span>`
-      : `<span class="tag ${d.newCvr>=d.kpi?'t-ok':'t-warn'}">${d.newCvr>=d.kpi?'CPA Met':'CPA Miss'}</span>`;
-    return `<tr>
-      <td class="td-io">${d.ioName||id}<br><span style="color:var(--ink3);font-size:9px;">${id}</span></td>
-      <td><span class="tag" style="background:var(--paper3);color:var(--ink3);border:1px solid var(--border2);font-size:8px;">${isPerfMode?'Perf':'CPA'}</span></td>
-      <td>$${d.oldCost.toFixed(2)}</td>
-      <td style="color:var(--emerald)">$${d.newCost.toFixed(2)}</td>
-      <td style="color:${d.oldCost-d.newCost>0?'var(--emerald)':'var(--ink2)'}">$${(d.oldCost-d.newCost).toFixed(2)}</td>
-      <td>${(d.oldMargin*100).toFixed(1)}%</td>
-      <td style="color:var(--emerald)">${(d.newMargin*100).toFixed(1)}%</td>
-      <td style="color:${lift>=0?'var(--emerald)':'var(--salmon)'};">${lift>=0?'+':''}${lift.toFixed(1)} pp</td>
-      <td>${perfTag}</td>
-    </tr>`;
+      ? '<span class="tag ' + (d.newCvr>=d.oldCvr?'t-ok':'t-warn') + '">' + (d.newCvr>=d.oldCvr?'CVR ↑':'CVR ↓') + '</span>'
+      : '<span class="tag ' + (d.newCvr>=d.kpi?'t-ok':'t-warn') + '">' + (d.newCvr>=d.kpi?'CPA Met':'CPA Miss') + '</span>';
+
+    let advHeader = '';
+    if(d.advName && d.advName !== lastAdvName) {
+      lastAdvName = d.advName;
+      advHeader = '<tr><td colspan="9" style="padding:14px 14px 6px;font-family:var(--mono);font-size:9px;font-weight:600;color:var(--coral);text-transform:uppercase;letter-spacing:.12em;background:var(--paper2);border-bottom:1px solid var(--border);border-top:2px solid var(--border);">' +
+        '<span style="display:inline-block;width:3px;height:10px;background:var(--coral);border-radius:2px;margin-right:8px;vertical-align:middle;"></span>' + d.advName + '</td></tr>';
+    }
+
+    return advHeader + '<tr>' +
+      '<td class="td-io">' + (d.ioName||id) + '<br><span style="color:var(--ink3);font-size:9px;">' + id + '</span></td>' +
+      '<td><span class="tag" style="background:var(--paper3);color:var(--ink3);border:1px solid var(--border2);font-size:8px;">' + (isPerfMode?'Perf':'CPA') + '</span></td>' +
+      '<td>$' + d.oldCost.toFixed(2) + '</td>' +
+      '<td style="color:var(--emerald)">$' + d.newCost.toFixed(2) + '</td>' +
+      '<td style="color:' + (d.oldCost-d.newCost>0?'var(--emerald)':'var(--ink2)') + '">$' + (d.oldCost-d.newCost).toFixed(2) + '</td>' +
+      '<td>' + (d.oldMargin*100).toFixed(1) + '%</td>' +
+      '<td style="color:var(--emerald)">' + (d.newMargin*100).toFixed(1) + '%</td>' +
+      '<td style="color:' + (lift>=0?'var(--emerald)':'var(--salmon)') + ';">' + (lift>=0?'+':'') + lift.toFixed(1) + ' pp</td>' +
+      '<td>' + perfTag + '</td>' +
+      '</tr>';
   }).join('');
 }
 
@@ -1325,19 +1510,37 @@ function renderPushScreen() {
   document.getElementById('push-summary').innerHTML =
     `Ready to push <strong style="color:var(--ink)">${totalLIs} line item${totalLIs!==1?'s':''}</strong> across <strong style="color:var(--ink)">${acc.length} IO${acc.length!==1?'s':''}</strong> to the DV360 API.`;
 
-  // Build review table
+  // Build review table — sorted by advertiser then IO name
   const tbody = document.getElementById('push-review-tbody');
   tbody.innerHTML = '';
 
-  acc.forEach(([ioId, d]) => {
+  const sortedAcc = [...acc].sort(([,a],[,b]) => {
+    const advCmp = (a.advName||'').localeCompare(b.advName||'');
+    return advCmp !== 0 ? advCmp : (a.ioName||'').localeCompare(b.ioName||'');
+  });
+
+  let lastPushAdv = null;
+
+  sortedAcc.forEach(([ioId, d]) => {
     const totalAlloc = d.allocs.reduce((s,a) => s+a.current, 0);
     const fillPct = d.target > 0 ? Math.round(totalAlloc/d.target*100) : 0;
     const fillColor = fillPct >= 95 ? 'var(--emerald)' : fillPct >= 80 ? 'var(--amber)' : 'var(--salmon)';
 
-    // IO group header row
+    // Advertiser section header
+    if(d.advName && d.advName !== lastPushAdv) {
+      lastPushAdv = d.advName;
+      const advTr = document.createElement('tr');
+      advTr.innerHTML = '<td colspan="7" style="padding:12px 14px 6px;font-family:var(--mono);font-size:9px;font-weight:600;color:var(--coral);text-transform:uppercase;letter-spacing:.12em;background:var(--paper3);border-top:2px solid var(--border2);">' +
+        '<span style="display:inline-block;width:3px;height:10px;background:var(--coral);border-radius:2px;margin-right:8px;vertical-align:middle;"></span>' + d.advName + '</td>';
+      tbody.appendChild(advTr);
+    }
+
+    // IO group header row — now includes advertiser name
     const tr = document.createElement('tr');
     tr.className = 'io-group-row';
-    tr.innerHTML = `<td colspan="7">IO: ${d.ioName || ioId} &nbsp;<span style="color:var(--ink3)">${ioId}</span></td>`;
+    tr.innerHTML = '<td colspan="7">' +
+      '<span style="color:var(--coral);font-family:var(--mono);font-size:9px;font-weight:600;margin-right:8px;">' + (d.advName||'') + '</span>' +
+      (d.ioName || ioId) + ' &nbsp;<span style="color:var(--ink3)">' + ioId + '</span></td>';
     tbody.appendChild(tr);
 
     // Line item rows
@@ -1504,13 +1707,31 @@ function renderPushReceipt(rows, time) {
       <div class="sm-sub">failed to update</div>
     </div>`;
 
-  // Table rows
-  let lastIo = null;
-  document.getElementById('receipt-tbody').innerHTML = rows.map(r => {
+  // Table rows — sorted by advertiser then IO, with advertiser group headers
+  const sortedRows = [...rows].sort((a,b) => {
+    const advCmp = (S.IOs[a.ioId]?.advName||'').localeCompare(S.IOs[b.ioId]?.advName||'');
+    if(advCmp !== 0) return advCmp;
+    const ioCmp = (a.ioName||'').localeCompare(b.ioName||'');
+    return ioCmp !== 0 ? ioCmp : 0;
+  });
+
+  let lastReceiptAdv = null;
+  let lastReceiptIo = null;
+  document.getElementById('receipt-tbody').innerHTML = sortedRows.map(r => {
+    const advName = S.IOs[r.ioId]?.advName || '';
+    let advHeader = '';
+    if(advName && advName !== lastReceiptAdv) {
+      lastReceiptAdv = advName;
+      lastReceiptIo = null;
+      advHeader = '<tr><td colspan="5" style="padding:12px 14px 6px;font-family:var(--mono);font-size:9px;font-weight:600;color:var(--coral);text-transform:uppercase;letter-spacing:.12em;background:var(--paper3);border-top:2px solid var(--border2);">' +
+        '<span style="display:inline-block;width:3px;height:10px;background:var(--coral);border-radius:2px;margin-right:8px;vertical-align:middle;"></span>' + advName + '</td></tr>';
+    }
     let ioHeader = '';
-    if(r.ioId !== lastIo) {
-      lastIo = r.ioId;
-      ioHeader = `<tr class="io-group-row"><td colspan="5">IO: ${r.ioName} &nbsp;<span style="color:var(--ink3)">${r.ioId}</span></td></tr>`;
+    if(r.ioId !== lastReceiptIo) {
+      lastReceiptIo = r.ioId;
+      ioHeader = '<tr class="io-group-row"><td colspan="5">' +
+        '<span style="color:var(--coral);font-family:var(--mono);font-size:9px;font-weight:600;margin-right:8px;">' + advName + '</span>' +
+        (r.ioName||r.ioId) + ' &nbsp;<span style="color:var(--ink3)">' + r.ioId + '</span></td></tr>';
     }
     const statusTag = r.status === 'OK'
       ? '<span class="tag t-ok">✓ Confirmed</span>'
@@ -1518,15 +1739,15 @@ function renderPushReceipt(rows, time) {
       ? '<span class="tag t-warn">⚠ Mismatch</span>'
       : '<span class="tag t-er">✗ Error</span>';
     const confirmedCell = r.confirmedImps !== null
-      ? `<span style="color:${r.confirmedImps===r.sentImps?'var(--emerald)':'var(--amber)'}">${r.confirmedImps.toLocaleString()}</span>`
+      ? '<span style="color:' + (r.confirmedImps===r.sentImps?'var(--emerald)':'var(--amber)') + '">' + r.confirmedImps.toLocaleString() + '</span>'
       : '<span style="color:var(--salmon)">—</span>';
-    return ioHeader + `<tr>
-      <td style="padding-left:28px;color:var(--ink2);">${r.liId}${r.liName?'<br><span style="color:var(--ink3);font-size:9px;">'+r.liName+'</span>':''}</td>
-      <td style="font-family:var(--mono);">${r.sentImps.toLocaleString()}</td>
-      <td style="font-family:var(--mono);">${confirmedCell}</td>
-      <td>${statusTag}</td>
-      <td style="font-family:var(--mono);font-size:10px;color:var(--salmon);">${r.error||''}</td>
-    </tr>`;
+    return advHeader + ioHeader + '<tr>' +
+      '<td style="padding-left:28px;color:var(--ink2);">' + r.liId + (r.liName?'<br><span style="color:var(--ink3);font-size:9px;">'+r.liName+'</span>':'') + '</td>' +
+      '<td style="font-family:var(--mono);">' + r.sentImps.toLocaleString() + '</td>' +
+      '<td style="font-family:var(--mono);">' + confirmedCell + '</td>' +
+      '<td>' + statusTag + '</td>' +
+      '<td style="font-family:var(--mono);font-size:10px;color:var(--salmon);">' + (r.error||'') + '</td>' +
+      '</tr>';
   }).join('');
 }
 
