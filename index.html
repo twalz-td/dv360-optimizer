@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1620,29 +1621,53 @@ async function executePush() {
       return { ok: true, id: a.id, sentImps };
     }
 
-    try {
-      const res = await fetch(
-        `https://displayvideo.googleapis.com/v4/advertisers/${advId}/lineItems/${a.id}?updateMask=pacing.dailyMaxImpressions`,
-        {
-          method: 'PATCH',
-          headers: { Authorization: `Bearer ${S.tok}`, 'Content-Type': 'application/json' },
-          body: JSON.stringify({ pacing: { dailyMaxImpressions: sentImps.toString() } })
+    const MAX_RETRIES = 4;
+    let attempt = 0;
+
+    while(attempt <= MAX_RETRIES) {
+      try {
+        const res = await fetch(
+          `https://displayvideo.googleapis.com/v4/advertisers/${advId}/lineItems/${a.id}?updateMask=pacing.dailyMaxImpressions`,
+          {
+            method: 'PATCH',
+            headers: { Authorization: `Bearer ${S.tok}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ pacing: { dailyMaxImpressions: sentImps.toString() } })
+          }
+        );
+        const data = await res.json();
+
+        if(res.ok) {
+          const confirmed = parseInt(data.pacing?.dailyMaxImpressions || '0');
+          const status = confirmed === sentImps ? 'OK' : 'MISMATCH';
+          receiptRows.push({ ioId, ioName, liId: a.id, liName, sentImps, confirmedImps: confirmed, status, error: '' });
+          return { ok: true, id: a.id, sentImps };
         }
-      );
-      const data = await res.json();
-      if(res.ok) {
-        const confirmed = parseInt(data.pacing?.dailyMaxImpressions || '0');
-        const status = confirmed === sentImps ? 'OK' : 'MISMATCH';
-        receiptRows.push({ ioId, ioName, liId: a.id, liName, sentImps, confirmedImps: confirmed, status, error: '' });
-        return { ok: true, id: a.id, sentImps };
-      } else {
+
         const errMsg = data.error?.message || `${res.status} ${res.statusText}`;
+        const isQuotaError = res.status === 429 || errMsg.toLowerCase().includes('resource has been exhausted') || errMsg.toLowerCase().includes('quota');
+
+        if(isQuotaError && attempt < MAX_RETRIES) {
+          // Exponential backoff: 1s, 2s, 4s, 8s
+          const waitMs = Math.pow(2, attempt) * 1000;
+          await new Promise(r => setTimeout(r, waitMs));
+          attempt++;
+          continue;
+        }
+
+        // Non-quota error or retries exhausted
         receiptRows.push({ ioId, ioName, liId: a.id, liName, sentImps, confirmedImps: null, status: 'ERROR', error: errMsg });
         return { ok: false, id: a.id, errMsg };
+
+      } catch(e) {
+        if(attempt < MAX_RETRIES) {
+          const waitMs = Math.pow(2, attempt) * 1000;
+          await new Promise(r => setTimeout(r, waitMs));
+          attempt++;
+          continue;
+        }
+        receiptRows.push({ ioId, ioName, liId: a.id, liName, sentImps, confirmedImps: null, status: 'ERROR', error: e.message });
+        return { ok: false, id: a.id, errMsg: e.message };
       }
-    } catch(e) {
-      receiptRows.push({ ioId, ioName, liId: a.id, liName, sentImps, confirmedImps: null, status: 'ERROR', error: e.message });
-      return { ok: false, id: a.id, errMsg: e.message };
     }
   }
 
